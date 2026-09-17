@@ -244,6 +244,48 @@ export default function Reserver() {
         </div>
       </section>
 
+      {/* SECTION EXPERIENCES LOCALES */}
+      <section id="experiences" className="py-20 bg-slate-100 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-extrabold text-slate-950 mb-4">Expériences Locales & Sur Mesure</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
+              Rendez votre séjour inoubliable. Nous organisons pour vous des activités authentiques pour découvrir les secrets de Fès et sa région.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Experience 1 */}
+            <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 text-center flex flex-col items-center hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mb-6 text-3xl shadow-inner">🏺</div>
+              <h3 className="font-extrabold text-xl text-slate-950 mb-3">Artisanat & Potiers</h3>
+              <p className="text-sm text-slate-500 mb-6 font-medium">Visite privée des ateliers de céramique traditionnels et initiation à la création de zellige fassi.</p>
+              <a href="https://wa.me/212778874114?text=Bonjour,%20je%20souhaite%20des%20informations%20sur%20l'expérience%20Artisanat." target="_blank" rel="noreferrer" className="mt-auto text-amber-600 font-bold hover:text-amber-700 flex items-center gap-1">
+                Réserver <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            {/* Experience 2 */}
+            <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 text-center flex flex-col items-center hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mb-6 text-3xl shadow-inner">🐪</div>
+              <h3 className="font-extrabold text-xl text-slate-950 mb-3">Excursions Nature</h3>
+              <p className="text-sm text-slate-500 mb-6 font-medium">Partez à la journée découvrir Ifrane, Azrou et les magnifiques forêts de cèdres du Moyen Atlas.</p>
+              <a href="https://wa.me/212778874114?text=Bonjour,%20je%20souhaite%20des%20informations%20sur%20les%20excursions%20Atlas." target="_blank" rel="noreferrer" className="mt-auto text-emerald-600 font-bold hover:text-emerald-700 flex items-center gap-1">
+                Réserver <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            {/* Experience 3 */}
+            <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 text-center flex flex-col items-center hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 mb-6 text-3xl shadow-inner">🥘</div>
+              <h3 className="font-extrabold text-xl text-slate-950 mb-3">Atelier Culinaire</h3>
+              <p className="text-sm text-slate-500 mb-6 font-medium">Accompagnez une famille locale au marché et apprenez à cuisiner un véritable tajine ou couscous marocain.</p>
+              <a href="https://wa.me/212778874114?text=Bonjour,%20je%20souhaite%20des%20informations%20sur%20l'atelier%20culinaire." target="_blank" rel="noreferrer" className="mt-auto text-rose-600 font-bold hover:text-rose-700 flex items-center gap-1">
+                Réserver <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-slate-950 py-8 border-t border-slate-900 text-center text-slate-500 text-sm">
         <p>&copy; 2026 BABFEZ Conciergerie. Tous droits réservés.</p>
