@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 
@@ -19,11 +19,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: { lang: string };
 }>) {
   return (
-    <html lang="fr" className="scroll-smooth">
+    <html lang={params.lang} className="scroll-smooth">
       <body className={`${jakarta.variable} font-sans antialiased bg-slate-50 text-slate-900`}>
         {children}
       </body>
