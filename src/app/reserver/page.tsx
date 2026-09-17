@@ -111,6 +111,7 @@ export default function Reserver() {
 
           <nav className="hidden md:flex space-x-8">
             <Link href="/reserver" className="text-sm font-extrabold text-amber-600 border-b-2 border-amber-600 pb-1">Nos Logements</Link>
+            <a href="#experiences" className="text-sm font-semibold text-slate-600 hover:text-amber-600 transition-colors">Expériences locales</a>
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
@@ -128,6 +129,7 @@ export default function Reserver() {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-4">
             <Link href="/reserver" onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-amber-600">Nos Logements</Link>
+            <a href="#experiences" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-slate-600">Expériences locales</a>
             <div className="pt-4 border-t border-slate-100">
               <Link href="/proprietaire/login" className="block text-center bg-slate-100 text-slate-900 px-4 py-2.5 rounded-lg font-bold">Espace Propriétaire</Link>
             </div>
