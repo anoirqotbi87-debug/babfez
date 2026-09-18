@@ -29,7 +29,7 @@ export default function LanguageSwitcher({ currentLang }: { currentLang: string 
         <option value="fr">FR (Français)</option>
         <option value="en">EN (English)</option>
         <option value="es">ES (Español)</option>
-        <option value="ar">AR (العربية)</option>
+        <option value="ar">العربية</option>
       </select>
     </div>
   );

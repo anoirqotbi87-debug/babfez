@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Cairo } from "next/font/google";
 import "../globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
+const cairo = Cairo({ subsets: ["arabic"], variable: "--font-cairo" });
 
 export const metadata: Metadata = {
   title: "BABFEZ - Conciergerie & Intendance Privée à Fès",
@@ -28,7 +29,7 @@ export default function RootLayout({
   
   return (
     <html lang={params.lang} dir={isRtl ? 'rtl' : 'ltr'} className="scroll-smooth">
-      <body className={`${jakarta.variable} ${isRtl ? 'font-sans' : 'font-sans'} antialiased bg-slate-50 text-slate-900`}>
+      <body className={`${isRtl ? cairo.variable : jakarta.variable} ${isRtl ? 'font-cairo' : 'font-jakarta'} antialiased bg-slate-50 text-slate-900`}>
         {children}
       </body>
     </html>

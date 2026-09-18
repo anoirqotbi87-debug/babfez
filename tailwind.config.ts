@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        jakarta: ["var(--font-jakarta)", "sans-serif"],
+        cairo: ["var(--font-cairo)", "sans-serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
