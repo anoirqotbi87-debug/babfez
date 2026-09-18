@@ -2,6 +2,13 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
+const languages = [
+  { code: 'fr', label: 'Français' },
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español' },
+  { code: 'ar', label: '\u0627\u0644\u0639\u0631\u0628\u064a\u0629' }
+];
+
 export default function LanguageSwitcher({ currentLang }: { currentLang: string }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -10,8 +17,6 @@ export default function LanguageSwitcher({ currentLang }: { currentLang: string 
     const newLang = e.target.value;
     if (!pathname) return;
     
-    // Replace the current language in the path with the new one
-    // pathname is like /fr/reserver or /en/reserver
     const segments = pathname.split('/');
     segments[1] = newLang;
     const newPath = segments.join('/');
@@ -26,10 +31,11 @@ export default function LanguageSwitcher({ currentLang }: { currentLang: string 
         onChange={handleLanguageChange}
         className="bg-transparent text-slate-700 font-bold text-sm cursor-pointer outline-none border border-slate-200 rounded-lg px-2 py-1 hover:border-amber-500 transition-colors"
       >
-        <option value="fr">FR (Français)</option>
-        <option value="en">EN (English)</option>
-        <option value="es">ES (Español)</option>
-        <option value="ar">{'\u0627\u0644\u0639\u0631\u0628\u064a\u0629'}</option>
+        {languages.map((lang) => (
+          <option key={lang.code} value={lang.code}>
+            {lang.label} ({lang.code.toUpperCase()})
+          </option>
+        ))}
       </select>
     </div>
   );
