@@ -188,6 +188,77 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
             </div>
           </div>
         </section>
+
+        {/* SECTION SYNCHRONISATION ICAL */}
+        <section className="print:hidden">
+          <h2 className="text-xl font-extrabold mb-4">Synchronisation Airbnb & Booking.com</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+              <h3 className="font-bold text-slate-800 mb-2">Exporter le calendrier BABFEZ</h3>
+              <p className="text-sm text-slate-500 mb-4">Copiez ce lien et collez-le dans les paramètres d'importation de vos annonces Airbnb et Booking.com.</p>
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  readOnly 
+                  value={isClient ? `${window.location.origin}/api/ical/${MOCK_PROPERTY.id}` : ''}
+                  className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm text-slate-600 outline-none" 
+                />
+                <button 
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.origin}/api/ical/${MOCK_PROPERTY.id}`);
+                    alert("Lien copié dans le presse-papier !");
+                  }}
+                  className="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-800"
+                >
+                  Copier le lien
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+              <h3 className="font-bold text-slate-800 mb-2">Importer des calendriers externes</h3>
+              <p className="text-sm text-slate-500 mb-4">Collez ici les liens d'exportation iCal fournis par Airbnb et Booking.com.</p>
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const airbnb = formData.get('airbnb') as string;
+                const booking = formData.get('booking') as string;
+                const btn = document.getElementById('syncBtn') as HTMLButtonElement;
+                if(btn) btn.disabled = true;
+                
+                try {
+                  const res = await fetch('/api/ical/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ propertyId: MOCK_PROPERTY.id, airbnbUrl: airbnb, bookingUrl: booking })
+                  });
+                  const data = await res.json();
+                  if(data.success) {
+                    alert(data.message);
+                  } else {
+                    alert("Erreur lors de la synchronisation.");
+                  }
+                } catch(e) {
+                  alert("Erreur réseau lors de la synchronisation.");
+                }
+                
+                if(btn) btn.disabled = false;
+              }} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 mb-1">Lien iCal Airbnb</label>
+                  <input name="airbnb" type="url" placeholder="https://www.airbnb.com/calendar/ical/..." className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm outline-none focus:border-amber-500" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 mb-1">Lien iCal Booking.com</label>
+                  <input name="booking" type="url" placeholder="https://admin.booking.com/hotel/hoteladmin/ical.html?..." className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm outline-none focus:border-amber-500" />
+                </div>
+                <button id="syncBtn" type="submit" className="w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600 disabled:opacity-50">
+                  Enregistrer et Synchroniser maintenant
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
       </main>
 
       {showBlockModal && (
