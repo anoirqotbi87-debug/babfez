@@ -9,6 +9,12 @@ import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
 import { CONTACT_INFO } from "@/config/site";
+import dynamic from 'next/dynamic';
+
+const PropertiesMap = dynamic(() => import('@/components/PropertiesMap'), { 
+  ssr: false, 
+  loading: () => <div className="w-full h-full bg-slate-100 animate-pulse flex items-center justify-center text-slate-400 font-bold rounded-2xl md:rounded-l-none">Chargement de la carte...</div>
+});
 
 const dicts = { fr, en, es };
 
@@ -24,6 +30,7 @@ const MOCK_CATALOG = [
     cleaningFee: 250,
     rating: 4.98,
     reviews: 124,
+    coords: [34.0592, -4.9815],
     image: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=1000&auto=format&fit=crop",
     amenities: ["Wi-Fi Fibre", "Patio", "Climatisation", "Petit-déjeuner"]
   },
@@ -38,6 +45,7 @@ const MOCK_CATALOG = [
     cleaningFee: 150,
     rating: 4.92,
     reviews: 86,
+    coords: [34.0335, -5.0005],
     image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1000&auto=format&fit=crop",
     amenities: ["Wi-Fi Fibre", "Terrasse", "Climatisation", "Smart TV"]
   },
@@ -52,6 +60,7 @@ const MOCK_CATALOG = [
     cleaningFee: 100,
     rating: 4.88,
     reviews: 42,
+    coords: [34.0150, -4.9850],
     image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
     amenities: ["Parking", "Cuisine", "Fiches Police", "Wi-Fi"]
   }
@@ -64,6 +73,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const [searchZone, setSearchZone] = useState("Tous");
+  const [showMapOnMobile, setShowMapOnMobile] = useState(false);
   
   const [activeCurrency, setActiveCurrency] = useState<Currency>('MAD');
   
@@ -231,38 +241,62 @@ export default function Reserver({ params }: { params: { lang: string } }) {
         </div>
       </section>
 
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-end mb-10">
-          <h2 className="text-3xl font-extrabold text-slate-950 tracking-tight">{dict.reserver.catalogTitle}</h2>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCatalog.map(prop => (
-            <div key={prop.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col">
-              <div className="relative h-64 overflow-hidden">
-                <img src={prop.image} alt={prop.title} className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="mb-4">
-                  <h3 className="font-extrabold text-xl text-slate-950 mb-1">{prop.title}</h3>
-                  <p className="text-slate-500 text-sm font-medium">
-                    {prop.guests} {dict.reserver.guests} • {prop.bedrooms} {prop.bedrooms > 1 ? dict.reserver.bedroomsPlural : dict.reserver.bedrooms}
-                  </p>
-                </div>
-                
-                <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-50">
-                  <div>
-                    <span className="text-2xl font-extrabold text-slate-950">{formatPrice(convertFromMAD(prop.price, activeCurrency), activeCurrency)}</span>
-                    <span className="text-slate-500 text-sm font-medium"> {dict.reserver.pricePerNight}</span>
-                  </div>
-                  <button onClick={() => setSelectedProperty(prop)} className="bg-slate-950 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-amber-600 shadow-md">
-                    {dict.reserver.btnReserve}
-                  </button>
-                </div>
-              </div>
+      <section className="relative w-full max-w-[1920px] mx-auto border-t border-slate-200">
+        <div className="flex flex-col lg:flex-row min-h-screen">
+          {/* CATALOGUE (Left side) */}
+          <div className={`w-full lg:w-[60%] p-4 sm:p-6 lg:p-10 overflow-y-auto ${!showMapOnMobile ? 'block' : 'hidden lg:block'}`}>
+            <div className="flex justify-between items-end mb-10">
+              <h2 className="text-3xl font-extrabold text-slate-950 tracking-tight">{dict.reserver.catalogTitle}</h2>
             </div>
-          ))}
+            
+            <div className="grid sm:grid-cols-2 gap-8">
+              {filteredCatalog.map(prop => (
+                <div key={prop.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col">
+                  <div className="relative h-64 overflow-hidden">
+                    <img src={prop.image} alt={prop.title} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="mb-4">
+                      <h3 className="font-extrabold text-xl text-slate-950 mb-1">{prop.title}</h3>
+                      <p className="text-slate-500 text-sm font-medium">
+                        {prop.guests} {dict.reserver.guests} • {prop.bedrooms} {prop.bedrooms > 1 ? dict.reserver.bedroomsPlural : dict.reserver.bedrooms}
+                      </p>
+                    </div>
+                    
+                    <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-50">
+                      <div>
+                        <span className="text-2xl font-extrabold text-slate-950">{formatPrice(convertFromMAD(prop.price, activeCurrency), activeCurrency)}</span>
+                        <span className="text-slate-500 text-sm font-medium"> {dict.reserver.pricePerNight}</span>
+                      </div>
+                      <button onClick={() => setSelectedProperty(prop)} className="bg-slate-950 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-amber-600 shadow-md">
+                        {dict.reserver.btnReserve}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* MAP (Right side fixed) */}
+          <div className={`w-full lg:w-[40%] lg:sticky lg:top-0 lg:h-screen z-10 ${showMapOnMobile ? 'block h-[calc(100vh-80px)]' : 'hidden lg:block'}`}>
+            <PropertiesMap 
+              properties={filteredCatalog} 
+              activeCurrency={activeCurrency} 
+              formatPrice={formatPrice} 
+              convertFromMAD={convertFromMAD} 
+              onSelectProperty={setSelectedProperty} 
+            />
+          </div>
         </div>
+
+        {/* MOBILE MAP TOGGLE */}
+        <button 
+          onClick={() => setShowMapOnMobile(!showMapOnMobile)}
+          className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-950 text-white px-6 py-3 rounded-full shadow-2xl font-bold flex items-center gap-2 border border-white/20"
+        >
+          {showMapOnMobile ? 'Voir la liste 📋' : 'Voir la carte 🗺️'}
+        </button>
       </section>
 
       {/* SECTION EXPERIENCES LOCALES */}
