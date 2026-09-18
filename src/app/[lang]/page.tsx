@@ -262,9 +262,9 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
           <div className="grid md:grid-cols-3 gap-8 text-left">
             {/* Formule 1: Digitale */}
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col">
-              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.planDigitalTitle}</h3>
-              <div className="text-3xl font-extrabold text-amber-600 mb-6">{dict.services?.planDigitalPrice} <span className="text-sm text-slate-500 font-medium">TTC</span></div>
-              <p className="text-slate-600 mb-8 flex-1">{dict.services?.planDigitalDesc}</p>
+              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.planDigitalTitle || "Gestion Digitale"}</h3>
+              <div className="text-3xl font-extrabold text-amber-600 mb-6">{dict.services?.planDigitalPrice || "15%"} <span className="text-sm text-slate-500 font-medium">TTC</span></div>
+              <p className="text-slate-600 mb-8 flex-1">{dict.services?.planDigitalDesc || "Vous gérez le terrain, nous gérons les annonces."}</p>
               <a href="#contact" className="block text-center border-2 border-slate-200 text-slate-950 font-bold py-3 rounded-xl hover:border-slate-950 transition-colors mt-auto">
                 {dict.contact?.submitBtn || "Demander un devis"}
               </a>
@@ -273,11 +273,11 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
             {/* Formule 2 - Recommandée: Sérénité */}
             <div className="bg-slate-950 rounded-3xl p-8 border border-amber-600 shadow-2xl flex flex-col relative transform lg:-translate-y-4 z-10">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-600 text-white font-bold px-4 py-1 rounded-full text-xs whitespace-nowrap">
-                {dict.services?.planSereniteBadge}
+                {dict.services?.planSereniteBadge || "⭐ Recommandé"}
               </div>
-              <h3 className="text-xl font-extrabold text-white mb-2">{dict.services?.planSereniteTitle}</h3>
-              <div className="text-3xl font-extrabold text-amber-500 mb-6">{dict.services?.planSerenitePrice} <span className="text-sm text-slate-400 font-medium">TTC</span></div>
-              <p className="text-slate-300 mb-8 flex-1">{dict.services?.planSereniteDesc}</p>
+              <h3 className="text-xl font-extrabold text-white mb-2">{dict.services?.planSereniteTitle || "Gestion Sérénité"}</h3>
+              <div className="text-3xl font-extrabold text-amber-500 mb-6">{dict.services?.planSerenitePrice || "20-25%"} <span className="text-sm text-slate-400 font-medium">TTC</span></div>
+              <p className="text-slate-300 mb-8 flex-1">{dict.services?.planSereniteDesc || "Délégation à 100%. Nous nous occupons de tout de A à Z."}</p>
               <a href="#contact" className="block text-center bg-amber-600 text-white font-bold py-3 rounded-xl hover:bg-amber-700 transition-colors shadow-lg mt-auto">
                 {dict.contact?.submitBtn || "Demander un devis"}
               </a>
@@ -285,9 +285,9 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
 
             {/* Formule 3: À la carte */}
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col">
-              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.planCustomTitle}</h3>
-              <div className="text-3xl font-extrabold text-slate-950 mb-6">{dict.services?.planCustomPrice}</div>
-              <p className="text-slate-600 mb-8 flex-1">{dict.services?.planCustomDesc}</p>
+              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.planCustomTitle || "À la carte"}</h3>
+              <div className="text-3xl font-extrabold text-slate-950 mb-6">{dict.services?.planCustomPrice || "Sur mesure"}</div>
+              <p className="text-slate-600 mb-8 flex-1">{dict.services?.planCustomDesc || "Services ponctuels : check-in, check-out, ménage."}</p>
               <a href="#contact" className="block text-center border-2 border-slate-200 text-slate-950 font-bold py-3 rounded-xl hover:border-slate-950 transition-colors mt-auto">
                 {dict.contact?.submitBtn || "Demander un devis"}
               </a>
