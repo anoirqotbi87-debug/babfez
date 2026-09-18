@@ -6,7 +6,9 @@
     "faq": "Preguntas",
     "book": "Reservar estancia",
     "experiences": "Experiencias Locales",
-    "ownerSpace": "Portal de Propietario"
+    "ownerSpace": "Portal de Propietario",
+    "estimate": "Estimar mi propiedad",
+    "whatsapp": "WhatsApp Directo"
   },
   "home": {
     "heroTag": "BABFEZ • Gestión de Alquiler a Corto Plazo en Fez",
@@ -17,7 +19,6 @@
     "kpi1": "Ingreso medio vs alquiler a largo plazo",
     "kpi2": "Registro Policial y Cumplimiento",
     "kpi3": "Asistencia a los huéspedes",
-    
     "simTitle": "¿Cuánto podrías ganar?",
     "simSubtitle": "Simula tus ingresos de alquiler con el método BABFEZ.",
     "simZone": "Ubicación de la propiedad",
@@ -27,31 +28,45 @@
     "simRevYear": "Ingresos Anuales Estimados",
     "simDisclaimer": "Esta estimación se basa en nuestros datos de mercado en Fez y puede variar según el estado de la propiedad.",
     "simContact": "Obtener un estudio preciso",
-
     "servicesTitle": "Nuestros Planes de Gestión",
     "servicesSubtitle": "Elige el apoyo que se adapte a tus necesidades. Cero estrés, 100% rentabilidad.",
     "formula1Title": "Gestión Digital",
     "formula1Price": "15%",
-    "formula1Features": ["Gestión de anuncios (AirBnb, Booking)", "Yield management (optimización de precios)", "Comunicación con huéspedes 24/7"],
+    "formula1Features": [
+      "Gestión de anuncios (AirBnb, Booking)",
+      "Yield management (optimización de precios)",
+      "Comunicación con huéspedes 24/7"
+    ],
     "formula1Btn": "Elegir Digital",
     "formula1Excluded": "Acogida física y limpieza",
-
     "formula2Title": "Gestión Serenidad",
     "formula2Tag": "⭐ Recomendado",
     "formula2Price": "20-25%",
-    "formula2Features": ["100% de la Gestión Digital", "Acogida física y registro policial", "Limpieza hotelera y lavandería", "Mantenimiento y gestión de artesanos"],
+    "formula2Features": [
+      "100% de la Gestión Digital",
+      "Acogida física y registro policial",
+      "Limpieza hotelera y lavandería",
+      "Mantenimiento y gestión de artesanos"
+    ],
     "formula2Btn": "Delegar al 100%",
-
     "formulaPremiumTitle": "Gestión Premium",
     "formulaPremiumPrice": "A medida",
-    "formulaPremiumFeatures": ["Diseño y mobiliario", "Acondicionamiento completo", "Optimización fiscal", "Conserjería VIP 24/7"],
+    "formulaPremiumFeatures": [
+      "Diseño y mobiliario",
+      "Acondicionamiento completo",
+      "Optimización fiscal",
+      "Conserjería VIP 24/7"
+    ],
     "formulaPremiumBtn": "Estudio personalizado",
-
     "formula3Title": "Servicios a la carta",
     "formula3Price": "Tarifa fija",
-    "formula3Features": ["Check-in (Acogida) : 150 MAD", "Check-out : 100 MAD", "Auditoría y Fotos Pro : Bajo presupuesto", "Intervención de emergencia : Bajo presupuesto"],
+    "formula3Features": [
+      "Check-in (Acogida) : 150 MAD",
+      "Check-out : 100 MAD",
+      "Auditoría y Fotos Pro : Bajo presupuesto",
+      "Intervención de emergencia : Bajo presupuesto"
+    ],
     "formula3Btn": "Solicitar un servicio",
-
     "atoutsTitle": "¿Por qué elegir BABFEZ?",
     "atoutsSubtitle": "Experiencia local combinada con estándares hoteleros internacionales.",
     "atout1Title": "Registro Policial",
@@ -62,7 +77,6 @@
     "atout3Desc": "Nuestros algoritmos ajustan tus precios diariamente para maximizar tus ingresos según la demanda (festivales, vacaciones).",
     "atout4Title": "Acogida en Persona",
     "atout4Desc": "Sin cajas de seguridad impersonales. Un conserje de BABFEZ recibe a tus huéspedes con una sonrisa.",
-
     "faqTitle": "Preguntas Frecuentes",
     "faqSubtitle": "Todo lo que necesitas saber sobre la gestión de propiedades de BABFEZ.",
     "faqQ1": "¿Puedo bloquear fechas para mí?",
@@ -71,7 +85,6 @@
     "faqA2": "Los huéspedes pagan los gastos de limpieza directamente cuando reservan. A ti no te cuesta nada.",
     "faqQ3": "¿Cómo hacéis el seguimiento de los ingresos?",
     "faqA3": "Recibes un estado financiero detallado cada mes y tienes acceso en tiempo real a tus estadísticas en tu panel de control.",
-
     "contactTitle": "¿Listo para convertir tu propiedad en una máquina de hacer dinero?",
     "contactSubtitle": "Déjanos tus datos, un experto de BABFEZ te contactará en 24h para un presupuesto gratuito.",
     "formName": "Nombre completo",
@@ -89,7 +102,6 @@
     "heroTitle": "Vive Fez",
     "heroTitleHighlight": "como un local.",
     "heroSubtitle": "Reserva directamente. Evita las tarifas de la plataforma. Disfruta de una hospitalidad premium.",
-    
     "searchArrival": "Llegada",
     "searchDeparture": "Salida",
     "searchZone": "Barrio",
@@ -97,7 +109,6 @@
     "searchGuests": "Huéspedes",
     "searchGuestPlural": "Huéspedes",
     "searchGuestSingular": "Huésped",
-    
     "catalogTitle": "Nuestros Alojamientos Exclusivos",
     "results": "resultado(s)",
     "guests": "huéspedes",
@@ -105,7 +116,6 @@
     "bedroomsPlural": "habitaciones",
     "pricePerNight": "MAD / noche",
     "btnReserve": "Reservar",
-
     "expTitle": "Experiencias Locales y a Medida",
     "expSubtitle": "Haz que tu estancia sea inolvidable. Organizamos actividades auténticas para que descubras los secretos de Fez y su región.",
     "exp1Title": "Artesanía y Alfareros",
@@ -114,7 +124,6 @@
     "exp2Desc": "Haz una excursión de un día para descubrir Ifrane, Azrou y los magníficos bosques de cedros del Medio Atlas.",
     "exp3Title": "Taller Culinario",
     "exp3Desc": "Acompaña a una familia local al mercado y aprende a cocinar un auténtico tajine o cuscús marroquí.",
-
     "modalPrice": "Precio por noche",
     "modalCleaning": "Gastos de limpieza (único)",
     "modalTotal": "Total Estimado",
@@ -137,7 +146,6 @@
     "btnLogin": "Iniciar Sesión",
     "btnLoading": "Iniciando...",
     "orContinue": "O continuar con",
-    
     "dashboardHello": "Hola",
     "property": "Propiedad:",
     "btnLogout": "Cerrar sesión",
@@ -147,14 +155,11 @@
     "nightsBooked": "Noches Reservadas",
     "nextArrival": "Próxima Llegada",
     "outOf": "De {days} días disponibles",
-
     "calendarTitle": "Calendario de Reservas",
     "btnBlock": "Bloquear fechas",
     "available": "Disponible",
     "blocked": "Bloqueado (Propietario)",
-    
     "recentActivity": "Actividad Reciente",
-    
     "financeTitle": "Estado Financiero",
     "owner": "Propietario:",
     "btnPrint": "Imprimir (PDF)",
@@ -165,11 +170,69 @@
     "cleaningFee": "Limpieza",
     "commission": "Comisión BABFEZ",
     "netRevenueTable": "Ingreso Neto (MAD)",
-    
     "modalBlockTitle": "Bloquear fechas",
     "modalBlockDesc": "Selecciona las fechas en las que deseas ocupar la propiedad tú mismo. No se aceptarán reservas durante este período.",
     "btnConfirmBlock": "Confirmar bloqueo",
-    
     "footerPrint": "Documento generado automáticamente. Para cualquier consulta, contáctanos al +212 7 78 87 41 14 o vía contact@babfez.ma"
+  },
+  "footer": {
+    "col1Desc": "Su socio de excelencia para la gestión de alquileres y conserjería privada.",
+    "col1Badge": "📍 Fez, Marruecos",
+    "col2Title": "Nuestros Servicios",
+    "col3Title": "Navegación",
+    "col4Title": "Contacto y Soporte",
+    "address": "Fez, Marruecos (Medina y Ville Nouvelle)",
+    "phone": "+212 7 78 87 41 14",
+    "emailContact": "contact@babfez.ma",
+    "availability": "24/7 Soporte para emergencias",
+    "legal": "Aviso legal",
+    "privacy": "Política de privacidad",
+    "tos": "Términos y Condiciones"
+  },
+  "sim": {
+    "propType": "Tipo de propiedad",
+    "propTypeAppart": "Apartamento moderno",
+    "propTypeRiad": "Riad tradicional",
+    "propTypeVilla": "Villa",
+    "roomStudio": "Estudio",
+    "room1": "1 Habitación",
+    "room2": "2 Habitaciones",
+    "room3": "3 Habitaciones",
+    "room4": "Riad / Villa (4+ Hab)"
+  },
+  "form": {
+    "email": "Correo electrónico",
+    "type": "Tipo de propiedad",
+    "surface": "Superficie aproximada (m²)",
+    "rgpd": "Acepto ser contactado por BABFEZ para mi presupuesto.",
+    "quartierMedina": "Medina",
+    "quartierVN": "Ville Nouvelle/Atlas",
+    "quartierCC": "Champs de Course",
+    "quartierRoute": "Route d'Immouzzer",
+    "quartierOther": "Otro barrio",
+    "propAppart": "Apartamento",
+    "propRiad": "Riad",
+    "propVilla": "Villa",
+    "propBuilding": "Edificio completo"
+  },
+  "modal": {
+    "adults": "Adultos",
+    "children": "Niños",
+    "email": "Correo electrónico (Envío del cupón)",
+    "whatsapp": "Número de WhatsApp",
+    "arrivalTime": "Hora de llegada estimada",
+    "requests": "Peticiones especiales / Equipaje",
+    "reassurance": "Acogida física o caja de seguridad. Registro policial en el lugar. Pago seguro o en el lugar.",
+    "time1": "14h-16h",
+    "time2": "16h-18h",
+    "time3": "18h-20h",
+    "time4": "20h-23h",
+    "time5": "Llegada tardía (Después de 23h)"
+  },
+  "login": {
+    "forgot": "¿Contraseña olvidada?",
+    "remember": "Recuérdame",
+    "helpText": "¿Es propietario en Fez y desea delegar la gestión?",
+    "helpLink": "Solicite un estudio gratuito"
   }
 }

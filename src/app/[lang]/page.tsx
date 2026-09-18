@@ -17,7 +17,8 @@ export default function Home({ params }: { params: { lang: string } }) {
   
   // Simulator State
   const [zone, setZone] = useState<"medina" | "nouvelle" | "immouzzer">("medina");
-  const [rooms, setRooms] = useState<"1" | "2" | "3">("1");
+  const [propType, setPropType] = useState<"appart" | "riad" | "villa">("appart");
+  const [rooms, setRooms] = useState<"studio" | "1" | "2" | "3" | "4">("1");
   const [occupancy, setOccupancy] = useState(65);
   
   // FAQ State
@@ -26,36 +27,74 @@ export default function Home({ params }: { params: { lang: string } }) {
   // Form State
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     phone: "",
     quartier: "",
+    typeBien: "",
+    surface: "",
     formule: dict.home.formula2Title,
-    message: ""
+    message: "",
+    rgpd: false
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const adrMatrix = {
-    medina: { "1": 500, "2": 850, "3": 1400 },
-    nouvelle: { "1": 450, "2": 650, "3": 950 },
-    immouzzer: { "1": 400, "2": 600, "3": 850 },
+  const getAdr = () => {
+    if (zone === "medina") {
+      if (rooms === "studio" || rooms === "1") return 500;
+      if (rooms === "2") return 850;
+      if (rooms === "3") return 1400;
+      if (rooms === "4") return 2200;
+    }
+    if (zone === "nouvelle") {
+      if (rooms === "studio") return 350;
+      if (rooms === "1") return 450;
+      if (rooms === "2") return 650;
+      if (rooms === "3") return 950;
+      if (rooms === "4") return 1300;
+    }
+    if (zone === "immouzzer") {
+      if (rooms === "studio") return 300;
+      if (rooms === "1") return 400;
+      if (rooms === "2") return 600;
+      if (rooms === "3") return 850;
+      if (rooms === "4") return 1200;
+    }
+    return 500;
   };
 
-  const currentAdr = adrMatrix[zone][rooms];
+  const currentAdr = getAdr();
   const monthlyRevenue = Math.round((30 * (occupancy / 100)) * currentAdr);
   const yearlyRevenue = monthlyRevenue * 12;
+
+  const handleSimulateToForm = () => {
+    setFormData({
+      ...formData,
+      quartier: zone === "medina" ? dict.home.formQuartierMedina : zone === "nouvelle" ? dict.home.formQuartierVN : dict.home.formQuartierRoute,
+      typeBien: propType === "appart" ? dict.home.propAppart : propType === "riad" ? dict.home.propRiad : dict.home.propVilla,
+      message: `Estimation simulée : ${monthlyRevenue.toLocaleString('fr-FR')} MAD/mois.`
+    });
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    const text = `Bonjour BABFEZ, je suis ${formData.name}. Je souhaite une estimation pour mon bien situé à ${formData.quartier} (Formule ${formData.formule}). ${formData.message ? `Détails: ${formData.message}` : ''}`;
+    const text = `Bonjour BABFEZ, je suis ${formData.name}. Je souhaite une estimation pour mon bien :
+- Quartier: ${formData.quartier}
+- Type: ${formData.typeBien}
+- Surface: ${formData.surface ? formData.surface + ' m²' : 'Non spécifié'}
+- Formule: ${formData.formule}
+- Email: ${formData.email}
+${formData.message ? `\nMessage: ${formData.message}` : ''}`;
     
     setTimeout(() => {
       setSubmitSuccess(true);
       setIsSubmitting(false);
       window.open(`https://wa.me/212778874114?text=${encodeURIComponent(text)}`, '_blank');
-      setFormData({ name: "", phone: "", quartier: "", formule: dict.home.formula2Title, message: "" });
+      setFormData({ name: "", email: "", phone: "", quartier: "", typeBien: "", surface: "", formule: dict.home.formula2Title, message: "", rgpd: false });
       setTimeout(() => setSubmitSuccess(false), 5000);
     }, 800);
   };
@@ -84,10 +123,21 @@ export default function Home({ params }: { params: { lang: string } }) {
             <Link href={`/${lang}/reserver`} className="text-sm font-extrabold text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">{dict.nav.book}</Link>
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             <LanguageSwitcher currentLang={lang} />
-            <a href="#simulateur" className="bg-slate-950 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-lg">
-              {dict.home.btnEstimate}
+            
+            <Link href={`/${lang}/proprietaire/login`} className="flex items-center gap-2 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              {dict.nav.ownerSpace}
+            </Link>
+
+            <a href="https://wa.me/212778874114" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-xl transition-colors shadow-sm">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.943z"/></svg>
+              {dict.nav.whatsapp}
+            </a>
+
+            <a href="/#simulateur" className="bg-slate-950 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-lg">
+              {dict.nav.estimate}
             </a>
           </div>
 
@@ -146,16 +196,30 @@ export default function Home({ params }: { params: { lang: string } }) {
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simZone}</label>
                   <select value={zone} onChange={(e) => setZone(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-500 transition-colors">
-                    <option value="medina">Médina (Historique)</option>
-                    <option value="nouvelle">Ville Nouvelle</option>
-                    <option value="immouzzer">Route d'Immouzzer</option>
+                    <option value="medina">{dict.home.formQuartierMedina}</option>
+                    <option value="nouvelle">{dict.home.formQuartierVN}</option>
+                    <option value="immouzzer">{dict.home.formQuartierRoute}</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simPropType}</label>
+                  <select value={propType} onChange={(e) => setPropType(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-500 transition-colors">
+                    <option value="appart">{dict.home.simPropTypeAppart}</option>
+                    <option value="riad">{dict.home.simPropTypeRiad}</option>
+                    <option value="villa">{dict.home.simPropTypeVilla}</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simRooms}</label>
-                  <div className="flex gap-2">
-                    {["1", "2", "3"].map((num) => (
-                      <button key={num} onClick={() => setRooms(num as any)} className={`flex-1 py-3 rounded-xl font-bold transition-all ${rooms === num ? "bg-slate-950 text-white shadow-md" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>{num}</button>
+                  <div className="grid grid-cols-2 gap-2 sm:flex">
+                    {[
+                      { id: "studio", label: dict.home.simRoomStudio }, 
+                      { id: "1", label: dict.home.simRoom1 }, 
+                      { id: "2", label: dict.home.simRoom2 }, 
+                      { id: "3", label: dict.home.simRoom3 }, 
+                      { id: "4", label: dict.home.simRoom4 }
+                    ].map((r) => (
+                      <button key={r.id} onClick={() => setRooms(r.id as any)} className={`flex-1 py-2 px-2 text-xs rounded-xl font-bold transition-all ${rooms === r.id ? "bg-slate-950 text-white shadow-md" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>{r.label}</button>
                     ))}
                   </div>
                 </div>
@@ -175,9 +239,9 @@ export default function Home({ params }: { params: { lang: string } }) {
                 </div>
                 <div className="text-emerald-600 font-bold mb-6">Soit {yearlyRevenue.toLocaleString('fr-FR')} MAD {dict.home.simRevYear.split(' ')[1]}</div>
                 <p className="text-xs text-slate-400 mb-6">{dict.home.simDisclaimer}</p>
-                <a href="#contact" className="w-full block bg-slate-950 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg">
+                <button onClick={handleSimulateToForm} className="w-full block text-center bg-slate-950 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg cursor-pointer">
                   {dict.home.simContact}
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -353,22 +417,32 @@ export default function Home({ params }: { params: { lang: string } }) {
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div>
+                  <div className="grid grid-cols-2 gap-4">
                     <input type="text" required placeholder={dict.home.formName} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
+                    <input type="email" required placeholder={dict.form.email} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
                   </div>
                   <div>
-                    <input type="tel" required placeholder={dict.home.formPhone} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
+                    <input type="tel" required placeholder="+212 6..." value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
                   </div>
-                  <div>
+                  <div className="grid grid-cols-2 gap-4">
                     <select value={formData.quartier} onChange={e => setFormData({...formData, quartier: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
                       <option value="" disabled>{dict.home.formZone}</option>
-                      <option value="Médina">Médina</option>
-                      <option value="Ville Nouvelle">Ville Nouvelle</option>
-                      <option value="Route d'Immouzzer">Route d'Immouzzer</option>
-                      <option value="Autre">Autre</option>
+                      <option value={dict.form.quartierMedina}>{dict.form.quartierMedina}</option>
+                      <option value={dict.form.quartierVN}>{dict.form.quartierVN}</option>
+                      <option value={dict.form.quartierCC}>{dict.form.quartierCC}</option>
+                      <option value={dict.form.quartierRoute}>{dict.form.quartierRoute}</option>
+                      <option value={dict.form.quartierOther}>{dict.form.quartierOther}</option>
+                    </select>
+                    <select value={formData.typeBien} onChange={e => setFormData({...formData, typeBien: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
+                      <option value="" disabled>{dict.form.type}</option>
+                      <option value={dict.form.propAppart}>{dict.form.propAppart}</option>
+                      <option value={dict.form.propRiad}>{dict.form.propRiad}</option>
+                      <option value={dict.form.propVilla}>{dict.form.propVilla}</option>
+                      <option value={dict.form.propBuilding}>{dict.form.propBuilding}</option>
                     </select>
                   </div>
-                  <div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="number" placeholder={dict.form.surface} value={formData.surface} onChange={e => setFormData({...formData, surface: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
                     <select value={formData.formule} onChange={e => setFormData({...formData, formule: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
                       <option value={dict.home.formula1Title}>{dict.home.formula1Title}</option>
                       <option value={dict.home.formula2Title}>{dict.home.formula2Title}</option>
@@ -379,8 +453,12 @@ export default function Home({ params }: { params: { lang: string } }) {
                   <div>
                     <textarea placeholder={dict.home.formMsg} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none h-24 resize-none"></textarea>
                   </div>
+                  <div className="flex items-start gap-2">
+                    <input type="checkbox" id="rgpd" required checked={formData.rgpd} onChange={e => setFormData({...formData, rgpd: e.target.checked})} className="mt-1" />
+                    <label htmlFor="rgpd" className="text-xs text-slate-500">{dict.form.rgpd}</label>
+                  </div>
                   <button type="submit" disabled={isSubmitting} className="w-full bg-slate-950 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg disabled:opacity-70">
-                    {isSubmitting ? dict.home.formSubmitting : dict.home.formSubmit}
+                    Demander mon audit gratuit sous 24h
                   </button>
                 </form>
               )}
@@ -390,28 +468,82 @@ export default function Home({ params }: { params: { lang: string } }) {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 pt-16 pb-8 border-t border-slate-900">
+      <footer className="bg-slate-950 pt-20 pb-8 border-t border-slate-900 text-slate-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-amber-500">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/>
-                </svg>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            {/* Colonne 1 : Logo & Description */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-amber-500">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/>
+                  </svg>
+                </div>
+                <div>
+                  <span className="text-xl font-extrabold tracking-tight text-white block leading-tight">BAB<span className="text-amber-600">FEZ</span></span>
+                </div>
               </div>
-              <div>
-                <span className="text-xl font-extrabold tracking-tight text-white block leading-tight">BAB<span className="text-amber-600">FEZ</span></span>
-                <span className="text-[10px] text-slate-400 font-bold tracking-widest uppercase block">Conciergerie & Intendance Privée</span>
+              <p className="text-sm leading-relaxed">{dict.footer?.col1Desc || "Votre partenaire d'excellence pour la gestion locative courte durée et la conciergerie privée."}</p>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 text-xs font-bold text-slate-300">
+                {dict.footer?.col1Badge || "📍 Fès, Maroc"}
               </div>
             </div>
-            <div className="flex gap-6 text-slate-400 font-semibold text-sm">
-              <a href="#simulateur" className="hover:text-amber-500 transition-colors">{dict.nav.simulator}</a>
-              <a href="#services" className="hover:text-amber-500 transition-colors">{dict.nav.services}</a>
-              <a href="#faq" className="hover:text-amber-500 transition-colors">{dict.nav.faq}</a>
+
+            {/* Colonne 2 : Services */}
+            <div>
+              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col2Title || "Nos Services"}</h4>
+              <ul className="space-y-3 text-sm">
+                <li><a href="#services" className="hover:text-amber-500 transition-colors">{dict.home.formula1Title}</a></li>
+                <li><a href="#services" className="hover:text-amber-500 transition-colors">{dict.home.formula2Title}</a></li>
+                <li><a href="#services" className="hover:text-amber-500 transition-colors">{dict.home.formula3Title}</a></li>
+                <li><a href="#simulateur" className="hover:text-amber-500 transition-colors text-amber-600 font-medium">Estimation gratuite</a></li>
+              </ul>
+            </div>
+
+            {/* Colonne 3 : Navigation */}
+            <div>
+              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col3Title || "Navigation"}</h4>
+              <ul className="space-y-3 text-sm">
+                <li><Link href={`/${lang}`} className="hover:text-amber-500 transition-colors">Accueil</Link></li>
+                <li><Link href={`/${lang}/reserver`} className="hover:text-amber-500 transition-colors">Nos Logements</Link></li>
+                <li><Link href={`/${lang}/proprietaire/login`} className="hover:text-amber-500 transition-colors">Espace Propriétaire</Link></li>
+                <li><a href="#faq" className="hover:text-amber-500 transition-colors">FAQ</a></li>
+              </ul>
+            </div>
+
+            {/* Colonne 4 : Contact */}
+            <div>
+              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col4Title || "Contact & Permanence"}</h4>
+              <ul className="space-y-4 text-sm">
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  <span>{dict.footer?.address || "Fès, Maroc (Médina & Ville Nouvelle)"}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                  <span>{dict.footer?.phone || "+212 7 78 87 41 14"}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  <span>{dict.footer?.emailContact || "contact@babfez.ma"}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span>{dict.footer?.availability || "7j/7 — 24h/24 pour les urgences"}</span>
+                </li>
+              </ul>
             </div>
           </div>
-          <div className="text-center text-sm text-slate-500 border-t border-slate-800 pt-8">
-            {dict.home.footerText}
+
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 border-t border-slate-800 pt-8">
+            <div className="flex gap-4">
+              <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.legal || "Mentions légales"}</a>
+              <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.privacy || "Politique de confidentialité"}</a>
+              <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.tos || "Conditions Générales"}</a>
+            </div>
+            <div>
+              &copy; 2026 BABFEZ Conciergerie.
+            </div>
           </div>
         </div>
       </footer>

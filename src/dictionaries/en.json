@@ -6,7 +6,9 @@
     "faq": "FAQ",
     "book": "Book a stay",
     "experiences": "Local Experiences",
-    "ownerSpace": "Owner Portal"
+    "ownerSpace": "Owner Portal",
+    "estimate": "Estimate my property",
+    "whatsapp": "WhatsApp Direct"
   },
   "home": {
     "heroTag": "BABFEZ • Short-Term Rental Management in Fez",
@@ -17,7 +19,6 @@
     "kpi1": "Average revenue vs long-term",
     "kpi2": "Police Registration & Compliance",
     "kpi3": "Multilingual guest support",
-    
     "simTitle": "How much could you earn?",
     "simSubtitle": "Simulate your rental income with the BABFEZ method.",
     "simZone": "Property Location",
@@ -27,31 +28,45 @@
     "simRevYear": "Estimated Annual Revenue",
     "simDisclaimer": "This estimate is based on our market data in Fez and may vary depending on the property's condition.",
     "simContact": "Get a precise study",
-
     "servicesTitle": "Our Management Plans",
     "servicesSubtitle": "Choose the support that fits your needs. Zero stress, 100% profitability.",
     "formula1Title": "Digital Management",
     "formula1Price": "15%",
-    "formula1Features": ["Listing management (AirBnb, Booking)", "Yield management (price optimization)", "24/7 guest communication"],
+    "formula1Features": [
+      "Listing management (AirBnb, Booking)",
+      "Yield management (price optimization)",
+      "24/7 guest communication"
+    ],
     "formula1Btn": "Choose Digital",
     "formula1Excluded": "In-person welcome and cleaning",
-
     "formula2Title": "Serenity Management",
     "formula2Tag": "⭐ Recommended",
     "formula2Price": "20-25%",
-    "formula2Features": ["100% of Digital Management", "In-person welcome & police registration", "Hotel-grade cleaning & laundry", "Maintenance & artisan management"],
+    "formula2Features": [
+      "100% of Digital Management",
+      "In-person welcome & police registration",
+      "Hotel-grade cleaning & laundry",
+      "Maintenance & artisan management"
+    ],
     "formula2Btn": "Delegate 100%",
-
     "formulaPremiumTitle": "Premium Management",
     "formulaPremiumPrice": "Tailor-made",
-    "formulaPremiumFeatures": ["Design & Furnishing", "Complete property setup", "Tax optimization", "24/7 VIP Concierge"],
+    "formulaPremiumFeatures": [
+      "Design & Furnishing",
+      "Complete property setup",
+      "Tax optimization",
+      "24/7 VIP Concierge"
+    ],
     "formulaPremiumBtn": "Personalized study",
-
     "formula3Title": "A la Carte Services",
     "formula3Price": "Fixed rate",
-    "formula3Features": ["Check-in (Welcome) : 150 MAD", "Check-out : 100 MAD", "Audit & Pro Photos : On quote", "Emergency intervention : On quote"],
+    "formula3Features": [
+      "Check-in (Welcome) : 150 MAD",
+      "Check-out : 100 MAD",
+      "Audit & Pro Photos : On quote",
+      "Emergency intervention : On quote"
+    ],
     "formula3Btn": "Request a service",
-
     "atoutsTitle": "Why choose BABFEZ?",
     "atoutsSubtitle": "Local expertise combined with international hotel standards.",
     "atout1Title": "Police Registration",
@@ -62,7 +77,6 @@
     "atout3Desc": "Our algorithms adjust your prices daily to maximize your revenue based on demand (festivals, holidays).",
     "atout4Title": "In-Person Welcome",
     "atout4Desc": "No impersonal lockboxes. A BABFEZ concierge welcomes your guests with a smile.",
-
     "faqTitle": "Frequently Asked Questions",
     "faqSubtitle": "Everything you need to know about BABFEZ property management.",
     "faqQ1": "Can I block dates for myself?",
@@ -71,7 +85,6 @@
     "faqA2": "Guests pay the cleaning fees directly when they book. It costs you nothing.",
     "faqQ3": "How do you track revenues?",
     "faqA3": "You receive a detailed financial statement every month and have real-time access to your statistics on your dashboard.",
-
     "contactTitle": "Ready to turn your property into a cash machine?",
     "contactSubtitle": "Leave us your details, a BABFEZ expert will contact you within 24h for a free estimate.",
     "formName": "Full Name",
@@ -89,7 +102,6 @@
     "heroTitle": "Experience Fez",
     "heroTitleHighlight": "like a local.",
     "heroSubtitle": "Book direct. Avoid platform fees. Enjoy premium hospitality.",
-    
     "searchArrival": "Check-in",
     "searchDeparture": "Check-out",
     "searchZone": "Neighborhood",
@@ -97,7 +109,6 @@
     "searchGuests": "Guests",
     "searchGuestPlural": "Guests",
     "searchGuestSingular": "Guest",
-    
     "catalogTitle": "Our Exclusive Properties",
     "results": "result(s)",
     "guests": "guests",
@@ -105,7 +116,6 @@
     "bedroomsPlural": "bedrooms",
     "pricePerNight": "MAD / night",
     "btnReserve": "Book Now",
-
     "expTitle": "Local & Tailor-Made Experiences",
     "expSubtitle": "Make your stay unforgettable. We organize authentic activities for you to discover the secrets of Fez and its region.",
     "exp1Title": "Crafts & Potters",
@@ -114,7 +124,6 @@
     "exp2Desc": "Go on a day trip to discover Ifrane, Azrou, and the magnificent cedar forests of the Middle Atlas.",
     "exp3Title": "Culinary Workshop",
     "exp3Desc": "Accompany a local family to the market and learn how to cook an authentic Moroccan tagine or couscous.",
-
     "modalPrice": "Price per night",
     "modalCleaning": "Cleaning fee (one-time)",
     "modalTotal": "Estimated Total",
@@ -137,7 +146,6 @@
     "btnLogin": "Sign In",
     "btnLoading": "Signing in...",
     "orContinue": "Or continue with",
-    
     "dashboardHello": "Hello",
     "property": "Property:",
     "btnLogout": "Sign Out",
@@ -147,14 +155,11 @@
     "nightsBooked": "Nights Booked",
     "nextArrival": "Next Arrival",
     "outOf": "Out of {days} available days",
-
     "calendarTitle": "Booking Calendar",
     "btnBlock": "Block dates",
     "available": "Available",
     "blocked": "Blocked (Owner)",
-    
     "recentActivity": "Recent Activity",
-    
     "financeTitle": "Financial Statement",
     "owner": "Owner:",
     "btnPrint": "Print (PDF)",
@@ -165,11 +170,69 @@
     "cleaningFee": "Cleaning Fee",
     "commission": "BABFEZ Commission",
     "netRevenueTable": "Net Revenue (MAD)",
-    
     "modalBlockTitle": "Block dates",
     "modalBlockDesc": "Select the dates when you wish to occupy the property yourself. No bookings will be accepted during this period.",
     "btnConfirmBlock": "Confirm block",
-    
     "footerPrint": "Document generated automatically. For any questions, contact us at +212 7 78 87 41 14 or via contact@babfez.ma"
+  },
+  "footer": {
+    "col1Desc": "Your partner of excellence for short-term rental management and private concierge.",
+    "col1Badge": "📍 Fes, Morocco",
+    "col2Title": "Our Services",
+    "col3Title": "Navigation",
+    "col4Title": "Contact & Support",
+    "address": "Fes, Morocco (Medina & Ville Nouvelle)",
+    "phone": "+212 7 78 87 41 14",
+    "emailContact": "contact@babfez.ma",
+    "availability": "24/7 Support for emergencies",
+    "legal": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "tos": "Terms & Conditions"
+  },
+  "sim": {
+    "propType": "Property Type",
+    "propTypeAppart": "Modern Apartment",
+    "propTypeRiad": "Traditional Riad",
+    "propTypeVilla": "Villa",
+    "roomStudio": "Studio",
+    "room1": "1 Bedroom",
+    "room2": "2 Bedrooms",
+    "room3": "3 Bedrooms",
+    "room4": "Riad / Villa (4+ Bed)"
+  },
+  "form": {
+    "email": "Email Address",
+    "type": "Property Type",
+    "surface": "Approximate size (m²)",
+    "rgpd": "I agree to be contacted by BABFEZ for my rental estimate.",
+    "quartierMedina": "Medina",
+    "quartierVN": "Ville Nouvelle/Atlas",
+    "quartierCC": "Champs de Course",
+    "quartierRoute": "Route d'Immouzzer",
+    "quartierOther": "Other neighborhood",
+    "propAppart": "Apartment",
+    "propRiad": "Riad",
+    "propVilla": "Villa",
+    "propBuilding": "Entire building"
+  },
+  "modal": {
+    "adults": "Adults",
+    "children": "Children",
+    "email": "Email Address (Voucher delivery)",
+    "whatsapp": "WhatsApp Number",
+    "arrivalTime": "Estimated Arrival Time",
+    "requests": "Special Requests / Luggage",
+    "reassurance": "In-person welcome or secure lockbox. Police registration managed on site. Secure or on-site payment.",
+    "time1": "2PM-4PM",
+    "time2": "4PM-6PM",
+    "time3": "6PM-8PM",
+    "time4": "8PM-11PM",
+    "time5": "Late arrival (After 11PM)"
+  },
+  "login": {
+    "forgot": "Forgot Password?",
+    "remember": "Remember me",
+    "helpText": "Are you a property owner in Fes looking to delegate management?",
+    "helpLink": "Request a free study"
   }
 }
