@@ -233,6 +233,25 @@ export default function Home({ params }: { params: { lang: string } }) {
                   <div>
                     <input type="tel" required placeholder={dict.home.formPhone} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
                   </div>
+                  <div>
+                    <select value={formData.quartier} onChange={e => setFormData({...formData, quartier: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
+                      <option value="" disabled>{dict.home.formZone}</option>
+                      <option value="Médina">Médina</option>
+                      <option value="Ville Nouvelle">Ville Nouvelle</option>
+                      <option value="Route d'Immouzzer">Route d'Immouzzer</option>
+                      <option value="Autre">Autre</option>
+                    </select>
+                  </div>
+                  <div>
+                    <select value={formData.formule} onChange={e => setFormData({...formData, formule: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
+                      <option value={dict.home.formulaEssential}>{dict.home.formulaEssential}</option>
+                      <option value={dict.home.formulaSerenity}>{dict.home.formulaSerenity}</option>
+                      <option value={dict.home.formulaPremium}>{dict.home.formulaPremium}</option>
+                    </select>
+                  </div>
+                  <div>
+                    <textarea placeholder={dict.home.formMsg} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none h-24 resize-none"></textarea>
+                  </div>
                   <button type="submit" disabled={isSubmitting} className="w-full bg-slate-950 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg disabled:opacity-70">
                     {isSubmitting ? dict.home.formSubmitting : dict.home.formSubmit}
                   </button>
