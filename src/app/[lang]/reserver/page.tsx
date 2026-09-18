@@ -424,7 +424,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                 <h3 className="text-2xl font-extrabold">{selectedProperty.title}</h3>
                 <button onClick={() => setSelectedProperty(null)} className="md:hidden"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
               </div>
-              <img src={selectedProperty.image} className="w-full h-40 object-cover rounded-2xl mb-6 shadow-sm" />
+              <img src={selectedProperty.image} alt={selectedProperty.title} className="w-full h-40 object-cover rounded-2xl mb-6 shadow-sm" />
               
               <div className="space-y-4 text-sm font-medium">
                 <div className="flex justify-between">

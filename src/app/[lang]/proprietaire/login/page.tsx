@@ -40,7 +40,7 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
       <Link href={`/${lang}`} className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors">
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        Retour à l'accueil
+        {dict.nav.backHome}
       </Link>
       <div className="absolute top-8 right-8"><LanguageSwitcher currentLang={lang} /></div>
       
