@@ -8,6 +8,7 @@ import { Currency, formatPrice, convertFromMAD } from "@/config/currencies";
 import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
+import { CONTACT_INFO } from "@/config/site";
 
 const dicts = { fr, en, es };
 
@@ -131,7 +132,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
     }
 
     const text = `Bonjour BABFEZ, je souhaite réserver ${selectedProperty.title} du ${formatDate(bookingDetails.startDate)} au ${formatDate(bookingDetails.endDate)} pour ${bookingDetails.adults} Adulte(s) et ${bookingDetails.children} Enfant(s).\nNom: ${bookingDetails.name}\nEmail: ${bookingDetails.email}\nArrivée: ${bookingDetails.arrival}\nDemandes: ${bookingDetails.requests || 'Aucune'}\nTotal devis: ${totalText}.`;
-    window.open(`https://wa.me/212778874114?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`${CONTACT_INFO.whatsappLink}?text=${encodeURIComponent(text)}`, '_blank');
     setSelectedProperty(null);
   };
 
@@ -279,7 +280,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mb-6 text-3xl shadow-inner">🏺</div>
               <h3 className="font-extrabold text-xl text-slate-950 mb-3">{dict.reserver.exp1Title}</h3>
               <p className="text-sm text-slate-500 mb-6 font-medium">{dict.reserver.exp1Desc}</p>
-              <a href="https://wa.me/212778874114" target="_blank" rel="noreferrer" className="mt-auto text-amber-600 font-bold hover:text-amber-700 flex items-center gap-1">
+              <a href={`${CONTACT_INFO.whatsappLink}?text=Bonjour%20BABFEZ,%20je%20souhaite%20réserver%20une%20expérience`} target="_blank" rel="noreferrer" className="mt-auto text-amber-600 font-bold hover:text-amber-700 flex items-center gap-1">
                 {dict.reserver.btnReserve} <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
               </a>
             </div>
@@ -287,7 +288,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mb-6 text-3xl shadow-inner">🐪</div>
               <h3 className="font-extrabold text-xl text-slate-950 mb-3">{dict.reserver.exp2Title}</h3>
               <p className="text-sm text-slate-500 mb-6 font-medium">{dict.reserver.exp2Desc}</p>
-              <a href="https://wa.me/212778874114" target="_blank" rel="noreferrer" className="mt-auto text-emerald-600 font-bold hover:text-emerald-700 flex items-center gap-1">
+              <a href={`${CONTACT_INFO.whatsappLink}?text=Bonjour%20BABFEZ,%20je%20souhaite%20réserver%20une%20expérience`} target="_blank" rel="noreferrer" className="mt-auto text-emerald-600 font-bold hover:text-emerald-700 flex items-center gap-1">
                 {dict.reserver.btnReserve} <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
               </a>
             </div>
@@ -295,7 +296,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 mb-6 text-3xl shadow-inner">🥘</div>
               <h3 className="font-extrabold text-xl text-slate-950 mb-3">{dict.reserver.exp3Title}</h3>
               <p className="text-sm text-slate-500 mb-6 font-medium">{dict.reserver.exp3Desc}</p>
-              <a href="https://wa.me/212778874114" target="_blank" rel="noreferrer" className="mt-auto text-rose-600 font-bold hover:text-rose-700 flex items-center gap-1">
+              <a href={`${CONTACT_INFO.whatsappLink}?text=Bonjour%20BABFEZ,%20je%20souhaite%20réserver%20une%20expérience`} target="_blank" rel="noreferrer" className="mt-auto text-rose-600 font-bold hover:text-rose-700 flex items-center gap-1">
                 {dict.reserver.btnReserve} <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
               </a>
             </div>
@@ -352,11 +353,11 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                 </li>
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                  <span>{dict.footer?.phone || "+212 7 78 87 41 14"}</span>
+                  <span>{CONTACT_INFO.phoneDisplay}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                  <span>{dict.footer?.emailContact || "contact@babfez.ma"}</span>
+                  <span>{CONTACT_INFO.email}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

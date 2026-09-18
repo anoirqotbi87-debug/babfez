@@ -4,6 +4,7 @@ import Link from "next/link";
 import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
+import { CONTACT_INFO } from "@/config/site";
 
 const dicts = { fr, en, es };
 
@@ -45,7 +46,7 @@ export default function MentionsLegales({ params }: { params: { lang: string } }
               <h2 className="text-lg font-bold text-slate-950 mb-2">3. Contact</h2>
               <ul className="text-slate-600 leading-relaxed list-disc list-inside">
                 <li><strong>Adresse e-mail :</strong> <a href="mailto:contact@babfez.ma" className="text-amber-600 hover:underline">contact@babfez.ma</a></li>
-                <li><strong>Téléphone / WhatsApp :</strong> <a href="https://wa.me/212600000000" className="text-amber-600 hover:underline">+212 6 00 00 00 00</a></li>
+                <li><strong>Téléphone / WhatsApp :</strong> <a href={CONTACT_INFO.whatsappLink} className="text-amber-600 hover:underline">{CONTACT_INFO.phoneDisplay}</a></li>
               </ul>
             </div>
 
