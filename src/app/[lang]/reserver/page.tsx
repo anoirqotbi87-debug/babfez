@@ -415,7 +415,14 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                   </div>
                   <span className="text-xs">{dict.reserver.modalNotice.replace('{nights}', nights.toString())}</span>
                 </div>
-                <p className="text-[10px] text-slate-500 text-center font-medium">{dict.reserver.modalDisclaimer}</p>
+                <p className="text-[10px] text-slate-500 text-center font-medium mb-4">{dict.reserver.modalDisclaimer}</p>
+                <Link 
+                  href={`/${lang}/guide/${selectedProperty.id}`} 
+                  target="_blank"
+                  className="block w-full text-center text-xs font-bold text-slate-600 border border-slate-200 hover:bg-slate-100 py-2.5 rounded-xl transition-colors"
+                >
+                  Voir le Livret d'Accueil (Test)
+                </Link>
               </div>
             </div>
 
