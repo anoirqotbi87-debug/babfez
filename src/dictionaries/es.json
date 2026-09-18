@@ -1,14 +1,18 @@
 {
   "nav": {
     "simulator": "Simulador",
-    "services": "Servicios",
+    "services": "Nuestros Planes",
     "atouts": "Ventajas",
-    "faq": "Preguntas",
+    "faq": "Preguntas frecuentes",
     "book": "Reservar estancia",
     "experiences": "Experiencias Locales",
-    "ownerSpace": "Portal de Propietario",
+    "ownerSpace": "Área de Propietarios",
     "estimate": "Estimar mi propiedad",
-    "whatsapp": "WhatsApp Directo"
+    "whatsapp": "WhatsApp Directo",
+    "advantages": "Por qué nosotros",
+    "properties": "Nuestros Alojamientos",
+    "estimateBtn": "Estimar mi propiedad",
+    "backHome": "← Volver al inicio"
   },
   "home": {
     "heroTag": "BABFEZ • Gestión de Alquiler a Corto Plazo en Fez",
@@ -234,5 +238,64 @@
     "remember": "Recuérdame",
     "helpText": "¿Es propietario en Fez y desea delegar la gestión?",
     "helpLink": "Solicite un estudio gratuito"
+  },
+  "hero": {
+    "badge": "BABFEZ • Gestión de Alquiler Vacacional en Fez",
+    "title": "Abra las puertas al máximo rendimiento de su propiedad.",
+    "subtitle": "Confíenos la gestión integral de su apartamento o Riad en Fez. Desde la bienvenida personalizada hasta la limpieza hotelera y las fichas de policía, BABFEZ cuida cada detalle.",
+    "kpi1": "+40% Ingresos vs alquiler tradicional",
+    "kpi2": "100% Conformidad policial",
+    "kpi3": "24/7 Asistencia a huéspedes"
+  },
+  "simulator": {
+    "title": "¿Cuánto puede generar su propiedad?",
+    "zoneLabel": "Zona en Fez",
+    "zoneMedina": "Medina / Riad (Zona turística)",
+    "zoneVilleNouvelle": "Ciudad Nueva / Atlas / Champs de Course",
+    "zoneImmouzzer": "Carretera de Immouzzer / Residencias modernas",
+    "typeLabel": "Tipo de propiedad",
+    "typeApartment": "Apartamento moderno",
+    "typeRiad": "Riad tradicional",
+    "typeVilla": "Villa",
+    "roomStudio": "Estudio",
+    "room1": "1 Habitación",
+    "room2": "2 Habitaciones",
+    "room3": "3 Habitaciones",
+    "room4": "4+ Hab (Riad/Villa)",
+    "occupancy": "Tasa de ocupación estimada",
+    "monthlyGross": "Ingresos mensuales brutos estimados",
+    "annualGross": "Aprox. {amount} al año",
+    "avgRate": "Tarifa media: {amount} / noche",
+    "ctaQuote": "Obtener un estudio preciso"
+  },
+  "contact": {
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "phone": "Teléfono / WhatsApp",
+    "area": "Barrio en Fez",
+    "surface": "Superficie aprox. (m²)",
+    "plan": "Plan preferido",
+    "planSerenite": "Gestión Serenidad (20-25%)",
+    "planDigital": "Gestión Digital (15%)",
+    "planCustom": "Servicios A la Carta",
+    "message": "Detalles de su propiedad",
+    "consent": "Acepto ser contactado por BABFEZ para la estimación de alquiler.",
+    "submitBtn": "Solicitar mi auditoría y valoración gratuita"
+  },
+  "booking": {
+    "searchTitle": "Reserve su estancia excepcional en Fez",
+    "checkIn": "Llegada",
+    "checkOut": "Salida",
+    "guests": "Huéspedes",
+    "adults": "Adultos",
+    "children": "Niños",
+    "filterBtn": "Filtrar alojamientos",
+    "perNight": "por noche",
+    "cleaningFee": "Gastos de limpieza",
+    "totalStay": "Total estancia",
+    "arrivalTime": "Hora estimada de llegada",
+    "specialRequests": "Peticiones especiales",
+    "confirmWhatsapp": "Confirmar mi solicitud por WhatsApp",
+    "badgeHotelStandard": "Check-in en persona o caja de llaves • Fichas policiales incluidas"
   }
 }

@@ -8,6 +8,7 @@ import { Currency, formatPrice, convertFromMAD } from "@/config/currencies";
 import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
+import ar from "@/dictionaries/ar.json";
 import { CONTACT_INFO } from "@/config/site";
 import dynamic from 'next/dynamic';
 
@@ -16,7 +17,7 @@ const PropertiesMap = dynamic(() => import('@/components/PropertiesMap'), {
   loading: () => <div className="w-full h-full bg-slate-100 animate-pulse flex items-center justify-center text-slate-400 font-bold rounded-2xl md:rounded-l-none">Chargement de la carte...</div>
 });
 
-const dicts = { fr, en, es };
+const dicts = { fr, en, es, ar };
 
 const MOCK_CATALOG = [
   {
@@ -168,7 +169,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               className={`text-sm transition-colors pb-1 ${activeHash !== '#experiences' ? 'font-extrabold text-amber-600 border-b-2 border-amber-600' : 'font-semibold text-slate-600 hover:text-amber-600'}`}
               onClick={() => setActiveHash('')}
             >
-              {dict.nav.book}
+              {dict.nav.properties}
             </Link>
             <a 
               href="#experiences" 
@@ -194,7 +195,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
 
             <a href={`/${lang}/#simulateur`} className="bg-slate-950 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-lg">
-              {dict.nav.estimate}
+              {dict.nav.estimateBtn}
             </a>
           </div>
 
@@ -213,7 +214,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
         </div>
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-            {dict.reserver.heroTitle} <span className="text-amber-500">{dict.reserver.heroTitleHighlight}</span>
+            {dict.booking.searchTitle}
           </h1>
           <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto font-medium">
             {dict.reserver.heroSubtitle}
@@ -221,15 +222,15 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
           <div className="bg-white p-2 rounded-3xl md:rounded-full shadow-2xl flex flex-col md:flex-row items-center gap-2 max-w-4xl mx-auto text-slate-900">
             <div className="flex-1 w-full px-6 py-3 border-b md:border-b-0 md:border-r border-slate-100 text-left">
-              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{dict.reserver.searchArrival}</label>
+              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{dict.booking.checkIn}</label>
               <input type="date" className="w-full bg-transparent text-slate-950 font-bold focus:outline-none" />
             </div>
             <div className="flex-1 w-full px-6 py-3 border-b md:border-b-0 md:border-r border-slate-100 text-left">
-              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{dict.reserver.searchDeparture}</label>
+              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{dict.booking.checkOut}</label>
               <input type="date" className="w-full bg-transparent text-slate-950 font-bold focus:outline-none" />
             </div>
             <div className="flex-1 w-full px-6 py-3 text-left">
-              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{dict.reserver.searchGuests}</label>
+              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{dict.booking.guests}</label>
               <select className="w-full bg-transparent text-slate-950 font-bold focus:outline-none cursor-pointer">
                 <option>2 {dict.reserver.searchGuestPlural}</option>
               </select>
@@ -427,11 +428,11 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               
               <div className="space-y-4 text-sm font-medium">
                 <div className="flex justify-between">
-                  <span>{dict.reserver.modalPrice}</span>
+                  <span>{dict.booking.perNight}</span>
                   <span className="font-bold">{formatPrice(convertFromMAD(selectedProperty.price, activeCurrency), activeCurrency)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>{dict.reserver.modalCleaning}</span>
+                  <span>{dict.booking.cleaningFee}</span>
                   <span className="font-bold">{formatPrice(convertFromMAD(selectedProperty.cleaningFee, activeCurrency), activeCurrency)}</span>
                 </div>
               </div>
@@ -439,7 +440,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               <div className="mt-8 pt-6 border-t border-slate-200">
                 <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl text-amber-900 text-sm mb-4">
                   <div className="flex justify-between font-extrabold text-base mb-1">
-                    <span>{dict.reserver.modalTotal}</span>
+                    <span>{dict.booking.totalStay}</span>
                     <div className="flex flex-col items-end">
                       <span>{formatPrice(totalAmountConverted, activeCurrency)}</span>
                       {activeCurrency !== 'MAD' && (
@@ -467,24 +468,24 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               <form onSubmit={handleBookingSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.reserver.searchArrival}</label>
+                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.checkIn}</label>
                     <input type="date" required value={bookingDetails.startDate} onChange={e => setBookingDetails({...bookingDetails, startDate: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200" />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.reserver.searchDeparture}</label>
+                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.checkOut}</label>
                     <input type="date" required value={bookingDetails.endDate} onChange={e => setBookingDetails({...bookingDetails, endDate: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.modal.adults}</label>
+                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.adults}</label>
                     <select value={bookingDetails.adults} onChange={e => setBookingDetails({...bookingDetails, adults: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white">
                       {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.modal.children}</label>
+                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.children}</label>
                     <select value={bookingDetails.children} onChange={e => setBookingDetails({...bookingDetails, children: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white">
                       {[0,1,2,3,4].map(n => <option key={n} value={n}>{n}</option>)}
                     </select>
@@ -493,10 +494,10 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <input type="text" placeholder={dict.reserver.formName} required value={bookingDetails.name} onChange={e => setBookingDetails({...bookingDetails, name: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
+                    <input type="text" placeholder={dict.contact.fullName} required value={bookingDetails.name} onChange={e => setBookingDetails({...bookingDetails, name: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
                   </div>
                   <div>
-                    <input type="email" placeholder={dict.modal.email} required value={bookingDetails.email} onChange={e => setBookingDetails({...bookingDetails, email: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
+                    <input type="email" placeholder={dict.contact.email} required value={bookingDetails.email} onChange={e => setBookingDetails({...bookingDetails, email: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
                   </div>
                 </div>
 
@@ -516,15 +517,15 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                 </div>
                 
                 <div>
-                  <textarea placeholder={dict.modal.requests} value={bookingDetails.requests} onChange={e => setBookingDetails({...bookingDetails, requests: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm h-16 resize-none"></textarea>
+                  <textarea placeholder={dict.booking.specialRequests} value={bookingDetails.requests} onChange={e => setBookingDetails({...bookingDetails, requests: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm h-16 resize-none"></textarea>
                 </div>
 
                 <div className="pt-2">
                   <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 flex gap-2 items-start mb-4 text-xs text-slate-500">
                     <svg className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span>{dict.modal.reassurance}</span>
+                    <span>{dict.booking.badgeHotelStandard}</span>
                   </div>
-                  <button type="submit" className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-700">Confirmer ma demande via WhatsApp</button>
+                  <button type="submit" className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-700">{dict.booking.confirmWhatsapp}</button>
                 </div>
               </form>
             </div>

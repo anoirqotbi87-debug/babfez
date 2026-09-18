@@ -7,8 +7,9 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
+import ar from "@/dictionaries/ar.json";
 
-const dicts = { fr, en, es };
+const dicts = { fr, en, es, ar };
 
 const MOCK_PROPERTY = { id: "p1", name: "Riad Dar Ziryab", zone: "Médina" };
 const MOCK_RESERVATIONS = [

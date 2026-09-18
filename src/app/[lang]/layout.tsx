@@ -24,9 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { lang: string };
 }>) {
+  const isRtl = params.lang === 'ar';
+  
   return (
-    <html lang={params.lang} className="scroll-smooth">
-      <body className={`${jakarta.variable} font-sans antialiased bg-slate-50 text-slate-900`}>
+    <html lang={params.lang} dir={isRtl ? 'rtl' : 'ltr'} className="scroll-smooth">
+      <body className={`${jakarta.variable} ${isRtl ? 'font-sans' : 'font-sans'} antialiased bg-slate-50 text-slate-900`}>
         {children}
       </body>
     </html>

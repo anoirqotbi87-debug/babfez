@@ -6,8 +6,9 @@ import Link from "next/link";
 import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
+import ar from "@/dictionaries/ar.json";
 
-const dicts = { fr, en, es };
+const dicts = { fr, en, es, ar };
 
 export default function AdminLogin({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;

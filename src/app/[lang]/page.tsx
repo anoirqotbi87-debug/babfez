@@ -7,9 +7,10 @@ import CurrencySwitcher from "@/components/CurrencySwitcher";
 import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
+import ar from "@/dictionaries/ar.json";
 import { CONTACT_INFO } from "@/config/site";
 
-const dicts = { fr, en, es };
+const dicts = { fr, en, es, ar };
 
 export default function Home({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
@@ -73,8 +74,8 @@ export default function Home({ params }: { params: { lang: string } }) {
   const handleSimulateToForm = () => {
     setFormData({
       ...formData,
-      quartier: zone === "medina" ? dict.form.quartierMedina : zone === "nouvelle" ? dict.form.quartierVN : dict.form.quartierRoute,
-      typeBien: propType === "appart" ? dict.form.propAppart : propType === "riad" ? dict.form.propRiad : dict.form.propVilla,
+      quartier: zone === "medina" ? dict.simulator.zoneMedina : zone === "nouvelle" ? dict.simulator.zoneVilleNouvelle : dict.simulator.zoneImmouzzer,
+      typeBien: propType === "appart" ? dict.simulator.typeApartment : propType === "riad" ? dict.simulator.typeRiad : dict.simulator.typeVilla,
       message: `Estimation simulée : ${monthlyRevenue.toLocaleString('fr-FR')} MAD/mois.`
     });
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -120,9 +121,9 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
           <nav className="hidden md:flex space-x-8">
             <a href="#simulateur" className="text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors">{dict.nav.simulator}</a>
             <a href="#services" className="text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors">{dict.nav.services}</a>
-            <a href="#atouts" className="text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors">{dict.nav.atouts}</a>
+            <a href="#atouts" className="text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors">{dict.nav.advantages}</a>
             <a href="#faq" className="text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors">{dict.nav.faq}</a>
-            <Link href={`/${lang}/reserver`} className="text-sm font-extrabold text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">{dict.nav.book}</Link>
+            <Link href={`/${lang}/reserver`} className="text-sm font-extrabold text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">{dict.nav.properties}</Link>
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
@@ -139,8 +140,8 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
 
 
 
-            <a href="/#simulateur" className="bg-slate-950 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-lg">
-              {dict.nav.estimate}
+            <a href={`/${lang}/#simulateur`} className="bg-slate-950 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-lg">
+              {dict.nav.estimateBtn}
             </a>
           </div>
 
@@ -159,7 +160,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
           <div className="md:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-4">
             <a href="#simulateur" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-slate-600">{dict.nav.simulator}</a>
             <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-slate-600">{dict.nav.services}</a>
-            <Link href={`/${lang}/reserver`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-amber-600">{dict.nav.book}</Link>
+            <Link href={`/${lang}/reserver`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-amber-600">{dict.nav.properties}</Link>
           </div>
         )}
       </header>
@@ -168,20 +169,20 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
       <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <span className="inline-block py-1 px-3 rounded-full bg-amber-100 text-amber-800 text-xs font-bold tracking-wider uppercase mb-6 border border-amber-200">
-            {dict.home.heroTag}
+            {dict.hero.badge}
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-950 mb-6 tracking-tight max-w-4xl mx-auto leading-tight">
-            {dict.home.heroTitle}
+            {dict.hero.title}
           </h1>
           <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
-            {dict.home.heroSubtitle}
+            {dict.hero.subtitle}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href="#simulateur" className="bg-amber-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-amber-600 transition-colors shadow-xl shadow-amber-500/20">
-              {dict.home.btnEstimate}
+              {dict.nav.estimateBtn}
             </a>
             <a href="#services" className="bg-white text-slate-950 border-2 border-slate-200 px-8 py-4 rounded-full font-bold text-lg hover:border-slate-300 transition-colors">
-              {dict.home.btnServices}
+              {dict.nav.services}
             </a>
           </div>
         </div>
@@ -191,38 +192,37 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
       <section id="simulateur" className="py-20 bg-slate-950 text-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold mb-4">{dict.home.simTitle}</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">{dict.home.simSubtitle}</p>
+            <h2 className="text-3xl font-extrabold mb-4">{dict.simulator.title}</h2>
           </div>
 
           <div className="bg-white text-slate-900 rounded-3xl p-6 md:p-10 shadow-2xl max-w-4xl mx-auto border border-slate-200">
             <div className="grid md:grid-cols-2 gap-12">
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simZone}</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.simulator.zoneLabel}</label>
                   <select value={zone} onChange={(e) => setZone(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-500 transition-colors">
-                    <option value="medina">{dict.form.quartierMedina}</option>
-                    <option value="nouvelle">{dict.form.quartierVN}</option>
-                    <option value="immouzzer">{dict.form.quartierRoute}</option>
+                    <option value="medina">{dict.simulator.zoneMedina}</option>
+                    <option value="nouvelle">{dict.simulator.zoneVilleNouvelle}</option>
+                    <option value="immouzzer">{dict.simulator.zoneImmouzzer}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.sim.propType}</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.simulator.typeLabel}</label>
                   <select value={propType} onChange={(e) => setPropType(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-500 transition-colors">
-                    <option value="appart">{dict.sim.propTypeAppart}</option>
-                    <option value="riad">{dict.sim.propTypeRiad}</option>
-                    <option value="villa">{dict.sim.propTypeVilla}</option>
+                    <option value="appart">{dict.simulator.typeApartment}</option>
+                    <option value="riad">{dict.simulator.typeRiad}</option>
+                    <option value="villa">{dict.simulator.typeVilla}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simRooms}</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{/* Rooms */}</label>
                   <div className="grid grid-cols-2 gap-2 sm:flex">
                     {[
-                      { id: "studio", label: dict.sim.roomStudio }, 
-                      { id: "1", label: dict.sim.room1 }, 
-                      { id: "2", label: dict.sim.room2 }, 
-                      { id: "3", label: dict.sim.room3 }, 
-                      { id: "4", label: dict.sim.room4 }
+                      { id: "studio", label: dict.simulator.roomStudio }, 
+                      { id: "1", label: dict.simulator.room1 }, 
+                      { id: "2", label: dict.simulator.room2 }, 
+                      { id: "3", label: dict.simulator.room3 }, 
+                      { id: "4", label: dict.simulator.room4 }
                     ].map((r) => (
                       <button key={r.id} onClick={() => setRooms(r.id as any)} className={`flex-1 py-2 px-2 text-xs rounded-xl font-bold transition-all ${rooms === r.id ? "bg-slate-950 text-white shadow-md" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>{r.label}</button>
                     ))}
@@ -230,7 +230,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                 </div>
                 <div>
                   <div className="flex justify-between mb-2">
-                    <label className="text-sm font-bold text-slate-700">{dict.home.simOccupancy}</label>
+                    <label className="text-sm font-bold text-slate-700">{dict.simulator.occupancy}</label>
                     <span className="text-sm font-extrabold text-amber-600">{occupancy}%</span>
                   </div>
                   <input type="range" min="30" max="95" value={occupancy} onChange={(e) => setOccupancy(Number(e.target.value))} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500" />
@@ -238,14 +238,14 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               </div>
               
               <div className="bg-slate-50 rounded-2xl p-8 border border-slate-100 flex flex-col justify-center text-center">
-                <span className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2 block">{dict.home.simRevMonth}</span>
+                <span className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2 block">{dict.simulator.monthlyGross}</span>
                 <div className="text-5xl font-extrabold text-slate-950 mb-2">
                   {monthlyRevenue.toLocaleString('fr-FR')} <span className="text-2xl text-slate-400">MAD</span>
                 </div>
-                <div className="text-emerald-600 font-bold mb-6">Soit {yearlyRevenue.toLocaleString('fr-FR')} MAD {dict.home.simRevYear.split(' ')[1]}</div>
+                <div className="text-emerald-600 font-bold mb-6">{dict.simulator.annualGross.replace('{amount}', yearlyRevenue.toLocaleString('fr-FR') + ' MAD')}</div>
                 <p className="text-xs text-slate-400 mb-6">{dict.home.simDisclaimer}</p>
                 <button onClick={handleSimulateToForm} className="w-full block text-center bg-slate-950 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg cursor-pointer">
-                  {dict.home.simContact}
+                  {dict.simulator.ctaQuote}
                 </button>
               </div>
             </div>
@@ -423,47 +423,44 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <input type="text" required placeholder={dict.home.formName} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
-                    <input type="email" required placeholder={dict.form.email} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
+                    <input type="text" required placeholder={dict.contact.fullName} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
+                    <input type="email" required placeholder={dict.contact.email} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
                   </div>
                   <div>
-                    <input type="tel" required placeholder="+212 6..." value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
+                    <input type="tel" required placeholder={dict.contact.phone} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <select value={formData.quartier} onChange={e => setFormData({...formData, quartier: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
-                      <option value="" disabled>{dict.home.formZone}</option>
-                      <option value={dict.form.quartierMedina}>{dict.form.quartierMedina}</option>
-                      <option value={dict.form.quartierVN}>{dict.form.quartierVN}</option>
-                      <option value={dict.form.quartierCC}>{dict.form.quartierCC}</option>
-                      <option value={dict.form.quartierRoute}>{dict.form.quartierRoute}</option>
-                      <option value={dict.form.quartierOther}>{dict.form.quartierOther}</option>
+                      <option value="" disabled>{dict.contact.area}</option>
+                      <option value={dict.simulator.zoneMedina}>{dict.simulator.zoneMedina}</option>
+                      <option value={dict.simulator.zoneVilleNouvelle}>{dict.simulator.zoneVilleNouvelle}</option>
+                      <option value={dict.simulator.zoneImmouzzer}>{dict.simulator.zoneImmouzzer}</option>
                     </select>
                     <select value={formData.typeBien} onChange={e => setFormData({...formData, typeBien: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
-                      <option value="" disabled>{dict.form.type}</option>
-                      <option value={dict.form.propAppart}>{dict.form.propAppart}</option>
-                      <option value={dict.form.propRiad}>{dict.form.propRiad}</option>
-                      <option value={dict.form.propVilla}>{dict.form.propVilla}</option>
-                      <option value={dict.form.propBuilding}>{dict.form.propBuilding}</option>
+                      <option value="" disabled>{dict.simulator.typeLabel}</option>
+                      <option value={dict.simulator.typeApartment}>{dict.simulator.typeApartment}</option>
+                      <option value={dict.simulator.typeRiad}>{dict.simulator.typeRiad}</option>
+                      <option value={dict.simulator.typeVilla}>{dict.simulator.typeVilla}</option>
                     </select>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <input type="number" placeholder={dict.form.surface} value={formData.surface} onChange={e => setFormData({...formData, surface: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
+                    <input type="number" placeholder={dict.contact.surface} value={formData.surface} onChange={e => setFormData({...formData, surface: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none" />
                     <select value={formData.formule} onChange={e => setFormData({...formData, formule: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
-                      <option value={dict.home.formula1Title}>{dict.home.formula1Title}</option>
-                      <option value={dict.home.formula2Title}>{dict.home.formula2Title}</option>
-                      <option value={dict.home.formulaPremiumTitle}>{dict.home.formulaPremiumTitle}</option>
-                      <option value={dict.home.formula3Title}>{dict.home.formula3Title}</option>
+                      <option value="" disabled>{dict.contact.plan}</option>
+                      <option value={dict.contact.planSerenite}>{dict.contact.planSerenite}</option>
+                      <option value={dict.contact.planDigital}>{dict.contact.planDigital}</option>
+                      <option value={dict.contact.planCustom}>{dict.contact.planCustom}</option>
                     </select>
                   </div>
                   <div>
-                    <textarea placeholder={dict.home.formMsg} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none h-24 resize-none"></textarea>
+                    <textarea placeholder={dict.contact.message} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none h-24 resize-none"></textarea>
                   </div>
                   <div className="flex items-start gap-2">
                     <input type="checkbox" id="rgpd" required checked={formData.rgpd} onChange={e => setFormData({...formData, rgpd: e.target.checked})} className="mt-1" />
-                    <label htmlFor="rgpd" className="text-xs text-slate-500">{dict.form.rgpd}</label>
+                    <label htmlFor="rgpd" className="text-xs text-slate-500">{dict.contact.consent}</label>
                   </div>
                   <button type="submit" disabled={isSubmitting} className="w-full bg-slate-950 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg disabled:opacity-70">
-                    Demander mon audit gratuit sous 24h
+                    {dict.contact.submitBtn}
                   </button>
                 </form>
               )}
