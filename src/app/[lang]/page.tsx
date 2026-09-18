@@ -548,8 +548,9 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.privacy || "Politique de confidentialité"}</a>
               <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.tos || "Conditions Générales"}</a>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
               &copy; 2026 BABFEZ Conciergerie.
+              <Link href={`/${lang}/admin/login`} className="opacity-30 hover:opacity-100 hover:text-amber-500 transition-all text-xs ml-2" title="Administration">🔒</Link>
             </div>
           </div>
         </div>

@@ -107,7 +107,7 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
                     <td className="p-4 text-right">
                       <button 
                         onClick={() => togglePaid(po.id)}
-                        className={\`text-xs font-bold px-3 py-1.5 rounded-lg border \${po.paid ? 'border-slate-200 text-slate-500 hover:bg-slate-100' : 'bg-slate-900 text-white hover:bg-slate-800'}\`}
+                        className={`text-xs font-bold px-3 py-1.5 rounded-lg border ${po.paid ? 'border-slate-200 text-slate-500 hover:bg-slate-100' : 'bg-slate-900 text-white hover:bg-slate-800'}`}
                       >
                         {po.paid ? "Annuler le paiement" : "Marquer comme payé"}
                       </button>

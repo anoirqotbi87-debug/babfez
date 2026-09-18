@@ -32,7 +32,7 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 font-sans text-slate-900">
       <Link href={`/${lang}`} className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors">
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        {dict.login.backHome}
+        Retour à l'accueil
       </Link>
 
       <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
@@ -52,12 +52,12 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{dict.login.emailLabel}</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Adresse Email</label>
             <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@babfez.ma" className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" />
           </div>
           
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{dict.login.passwordLabel}</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Mot de passe</label>
             <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" />
           </div>
 
