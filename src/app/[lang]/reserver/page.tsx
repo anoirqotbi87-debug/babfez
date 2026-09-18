@@ -228,6 +228,10 @@ export default function Reserver({ params }: { params: { lang: string } }) {
         </div>
       </section>
 
+      <footer className="bg-slate-950 py-12 border-t border-slate-900 text-center">
+        <p className="text-slate-500 text-sm">{dict.home.footerText}</p>
+      </footer>
+
       {selectedProperty && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm overflow-y-auto">
           <div className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col md:flex-row">
