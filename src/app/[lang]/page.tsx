@@ -270,7 +270,68 @@ export default function Home({ params }: { params: { lang: string } }) {
         </div>
       </section>
 
-      {/* 5. Contact / Lead Gen */}
+      {/* 5. Atouts (Pourquoi BABFEZ) */}
+      <section id="atouts" className="py-24 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-950 mb-4">{dict.home.atoutsTitle}</h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">{dict.home.atoutsSubtitle}</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: dict.home.atout1Title, desc: dict.home.atout1Desc, icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+              { title: dict.home.atout2Title, desc: dict.home.atout2Desc, icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" },
+              { title: dict.home.atout3Title, desc: dict.home.atout3Desc, icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" },
+              { title: dict.home.atout4Title, desc: dict.home.atout4Desc, icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z" }
+            ].map((atout, i) => (
+              <div key={i} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-6">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d={atout.icon}/></svg>
+                </div>
+                <h4 className="text-xl font-bold text-slate-950 mb-3">{atout.title}</h4>
+                <p className="text-slate-600 leading-relaxed text-sm font-medium">{atout.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. FAQ */}
+      <section id="faq" className="py-24 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-950 mb-4">{dict.home.faqTitle}</h2>
+            <p className="text-slate-600 text-lg">{dict.home.faqSubtitle}</p>
+          </div>
+          <div className="space-y-4">
+            {[
+              { q: dict.home.faqQ1, a: dict.home.faqA1 },
+              { q: dict.home.faqQ2, a: dict.home.faqA2 },
+              { q: dict.home.faqQ3, a: dict.home.faqA3 }
+            ].map((faq, i) => (
+              <div key={i} className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                <button 
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)} 
+                  className="w-full text-left px-6 py-5 font-bold text-slate-900 flex justify-between items-center focus:outline-none"
+                >
+                  {faq.q}
+                  <svg className={`w-5 h-5 text-amber-600 transform transition-transform ${openFaq === i ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-5 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4 font-medium">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Contact / Lead Gen */}
       <section id="contact" className="py-20 bg-amber-500 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
