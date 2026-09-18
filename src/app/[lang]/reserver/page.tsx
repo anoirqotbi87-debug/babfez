@@ -388,13 +388,13 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.reserver.modal.adults}</label>
+                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.modal.adults}</label>
                     <select value={bookingDetails.adults} onChange={e => setBookingDetails({...bookingDetails, adults: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white">
                       {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.reserver.modal.children}</label>
+                    <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.modal.children}</label>
                     <select value={bookingDetails.children} onChange={e => setBookingDetails({...bookingDetails, children: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white">
                       {[0,1,2,3,4].map(n => <option key={n} value={n}>{n}</option>)}
                     </select>
@@ -406,7 +406,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                     <input type="text" placeholder={dict.reserver.formName} required value={bookingDetails.name} onChange={e => setBookingDetails({...bookingDetails, name: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
                   </div>
                   <div>
-                    <input type="email" placeholder={dict.reserver.modal.email} required value={bookingDetails.email} onChange={e => setBookingDetails({...bookingDetails, email: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
+                    <input type="email" placeholder={dict.modal.email} required value={bookingDetails.email} onChange={e => setBookingDetails({...bookingDetails, email: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
                   </div>
                 </div>
 
@@ -416,23 +416,23 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                   </div>
                   <div>
                     <select value={bookingDetails.arrival} onChange={e => setBookingDetails({...bookingDetails, arrival: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-500">
-                      <option value="14h-16h">{dict.reserver.modal.time1}</option>
-                      <option value="16h-18h">{dict.reserver.modal.time2}</option>
-                      <option value="18h-20h">{dict.reserver.modal.time3}</option>
-                      <option value="20h-23h">{dict.reserver.modal.time4}</option>
-                      <option value="Après 23h">{dict.reserver.modal.time5}</option>
+                      <option value="14h-16h">{dict.modal.time1}</option>
+                      <option value="16h-18h">{dict.modal.time2}</option>
+                      <option value="18h-20h">{dict.modal.time3}</option>
+                      <option value="20h-23h">{dict.modal.time4}</option>
+                      <option value="Après 23h">{dict.modal.time5}</option>
                     </select>
                   </div>
                 </div>
                 
                 <div>
-                  <textarea placeholder={dict.reserver.modal.requests} value={bookingDetails.requests} onChange={e => setBookingDetails({...bookingDetails, requests: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm h-16 resize-none"></textarea>
+                  <textarea placeholder={dict.modal.requests} value={bookingDetails.requests} onChange={e => setBookingDetails({...bookingDetails, requests: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm h-16 resize-none"></textarea>
                 </div>
 
                 <div className="pt-2">
                   <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 flex gap-2 items-start mb-4 text-xs text-slate-500">
                     <svg className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span>{dict.reserver.modal.reassurance}</span>
+                    <span>{dict.modal.reassurance}</span>
                   </div>
                   <button type="submit" className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-700">Confirmer ma demande via WhatsApp</button>
                 </div>

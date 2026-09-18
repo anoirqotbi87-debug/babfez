@@ -71,8 +71,8 @@ export default function Home({ params }: { params: { lang: string } }) {
   const handleSimulateToForm = () => {
     setFormData({
       ...formData,
-      quartier: zone === "medina" ? dict.home.formQuartierMedina : zone === "nouvelle" ? dict.home.formQuartierVN : dict.home.formQuartierRoute,
-      typeBien: propType === "appart" ? dict.home.propAppart : propType === "riad" ? dict.home.propRiad : dict.home.propVilla,
+      quartier: zone === "medina" ? dict.form.quartierMedina : zone === "nouvelle" ? dict.form.quartierVN : dict.form.quartierRoute,
+      typeBien: propType === "appart" ? dict.form.propAppart : propType === "riad" ? dict.form.propRiad : dict.form.propVilla,
       message: `Estimation simulée : ${monthlyRevenue.toLocaleString('fr-FR')} MAD/mois.`
     });
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -196,28 +196,28 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simZone}</label>
                   <select value={zone} onChange={(e) => setZone(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-500 transition-colors">
-                    <option value="medina">{dict.home.formQuartierMedina}</option>
-                    <option value="nouvelle">{dict.home.formQuartierVN}</option>
-                    <option value="immouzzer">{dict.home.formQuartierRoute}</option>
+                    <option value="medina">{dict.form.quartierMedina}</option>
+                    <option value="nouvelle">{dict.form.quartierVN}</option>
+                    <option value="immouzzer">{dict.form.quartierRoute}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simPropType}</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{dict.sim.propType}</label>
                   <select value={propType} onChange={(e) => setPropType(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-500 transition-colors">
-                    <option value="appart">{dict.home.simPropTypeAppart}</option>
-                    <option value="riad">{dict.home.simPropTypeRiad}</option>
-                    <option value="villa">{dict.home.simPropTypeVilla}</option>
+                    <option value="appart">{dict.sim.propTypeAppart}</option>
+                    <option value="riad">{dict.sim.propTypeRiad}</option>
+                    <option value="villa">{dict.sim.propTypeVilla}</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-2">{dict.home.simRooms}</label>
                   <div className="grid grid-cols-2 gap-2 sm:flex">
                     {[
-                      { id: "studio", label: dict.home.simRoomStudio }, 
-                      { id: "1", label: dict.home.simRoom1 }, 
-                      { id: "2", label: dict.home.simRoom2 }, 
-                      { id: "3", label: dict.home.simRoom3 }, 
-                      { id: "4", label: dict.home.simRoom4 }
+                      { id: "studio", label: dict.sim.roomStudio }, 
+                      { id: "1", label: dict.sim.room1 }, 
+                      { id: "2", label: dict.sim.room2 }, 
+                      { id: "3", label: dict.sim.room3 }, 
+                      { id: "4", label: dict.sim.room4 }
                     ].map((r) => (
                       <button key={r.id} onClick={() => setRooms(r.id as any)} className={`flex-1 py-2 px-2 text-xs rounded-xl font-bold transition-all ${rooms === r.id ? "bg-slate-950 text-white shadow-md" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>{r.label}</button>
                     ))}
