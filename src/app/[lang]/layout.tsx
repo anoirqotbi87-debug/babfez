@@ -3,7 +3,12 @@ import { Plus_Jakarta_Sans, Cairo } from "next/font/google";
 import "../globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
-const cairo = Cairo({ subsets: ["arabic"], variable: "--font-cairo" });
+const cairo = Cairo({ 
+  subsets: ["arabic", "latin"], 
+  weight: ['400', '600', '700', '800'],
+  variable: "--font-cairo",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: "BABFEZ - Conciergerie & Intendance Privée à Fès",
@@ -29,7 +34,10 @@ export default function RootLayout({
   
   return (
     <html lang={params.lang} dir={isRtl ? 'rtl' : 'ltr'} className="scroll-smooth">
-      <body className={`${isRtl ? cairo.variable : jakarta.variable} ${isRtl ? 'font-cairo' : 'font-jakarta'} antialiased bg-slate-50 text-slate-900`}>
+      <body 
+        className={`${isRtl ? cairo.variable : jakarta.variable} ${isRtl ? 'font-cairo' : 'font-jakarta'} antialiased bg-slate-50 text-slate-900`}
+        style={{ fontFamily: isRtl ? "var(--font-cairo), 'Segoe UI', Tahoma, Arial, sans-serif" : undefined }}
+      >
         {children}
       </body>
     </html>
