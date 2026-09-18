@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import fr from "@/dictionaries/fr.json";
@@ -59,7 +59,15 @@ export default function Reserver({ params }: { params: { lang: string } }) {
   const dict = dicts[lang] || dicts.fr;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState("");
   const [searchZone, setSearchZone] = useState("Tous");
+  
+  useEffect(() => {
+    setActiveHash(window.location.hash);
+    const handleHashChange = () => setActiveHash(window.location.hash);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   
   const [selectedProperty, setSelectedProperty] = useState<typeof MOCK_CATALOG[0] | null>(null);
   const [bookingDetails, setBookingDetails] = useState({
@@ -106,9 +114,21 @@ export default function Reserver({ params }: { params: { lang: string } }) {
             </div>
           </Link>
 
-          <nav className="hidden md:flex space-x-8">
-            <Link href={`/${lang}/reserver`} className="text-sm font-extrabold text-amber-600 border-b-2 border-amber-600 pb-1">{dict.nav.book}</Link>
-            <a href="#experiences" className="text-sm font-semibold text-slate-600 hover:text-amber-600 transition-colors">{dict.nav.experiences}</a>
+          <nav className="hidden md:flex space-x-8 items-center">
+            <Link 
+              href={`/${lang}/reserver`} 
+              className={`text-sm transition-colors pb-1 ${activeHash !== '#experiences' ? 'font-extrabold text-amber-600 border-b-2 border-amber-600' : 'font-semibold text-slate-600 hover:text-amber-600'}`}
+              onClick={() => setActiveHash('')}
+            >
+              {dict.nav.book}
+            </Link>
+            <a 
+              href="#experiences" 
+              className={`text-sm transition-colors pb-1 ${activeHash === '#experiences' ? 'font-extrabold text-amber-600 border-b-2 border-amber-600' : 'font-semibold text-slate-600 hover:text-amber-600'}`}
+              onClick={() => setActiveHash('#experiences')}
+            >
+              {dict.nav.experiences}
+            </a>
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
