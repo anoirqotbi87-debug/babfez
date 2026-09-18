@@ -189,6 +189,12 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               {dict.nav.estimate}
             </a>
           </div>
+
+          <div className="flex items-center lg:hidden gap-2">
+            <CurrencySwitcher />
+            <div className="h-4 w-px bg-slate-300"></div>
+            <LanguageSwitcher currentLang={lang} />
+          </div>
         </div>
       </header>
 

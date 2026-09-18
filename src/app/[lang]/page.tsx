@@ -146,9 +146,11 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
             </a>
           </div>
 
-          <div className="flex items-center md:hidden gap-3">
+          <div className="flex items-center md:hidden gap-2">
+            <CurrencySwitcher />
+            <div className="h-4 w-px bg-slate-300"></div>
             <LanguageSwitcher currentLang={lang} />
-            <button className="text-slate-600" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <button className="text-slate-600 ml-1" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
           </div>
