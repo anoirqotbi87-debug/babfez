@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import CurrencySwitcher from "@/components/CurrencySwitcher";
+import { Currency, formatPrice, convertFromMAD } from "@/config/currencies";
 import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
@@ -62,11 +64,32 @@ export default function Reserver({ params }: { params: { lang: string } }) {
   const [activeHash, setActiveHash] = useState("");
   const [searchZone, setSearchZone] = useState("Tous");
   
+  const [activeCurrency, setActiveCurrency] = useState<Currency>('MAD');
+  
   useEffect(() => {
     setActiveHash(window.location.hash);
     const handleHashChange = () => setActiveHash(window.location.hash);
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    
+    // Initial currency load
+    const saved = localStorage.getItem('babfez_currency') as Currency;
+    if (saved && ['MAD', 'EUR', 'USD'].includes(saved)) {
+      setActiveCurrency(saved);
+    }
+
+    // Listen to changes from CurrencySwitcher
+    const handleCurrencyChange = () => {
+      const updated = localStorage.getItem('babfez_currency') as Currency;
+      if (updated && ['MAD', 'EUR', 'USD'].includes(updated)) {
+        setActiveCurrency(updated);
+      }
+    };
+    window.addEventListener('currencyChange', handleCurrencyChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('currencyChange', handleCurrencyChange);
+    };
   }, []);
   
   const [selectedProperty, setSelectedProperty] = useState<typeof MOCK_CATALOG[0] | null>(null);
@@ -89,7 +112,8 @@ export default function Reserver({ params }: { params: { lang: string } }) {
   };
 
   const nights = getDaysDiff(bookingDetails.startDate, bookingDetails.endDate);
-  const totalAmount = selectedProperty ? (nights * selectedProperty.price) + selectedProperty.cleaningFee : 0;
+  const totalAmountMAD = selectedProperty ? (nights * selectedProperty.price) + selectedProperty.cleaningFee : 0;
+  const totalAmountConverted = convertFromMAD(totalAmountMAD, activeCurrency);
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
@@ -101,7 +125,12 @@ export default function Reserver({ params }: { params: { lang: string } }) {
     e.preventDefault();
     if (!selectedProperty || nights <= 0) return;
     
-    const text = `Bonjour BABFEZ, je souhaite réserver ${selectedProperty.title} du ${formatDate(bookingDetails.startDate)} au ${formatDate(bookingDetails.endDate)} pour ${bookingDetails.adults} Adulte(s) et ${bookingDetails.children} Enfant(s).\nNom: ${bookingDetails.name}\nEmail: ${bookingDetails.email}\nArrivée: ${bookingDetails.arrival}\nDemandes: ${bookingDetails.requests || 'Aucune'}\nTotal devis: ${totalAmount} MAD.`;
+    let totalText = `${totalAmountMAD} MAD`;
+    if (activeCurrency !== 'MAD') {
+      totalText = `${formatPrice(totalAmountConverted, activeCurrency)} (~${totalAmountMAD} MAD)`;
+    }
+
+    const text = `Bonjour BABFEZ, je souhaite réserver ${selectedProperty.title} du ${formatDate(bookingDetails.startDate)} au ${formatDate(bookingDetails.endDate)} pour ${bookingDetails.adults} Adulte(s) et ${bookingDetails.children} Enfant(s).\nNom: ${bookingDetails.name}\nEmail: ${bookingDetails.email}\nArrivée: ${bookingDetails.arrival}\nDemandes: ${bookingDetails.requests || 'Aucune'}\nTotal devis: ${totalText}.`;
     window.open(`https://wa.me/212778874114?text=${encodeURIComponent(text)}`, '_blank');
     setSelectedProperty(null);
   };
@@ -140,7 +169,11 @@ export default function Reserver({ params }: { params: { lang: string } }) {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <LanguageSwitcher currentLang={lang} />
+            <div className="flex items-center gap-2 mr-2">
+              <LanguageSwitcher currentLang={lang} />
+              <div className="h-4 w-px bg-slate-300"></div>
+              <CurrencySwitcher />
+            </div>
             
             <Link href={`/${lang}/proprietaire/login`} className="flex items-center gap-2 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition-colors">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -215,7 +248,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                 
                 <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-50">
                   <div>
-                    <span className="text-2xl font-extrabold text-slate-950">{prop.price}</span>
+                    <span className="text-2xl font-extrabold text-slate-950">{formatPrice(convertFromMAD(prop.price, activeCurrency), activeCurrency)}</span>
                     <span className="text-slate-500 text-sm font-medium"> {dict.reserver.pricePerNight}</span>
                   </div>
                   <button onClick={() => setSelectedProperty(prop)} className="bg-slate-950 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-amber-600 shadow-md">
@@ -354,15 +387,26 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               <img src={selectedProperty.image} className="w-full h-40 object-cover rounded-2xl mb-6 shadow-sm" />
               
               <div className="space-y-4 text-sm font-medium">
-                <div className="flex justify-between"><span>{dict.reserver.modalPrice}</span><span className="font-bold">{selectedProperty.price} MAD</span></div>
-                <div className="flex justify-between"><span>{dict.reserver.modalCleaning}</span><span className="font-bold">{selectedProperty.cleaningFee} MAD</span></div>
+                <div className="flex justify-between">
+                  <span>{dict.reserver.modalPrice}</span>
+                  <span className="font-bold">{formatPrice(convertFromMAD(selectedProperty.price, activeCurrency), activeCurrency)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>{dict.reserver.modalCleaning}</span>
+                  <span className="font-bold">{formatPrice(convertFromMAD(selectedProperty.cleaningFee, activeCurrency), activeCurrency)}</span>
+                </div>
               </div>
 
               <div className="mt-8 pt-6 border-t border-slate-200">
                 <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl text-amber-900 text-sm mb-4">
                   <div className="flex justify-between font-extrabold text-base mb-1">
                     <span>{dict.reserver.modalTotal}</span>
-                    <span>{totalAmount} MAD</span>
+                    <div className="flex flex-col items-end">
+                      <span>{formatPrice(totalAmountConverted, activeCurrency)}</span>
+                      {activeCurrency !== 'MAD' && (
+                        <span className="text-xs font-medium text-amber-700 opacity-80 mt-1">~{totalAmountMAD} MAD</span>
+                      )}
+                    </div>
                   </div>
                   <span className="text-xs">{dict.reserver.modalNotice.replace('{nights}', nights.toString())}</span>
                 </div>
