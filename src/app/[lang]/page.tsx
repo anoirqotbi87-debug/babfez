@@ -549,6 +549,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
             </div>
             <div className="flex items-center gap-2">
               &copy; 2026 BABFEZ Conciergerie.
+            </div>
           </div>
         </div>
       </footer>
