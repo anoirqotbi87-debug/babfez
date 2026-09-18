@@ -42,6 +42,11 @@
     "formula2Features": ["100% of Digital Management", "In-person welcome & police registration", "Hotel-grade cleaning & laundry", "Maintenance & artisan management"],
     "formula2Btn": "Delegate 100%",
 
+    "formulaPremiumTitle": "Premium Management",
+    "formulaPremiumPrice": "Tailor-made",
+    "formulaPremiumFeatures": ["Design & Furnishing", "Complete property setup", "Tax optimization", "24/7 VIP Concierge"],
+    "formulaPremiumBtn": "Personalized study",
+
     "formula3Title": "A la Carte Services",
     "formula3Price": "Fixed rate",
     "formula3Features": ["Check-in (Welcome) : 150 MAD", "Check-out : 100 MAD", "Audit & Pro Photos : On quote", "Emergency intervention : On quote"],

@@ -42,6 +42,11 @@
     "formula2Features": ["100% de la Gestión Digital", "Acogida física y registro policial", "Limpieza hotelera y lavandería", "Mantenimiento y gestión de artesanos"],
     "formula2Btn": "Delegar al 100%",
 
+    "formulaPremiumTitle": "Gestión Premium",
+    "formulaPremiumPrice": "A medida",
+    "formulaPremiumFeatures": ["Diseño y mobiliario", "Acondicionamiento completo", "Optimización fiscal", "Conserjería VIP 24/7"],
+    "formulaPremiumBtn": "Estudio personalizado",
+
     "formula3Title": "Servicios a la carta",
     "formula3Price": "Tarifa fija",
     "formula3Features": ["Check-in (Acogida) : 150 MAD", "Check-out : 100 MAD", "Auditoría y Fotos Pro : Bajo presupuesto", "Intervención de emergencia : Bajo presupuesto"],

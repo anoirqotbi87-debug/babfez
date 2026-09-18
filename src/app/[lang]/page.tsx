@@ -187,20 +187,20 @@ export default function Home({ params }: { params: { lang: string } }) {
           <h2 className="text-3xl font-extrabold text-slate-950 mb-4">{dict.home.servicesTitle}</h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-16">{dict.home.servicesSubtitle}</p>
           
-          <div className="grid md:grid-cols-3 gap-8 text-left">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
             {/* Formule 1 */}
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col">
-              <h3 className="text-2xl font-extrabold text-slate-950 mb-2">{dict.home.formula1Title}</h3>
-              <div className="text-4xl font-extrabold text-amber-600 mb-6">{dict.home.formula1Price} <span className="text-base text-slate-500 font-medium">TTC</span></div>
-              <ul className="space-y-4 mb-8 flex-1">
+              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.home.formula1Title}</h3>
+              <div className="text-3xl font-extrabold text-amber-600 mb-6">{dict.home.formula1Price} <span className="text-sm text-slate-500 font-medium">TTC</span></div>
+              <ul className="space-y-4 mb-8 flex-1 text-sm">
                 {dict.home.formula1Features.map((feat, idx) => (
                   <li key={idx} className="flex gap-3 text-slate-600">
-                    <svg className="w-6 h-6 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg> 
+                    <svg className="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg> 
                     {feat}
                   </li>
                 ))}
                 <li className="flex gap-3 text-slate-400 opacity-70">
-                  <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg> 
+                  <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg> 
                   <s>{dict.home.formula1Excluded}</s>
                 </li>
               </ul>
@@ -211,21 +211,39 @@ export default function Home({ params }: { params: { lang: string } }) {
 
             {/* Formule 2 - Recommandée */}
             <div className="bg-slate-950 rounded-3xl p-8 border border-amber-600 shadow-2xl flex flex-col relative transform lg:-translate-y-4 z-10">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-600 text-white font-bold px-4 py-1 rounded-full text-sm whitespace-nowrap">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-600 text-white font-bold px-4 py-1 rounded-full text-xs whitespace-nowrap">
                 {dict.home.formula2Tag}
               </div>
-              <h3 className="text-2xl font-extrabold text-white mb-2">{dict.home.formula2Title}</h3>
-              <div className="text-4xl font-extrabold text-amber-500 mb-6">{dict.home.formula2Price} <span className="text-base text-slate-400 font-medium">TTC</span></div>
-              <ul className="space-y-4 mb-8 flex-1 text-slate-300">
+              <h3 className="text-xl font-extrabold text-white mb-2">{dict.home.formula2Title}</h3>
+              <div className="text-3xl font-extrabold text-amber-500 mb-6">{dict.home.formula2Price} <span className="text-sm text-slate-400 font-medium">TTC</span></div>
+              <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
                 {dict.home.formula2Features.map((feat, idx) => (
                   <li key={idx} className="flex gap-3 text-white">
-                    <svg className="w-6 h-6 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg> 
+                    <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg> 
                     {idx === 0 ? <strong>{feat}</strong> : feat}
                   </li>
                 ))}
               </ul>
               <a href="#contact" className="block text-center bg-amber-600 text-white font-bold py-3 rounded-xl hover:bg-amber-700 transition-colors shadow-lg">
                 {dict.home.formula2Btn}
+              </a>
+            </div>
+
+            {/* Formule Premium (NEW) */}
+            <div className="bg-white rounded-3xl p-8 border-2 border-slate-950 shadow-sm flex flex-col relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-slate-950 text-white font-extrabold px-3 py-1 text-xs rounded-bl-xl">VIP</div>
+              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.home.formulaPremiumTitle}</h3>
+              <div className="text-3xl font-extrabold text-slate-950 mb-6">{dict.home.formulaPremiumPrice}</div>
+              <ul className="space-y-4 mb-8 flex-1 text-sm">
+                {dict.home.formulaPremiumFeatures.map((feat, idx) => (
+                  <li key={idx} className="flex gap-3 text-slate-600 font-medium">
+                    <svg className="w-5 h-5 text-slate-950 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg> 
+                    {feat}
+                  </li>
+                ))}
+              </ul>
+              <a href="#contact" className="block text-center border-2 border-slate-950 text-slate-950 font-bold py-3 rounded-xl hover:bg-slate-950 hover:text-white transition-colors mt-auto">
+                {dict.home.formulaPremiumBtn}
               </a>
             </div>
 
@@ -290,6 +308,7 @@ export default function Home({ params }: { params: { lang: string } }) {
                     <select value={formData.formule} onChange={e => setFormData({...formData, formule: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 outline-none bg-white">
                       <option value={dict.home.formula1Title}>{dict.home.formula1Title}</option>
                       <option value={dict.home.formula2Title}>{dict.home.formula2Title}</option>
+                      <option value={dict.home.formulaPremiumTitle}>{dict.home.formulaPremiumTitle}</option>
                       <option value={dict.home.formula3Title}>{dict.home.formula3Title}</option>
                     </select>
                   </div>

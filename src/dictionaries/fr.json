@@ -42,6 +42,11 @@
     "formula2Features": ["100% de la Gestion Digitale", "Accueil physique & fiches de police", "Ménage hôtelier & blanchisserie", "Maintenance et gestion des artisans"],
     "formula2Btn": "Déléguer à 100%",
 
+    "formulaPremiumTitle": "Gestion Premium",
+    "formulaPremiumPrice": "Sur mesure",
+    "formulaPremiumFeatures": ["Design & Ameublement", "Aménagement complet du bien", "Optimisation fiscale", "Conciergerie VIP 24/7"],
+    "formulaPremiumBtn": "Étude personnalisée",
+
     "formula3Title": "Services à la carte",
     "formula3Price": "Tarif fixe",
     "formula3Features": ["Check-in (Accueil) : 150 MAD", "Check-out : 100 MAD", "Audit & Photos Pro : Sur devis", "Intervention urgence : Sur devis"],
