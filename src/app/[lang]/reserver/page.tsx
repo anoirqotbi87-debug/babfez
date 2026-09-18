@@ -369,8 +369,9 @@ export default function Reserver({ params }: { params: { lang: string } }) {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 border-t border-slate-800 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 border-t border-slate-800 pt-8 pb-12 md:pb-0">
             <div className="flex gap-4">
+              <Link href={`/${lang}/admin/login`} className="opacity-40 hover:opacity-100 hover:text-amber-500 transition-all font-bold" title="Administration">🔒 Admin</Link>
               <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.legal || "Mentions légales"}</a>
               <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.privacy || "Politique de confidentialité"}</a>
               <a href="#" className="hover:text-amber-500 transition-colors">{dict.footer?.tos || "Conditions Générales"}</a>
