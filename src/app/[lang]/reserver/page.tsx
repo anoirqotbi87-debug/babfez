@@ -69,7 +69,7 @@ const MOCK_CATALOG = [
 
 export default function Reserver({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
-  const dict = dicts[lang] || dicts.fr;
+  const dict: any = dicts[lang as keyof typeof dicts] || dicts.fr;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");

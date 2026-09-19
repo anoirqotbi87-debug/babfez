@@ -14,7 +14,7 @@ const dicts = { fr, en, es, ar };
 
 export default function Home({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
-  const dict = dicts[lang] || dicts.fr;
+  const dict: any = dicts[lang as keyof typeof dicts] || dicts.fr;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   

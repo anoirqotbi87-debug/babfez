@@ -10,7 +10,7 @@ const dicts = { fr, en, es, ar };
 
 export default function ConditionsGenerales({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
-  const dict = dicts[lang] || dicts.fr;
+  const dict: any = dicts[lang as keyof typeof dicts] || dicts.fr;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-20">

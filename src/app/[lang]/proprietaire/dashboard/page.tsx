@@ -20,7 +20,7 @@ const MOCK_RESERVATIONS = [
 
 export default function Dashboard({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
-  const dict = dicts[lang] || dicts.fr;
+  const dict: any = dicts[lang as keyof typeof dicts] || dicts.fr;
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);

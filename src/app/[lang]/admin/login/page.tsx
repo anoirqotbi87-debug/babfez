@@ -12,7 +12,7 @@ const dicts = { fr, en, es, ar };
 
 export default function AdminLogin({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
-  const dict = dicts[lang] || dicts.fr;
+  const dict: any = dicts[lang as keyof typeof dicts] || dicts.fr;
   const router = useRouter();
   
   const [email, setEmail] = useState("");
