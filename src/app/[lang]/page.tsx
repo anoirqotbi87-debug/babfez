@@ -131,7 +131,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
             </div>
             <div>
               <span className="text-2xl font-extrabold tracking-tight text-slate-950 block leading-tight">BAB<span className="text-amber-600">FEZ</span></span>
-              <span className="text-[10px] text-slate-500 font-bold tracking-widest uppercase block">Conciergerie & Intendance Privée</span>
+              <span className="text-[10px] text-slate-500 font-bold tracking-widest uppercase block">{dict.nav?.subtitle || "Conciergerie & Intendance Privée"}</span>
             </div>
           </div>
           
