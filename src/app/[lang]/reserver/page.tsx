@@ -378,7 +378,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col2Title || "Nos Services"}</h4>
+              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col2Title || (lang === 'ar' ? "خدماتنا" : "Nos Services")}</h4>
               <ul className="space-y-3 text-sm">
                 <li><a href={`/${lang}/#services`} className="hover:text-amber-500 transition-colors">{dict.home?.formula1Title || "Gestion Sérénité"}</a></li>
                 <li><a href={`/${lang}/#services`} className="hover:text-amber-500 transition-colors">{dict.home?.formula2Title || "Gestion Digitale"}</a></li>
@@ -388,17 +388,17 @@ export default function Reserver({ params }: { params: { lang: string } }) {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col3Title || "Navigation"}</h4>
+              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col3Title || (lang === 'ar' ? "روابط سريعة" : "Navigation")}</h4>
               <ul className="space-y-3 text-sm">
-                <li><Link href={`/${lang}`} className="hover:text-amber-500 transition-colors">Accueil</Link></li>
-                <li><Link href={`/${lang}/reserver`} className="hover:text-amber-500 transition-colors">Nos Logements</Link></li>
-                <li><Link href={`/${lang}/proprietaire/login`} className="hover:text-amber-500 transition-colors">Espace Propriétaire</Link></li>
+                <li><Link href={`/${lang}`} className="hover:text-amber-500 transition-colors">{lang === 'ar' ? "الرئيسية" : "Accueil"}</Link></li>
+                <li><Link href={`/${lang}/reserver`} className="hover:text-amber-500 transition-colors">{lang === 'ar' ? "عقاراتنا" : "Nos Logements"}</Link></li>
+                <li><Link href={`/${lang}/proprietaire/login`} className="hover:text-amber-500 transition-colors">{lang === 'ar' ? "فضاء المالك" : "Espace Propriétaire"}</Link></li>
                 <li><a href={`/${lang}/#faq`} className="hover:text-amber-500 transition-colors">FAQ</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col4Title || "Contact & Permanence"}</h4>
+              <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">{dict.footer?.col4Title || (lang === 'ar' ? "التواصل والمداومة" : "Contact & Permanence")}</h4>
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -414,7 +414,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                 </li>
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  <span>{dict.footer?.availability || "7j/7 — 24h/24 pour les urgences"}</span>
+                  <span>{dict.footer?.availability || (lang === 'ar' ? "7 أيام / 7 — 24 ساعة للطوارئ" : "7j/7 — 24h/24 pour les urgences")}</span>
                 </li>
               </ul>
             </div>
@@ -423,9 +423,9 @@ export default function Reserver({ params }: { params: { lang: string } }) {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 border-t border-slate-800 pt-8 pb-12 md:pb-0">
             <div className="flex gap-4">
               <Link href={`/${lang}/admin/login`} className="opacity-40 hover:opacity-100 hover:text-amber-500 transition-all font-bold" title="Administration">🔒 Admin</Link>
-              <Link href={`/${lang}/mentions-legales`} className="hover:text-amber-500 transition-colors">{dict.footer?.legal || "Mentions légales"}</Link>
-              <Link href={`/${lang}/confidentialite`} className="hover:text-amber-500 transition-colors">{dict.footer?.privacy || "Politique de confidentialité"}</Link>
-              <Link href={`/${lang}/conditions-generales`} className="hover:text-amber-500 transition-colors">{dict.footer?.tos || "Conditions Générales"}</Link>
+              <Link href={`/${lang}/mentions-legales`} className="hover:text-amber-500 transition-colors">{dict.footer?.legal || (lang === 'ar' ? "الشروط القانونية" : "Mentions légales")}</Link>
+              <Link href={`/${lang}/confidentialite`} className="hover:text-amber-500 transition-colors">{dict.footer?.privacy || (lang === 'ar' ? "سياسة الخصوصية" : "Politique de confidentialité")}</Link>
+              <Link href={`/${lang}/conditions-generales`} className="hover:text-amber-500 transition-colors">{dict.footer?.tos || (lang === 'ar' ? "الشروط العامة" : "Conditions Générales")}</Link>
             </div>
             <div>
               &copy; 2026 BABFEZ Conciergerie.
