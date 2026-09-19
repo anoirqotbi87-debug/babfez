@@ -32,7 +32,11 @@ export default function LanguageSwitcher({ currentLang }: { currentLang: string 
         className="bg-transparent text-slate-700 font-bold text-sm cursor-pointer outline-none border border-slate-200 rounded-lg px-2 py-1 hover:border-amber-500 transition-colors"
       >
         {languages.map((lang) => (
-          <option key={lang.code} value={lang.code}>
+          <option 
+            key={lang.code} 
+            value={lang.code}
+            style={lang.code === 'ar' ? { fontFamily: "var(--font-cairo), 'Segoe UI', Tahoma, Arial, sans-serif" } : undefined}
+          >
             {lang.label} ({lang.code.toUpperCase()})
           </option>
         ))}
