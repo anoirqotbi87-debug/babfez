@@ -12,7 +12,8 @@
     "advantages": "Pourquoi nous",
     "properties": "Nos Logements",
     "estimateBtn": "Estimer mon bien",
-    "backHome": "← Retour à l'accueil"
+    "backHome": "← Retour à l'accueil",
+    "home": "Accueil"
   },
   "home": {
     "heroTag": "BABFEZ • Gestion locative courte durée à Fès",
@@ -191,7 +192,13 @@
     "availability": "7j/7 — 24h/24 pour les urgences",
     "legal": "Mentions légales",
     "privacy": "Politique de confidentialité",
-    "tos": "Conditions Générales"
+    "tos": "Conditions Générales",
+    "slogan": "Votre partenaire d'excellence pour la gestion locative courte durée et la conciergerie privée.",
+    "servicesTitle": "Nos Services",
+    "navTitle": "Navigation",
+    "contactTitle": "Contact & Permanence",
+    "copyright": "© 2026 BABFEZ Conciergerie. Tous droits réservés.",
+    "admin": "🔒 Admin"
   },
   "sim": {
     "propType": "Type de bien",
@@ -280,7 +287,9 @@
     "planCustom": "Services À la carte",
     "message": "Détails sur votre bien",
     "consent": "J'accepte d'être recontacté par BABFEZ pour mon estimation locative.",
-    "submitBtn": "Demander mon audit & estimation gratuite"
+    "submitBtn": "Demander mon audit & estimation gratuite",
+    "heading": "Prêt à transformer votre bien en machine à cash ?",
+    "subheading": "Laissez-nous vos coordonnées, un expert BABFEZ vous recontactera sous 24h pour une estimation gratuite."
   },
   "booking": {
     "searchTitle": "Réservez votre séjour d'exception à Fès",
@@ -297,5 +306,75 @@
     "specialRequests": "Demandes particulières",
     "confirmWhatsapp": "Confirmer ma demande via WhatsApp",
     "badgeHotelStandard": "Accueil physique ou boîte à clés • Fiches de police incluses"
+  },
+  "services": {
+    "title": "Nos Formules de Gestion",
+    "subtitle": "Choisissez l'accompagnement qui correspond à votre profil de propriétaire",
+    "f1Title": "Services À la Carte",
+    "f1Price": "À l'acte",
+    "f1Desc": "Interventions ponctuelles pour propriétaires autonomes.",
+    "f1Bullets": [
+      "Check-in physique & fiches de police (150 MAD)",
+      "Check-out & état des lieux (100 MAD)",
+      "Ménage & blanchisserie à la demande",
+      "Pack Shooting photo professionnel & Home staging",
+      "Dépannage & maintenance d'urgence"
+    ],
+    "f2Title": "Gestion Digitale",
+    "f2Price": "15% TTC",
+    "f2Desc": "Vous gérez le terrain, nous maximisons vos réservations 24/7.",
+    "f2Bullets": [
+      "Création & optimisation SEO multi-plateformes",
+      "Tarification dynamique quotidienne (Yield Management)",
+      "Messagerie & assistance voyageurs 24/7",
+      "Synchronisation des calendriers anti-doublon (iCal)",
+      "Relevé financier mensuel transparent"
+    ],
+    "f3Title": "Gestion Sérénité",
+    "f3Price": "20% TTC",
+    "f3Desc": "Délégation complète à 100% pour une tranquillité absolue.",
+    "f3Badge": "Populaire / Recommandé",
+    "f3Bullets": [
+      "Tout ce qui est inclus dans l'offre Digitale",
+      "Accueil physique personnalisé ou boîte à clés",
+      "Prise en charge 100% légale des fiches de police",
+      "Organisation du ménage hôtelier & blanchisserie",
+      "Gestion des cautions & litiges plateformes",
+      "Espace Propriétaire en ligne dédié"
+    ],
+    "f4Title": "Gestion Premium",
+    "f4Price": "25% TTC",
+    "f4Desc": "L'expérience hôtelière de luxe pour Riads et appartements d'exception.",
+    "f4Badge": "Excellence",
+    "f4Bullets": [
+      "Tout ce qui est inclus dans l'offre Sérénité",
+      "Shooting photo professionnel offert dès la signature",
+      "Conciergerie VIP voyageurs (transferts aéroport, excursions)",
+      "Pack d'accueil haut de gamme offert à chaque arrivée",
+      "Maintenance préventive prioritaire avec artisans dédiés",
+      "Gestionnaire de compte dédié joignable 7j/7"
+    ]
+  },
+  "advantages": {
+    "title": "Pourquoi choisir BABFEZ ?",
+    "subtitle": "L'expertise locale alliée aux standards internationaux de l'hôtellerie.",
+    "f1Title": "Fiches de Police",
+    "f1Desc": "Nous gérons à 100% l'obligation légale des fiches de police pour chaque voyageur auprès des autorités.",
+    "f2Title": "Ménage Hôtelier",
+    "f2Desc": "Une équipe de nettoyage professionnelle intervient après chaque départ. Blanchisserie incluse.",
+    "f3Title": "Tarification Dynamique",
+    "f3Desc": "Nos algorithmes ajustent vos prix chaque jour pour maximiser vos revenus selon la demande (festivals, vacances).",
+    "f4Title": "Accueil Physique",
+    "f4Desc": "Pas de boîte à clés impersonnelle. Un concierge BABFEZ accueille vos voyageurs avec le sourire."
+  },
+  "faq": {
+    "title": "Questions Fréquentes",
+    "subtitle": "Tout ce que vous devez savoir sur la gestion avec BABFEZ.",
+    "q1": "Puis-je bloquer des dates pour moi-même ?",
+    "a1": "Oui, tout à fait. Vous gardez la liberté de bloquer les dates qui vous conviennent pour y passer vos vacances via votre Espace Propriétaire.",
+    "q2": "Qui paie les frais de ménage ?",
+    "a2": "Ils sont à la charge directe du voyageur comme frais additionnels lors de la réservation, ils ne sont pas déduits de vos revenus.",
+    "q3": "Comment suivez-vous les revenus ?",
+    "a3": "Via votre tableau de bord digital personnalisé qui affiche vos réservations et vos revenus en toute transparence."
   }
 }

@@ -262,7 +262,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                   {monthlyRevenue.toLocaleString('fr-FR')} <span className="text-2xl text-slate-400">MAD</span>
                 </div>
                 <div className="text-emerald-600 font-bold mb-6">{dict.simulator.annualGross.replace('{amount}', yearlyRevenue.toLocaleString('fr-FR') + ' MAD')}</div>
-                <p className="text-xs text-slate-400 mb-6">{lang === 'ar' ? "هذا التقدير مبني على بيانات السوق بفاس وقد يختلف حسب حالة العقار وموقعه." : "Cette estimation est basée sur nos données de marché à Fès et peut varier selon l'état du bien."}</p>
+                <p className="text-xs text-slate-400 mb-6">{dict.simulator?.note || dict.home?.simDisclaimer}</p>
                 <button onClick={handleSimulateToForm} className="w-full block text-center bg-slate-950 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg cursor-pointer">
                   {dict.simulator.ctaQuote}
                 </button>
@@ -278,57 +278,102 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
           <h2 className="text-3xl font-extrabold text-slate-950 mb-4">{dict.services?.title}</h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-16">{dict.services?.subtitle}</p>
           
-          <div className="grid md:grid-cols-3 gap-8 text-left">
-            {/* Formule 1: Digitale */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+            {/* Formule 1: À la carte */}
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col">
-              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.planDigitalTitle}</h3>
-              <div className="text-3xl font-extrabold text-amber-600 mb-6">{dict.services?.planDigitalPrice} <span className="text-sm text-slate-500 font-medium">TTC</span></div>
-              <p className="text-slate-600 mb-8 flex-1">{dict.services?.planDigitalDesc}</p>
+              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.f1Title}</h3>
+              <div className="text-3xl font-extrabold text-slate-950 mb-6">{dict.services?.f1Price}</div>
+              <p className="text-slate-600 mb-6 font-medium leading-relaxed">{dict.services?.f1Desc}</p>
+              <ul className="mb-8 space-y-3 flex-1">
+                {(dict.services?.f1Bullets || []).map((bullet, i) => (
+                  <li key={i} className="flex items-start text-sm text-slate-600">
+                    <svg className="w-5 h-5 text-amber-500 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
               <a href="#contact" className="block text-center border-2 border-slate-200 text-slate-950 font-bold py-3 rounded-xl hover:border-slate-950 transition-colors mt-auto">
-                {dict.contact?.submitBtn || "Demander un devis"}
+                {dict.contact?.submitBtn}
               </a>
             </div>
 
-            {/* Formule 2 - Recommandée: Sérénité */}
+            {/* Formule 2: Digitale */}
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col">
+              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.f2Title}</h3>
+              <div className="text-3xl font-extrabold text-amber-600 mb-6">{dict.services?.f2Price}</div>
+              <p className="text-slate-600 mb-6 font-medium leading-relaxed">{dict.services?.f2Desc}</p>
+              <ul className="mb-8 space-y-3 flex-1">
+                {(dict.services?.f2Bullets || []).map((bullet, i) => (
+                  <li key={i} className="flex items-start text-sm text-slate-600">
+                    <svg className="w-5 h-5 text-amber-500 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+              <a href="#contact" className="block text-center border-2 border-slate-200 text-slate-950 font-bold py-3 rounded-xl hover:border-slate-950 transition-colors mt-auto">
+                {dict.contact?.submitBtn}
+              </a>
+            </div>
+
+            {/* Formule 3: Sérénité */}
             <div className="bg-slate-950 rounded-3xl p-8 border border-amber-600 shadow-2xl flex flex-col relative transform lg:-translate-y-4 z-10">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-600 text-white font-bold px-4 py-1 rounded-full text-xs whitespace-nowrap">
-                {dict.services?.planSereniteBadge}
+                {dict.services?.f3Badge}
               </div>
-              <h3 className="text-xl font-extrabold text-white mb-2">{dict.services?.planSereniteTitle}</h3>
-              <div className="text-3xl font-extrabold text-amber-500 mb-6">{dict.services?.planSerenitePrice} <span className="text-sm text-slate-400 font-medium">TTC</span></div>
-              <p className="text-slate-300 mb-8 flex-1">{dict.services?.planSereniteDesc}</p>
+              <h3 className="text-xl font-extrabold text-white mb-2">{dict.services?.f3Title}</h3>
+              <div className="text-3xl font-extrabold text-amber-500 mb-6">{dict.services?.f3Price}</div>
+              <p className="text-slate-300 mb-6 font-medium leading-relaxed">{dict.services?.f3Desc}</p>
+              <ul className="mb-8 space-y-3 flex-1">
+                {(dict.services?.f3Bullets || []).map((bullet, i) => (
+                  <li key={i} className="flex items-start text-sm text-slate-300">
+                    <svg className="w-5 h-5 text-amber-400 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
               <a href="#contact" className="block text-center bg-amber-600 text-white font-bold py-3 rounded-xl hover:bg-amber-700 transition-colors shadow-lg mt-auto">
-                {dict.contact?.submitBtn || "Demander un devis"}
+                {dict.contact?.submitBtn}
               </a>
             </div>
 
-            {/* Formule 3: À la carte */}
-            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col">
-              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.planCustomTitle}</h3>
-              <div className="text-3xl font-extrabold text-slate-950 mb-6">{dict.services?.planCustomPrice}</div>
-              <p className="text-slate-600 mb-8 flex-1">{dict.services?.planCustomDesc}</p>
+            {/* Formule 4: Premium */}
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col relative">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-950 text-white font-bold px-4 py-1 rounded-full text-xs whitespace-nowrap">
+                {dict.services?.f4Badge}
+              </div>
+              <h3 className="text-xl font-extrabold text-slate-950 mb-2">{dict.services?.f4Title}</h3>
+              <div className="text-3xl font-extrabold text-slate-950 mb-6">{dict.services?.f4Price}</div>
+              <p className="text-slate-600 mb-6 font-medium leading-relaxed">{dict.services?.f4Desc}</p>
+              <ul className="mb-8 space-y-3 flex-1">
+                {(dict.services?.f4Bullets || []).map((bullet, i) => (
+                  <li key={i} className="flex items-start text-sm text-slate-600">
+                    <svg className="w-5 h-5 text-amber-500 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
               <a href="#contact" className="block text-center border-2 border-slate-200 text-slate-950 font-bold py-3 rounded-xl hover:border-slate-950 transition-colors mt-auto">
-                {dict.contact?.submitBtn || "Demander un devis"}
+                {dict.contact?.submitBtn}
               </a>
             </div>
+            
           </div>
         </div>
       </section>
 
-      {/* 5. Atouts (Pourquoi BABFEZ) */}
       <section id="atouts" className="py-24 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-950 mb-4">{lang === 'ar' ? "لماذا تختارون باب فاس؟" : "Pourquoi choisir BABFEZ ?"}</h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">{lang === 'ar' ? "خبرة محلية أصيلة بمعايير فندقية دولية." : "L'expertise locale alliée aux standards internationaux de l'hôtellerie."}</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-950 mb-4">{dict.advantages?.title}</h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">{dict.advantages?.subtitle}</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { title: lang === 'ar' ? "استمارات الشرطة" : "Fiches de Police", desc: lang === 'ar' ? "نتكفل كلياً بالواجب القانوني لاستمارات الشرطة لكل مسافر لدى السلطات المختصة." : "Nous gérons à 100% l'obligation légale des fiches de police pour chaque voyageur auprès des autorités.", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
-              { title: lang === 'ar' ? "نظافة فندقية احترافية" : "Ménage Hôtelier", desc: lang === 'ar' ? "فريق نظافة محترف يتدخل بعد كل مغادرة مع غسيل وكي الشراشف بمعايير الفنادق." : "Une équipe de nettoyage professionnelle intervient après chaque départ. Blanchisserie incluse.", icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" },
-              { title: lang === 'ar' ? "تسعير يومي ذكي" : "Tarification Dynamique", desc: lang === 'ar' ? "خوارزمياتنا تعدل الأسعار يومياً لرفع مداخيلكم حسب الطلب والمواسم السياحية." : "Nos algorithmes ajustent vos prix chaque jour pour maximiser vos revenus selon la demande (festivals, vacances).", icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" },
-              { title: lang === 'ar' ? "استقبال شخصي مباشر" : "Accueil Physique", desc: lang === 'ar' ? "لا نعتمد على الصناديق الباردة. فريق باب فاس يستقبل ضيوفكم بابتسامة وترحاب فاسي أصيل." : "Pas de boîte à clés impersonnelle. Un concierge BABFEZ accueille vos voyageurs avec le sourire.", icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z" }
+              { title: dict.advantages?.f1Title, desc: dict.advantages?.f1Desc, icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+              { title: dict.advantages?.f2Title, desc: dict.advantages?.f2Desc, icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" },
+              { title: dict.advantages?.f3Title, desc: dict.advantages?.f3Desc, icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" },
+              { title: dict.advantages?.f4Title, desc: dict.advantages?.f4Desc, icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z" }
             ].map((atout, i) => (
               <div key={i} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-6">
@@ -346,14 +391,14 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
       <section id="faq" className="py-24 bg-slate-50 border-t border-slate-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-950 mb-4">{lang === 'ar' ? "الأسئلة الشائعة" : "Questions Fréquentes"}</h2>
-            <p className="text-slate-600 text-lg">{lang === 'ar' ? "كل ما تحتاجون معرفته حول إدارة الكراء مع باب فاس." : "Tout ce que vous devez savoir sur la gestion avec BABFEZ."}</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-950 mb-4">{dict.faq?.title}</h2>
+            <p className="text-slate-600 text-lg">{dict.faq?.subtitle}</p>
           </div>
           <div className="space-y-4">
             {[
-              { q: lang === 'ar' ? "هل يمكنني حجز شقتي لإقامتي الشخصية؟" : "Puis-je bloquer des dates pour moi-même ?", a: lang === 'ar' ? "نعم، بكل تأكيد. تحتفظون بحرية حجز وإغلاق التواريخ التي تناسبكم لقضاء عطلتكم عبر فضاء المالك الخاص بكم." : "Oui, tout à fait. Vous gardez la liberté de bloquer les dates qui vous conviennent pour y passer vos vacances via votre Espace Propriétaire." },
-              { q: lang === 'ar' ? "من يتحمل مصاريف النظافة؟" : "Qui paie les frais de ménage ?", a: lang === 'ar' ? "يتحملها المسافر مباشرة كرسوم إضافية على الإقامة، ولا تقتطع من أرباح المالك." : "Ils sont à la charge directe du voyageur comme frais additionnels lors de la réservation, ils ne sont pas déduits de vos revenus." },
-              { q: lang === 'ar' ? "كيف يمكنني متابعة أرباحي وحجوزاتي؟" : "Comment suivez-vous les revenus ?", a: lang === 'ar' ? "عبر لوحة تحكم رقمية خاصة بكم تعرض الحجوزات والمداخيل بكل شفافية." : "Via votre tableau de bord digital personnalisé qui affiche vos réservations et vos revenus en toute transparence." }
+              { q: dict.faq?.q1, a: dict.faq?.a1 },
+              { q: dict.faq?.q2, a: dict.faq?.a2 },
+              { q: dict.faq?.q3, a: dict.faq?.a3 }
             ].map((faq, i) => (
               <div key={i} className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
                 <button 
@@ -381,8 +426,8 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
             <div className="p-8 md:p-12 md:w-1/2 flex flex-col justify-center">
-              <h2 className="text-3xl font-extrabold text-slate-950 mb-4 leading-tight">{lang === 'ar' ? "جاهزون لمضاعفة أرباح عقاركم بفاس؟" : "Prêt à transformer votre bien en machine à cash ?"}</h2>
-              <p className="text-slate-600 font-medium mb-8">{lang === 'ar' ? "اتركوا لنا بياناتكم، وسيتواصل معكم خبير من باب فاس خلال 24 ساعة لتقديم دراسة مجانية." : "Laissez-nous vos coordonnées, un expert BABFEZ vous recontactera sous 24h pour une estimation gratuite."}</p>
+              <h2 className="text-3xl font-extrabold text-slate-950 mb-4 leading-tight">{dict.contact?.heading}</h2>
+              <p className="text-slate-600 font-medium mb-8">{dict.contact?.subheading}</p>
             </div>
             
             <div className="bg-slate-50 p-8 md:p-12 md:w-1/2">

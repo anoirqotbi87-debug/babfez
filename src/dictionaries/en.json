@@ -12,7 +12,8 @@
     "advantages": "Why Us",
     "properties": "Our Properties",
     "estimateBtn": "Estimate My Property",
-    "backHome": "← Back to Home"
+    "backHome": "← Back to Home",
+    "home": "Home"
   },
   "home": {
     "heroTag": "BABFEZ • Short-Term Rental Management in Fez",
@@ -185,13 +186,19 @@
     "col2Title": "Our Services",
     "col3Title": "Navigation",
     "col4Title": "Contact & Support",
-    "address": "Fes, Morocco (Medina & Ville Nouvelle)",
+    "address": "Fez, Morocco (Medina & New City)",
     "phone": "+212 7 78 87 41 14",
     "emailContact": "contact@babfez.ma",
-    "availability": "24/7 Support for emergencies",
+    "availability": "24/7 for emergencies",
     "legal": "Legal Notice",
     "privacy": "Privacy Policy",
-    "tos": "Terms & Conditions"
+    "tos": "Terms & Conditions",
+    "slogan": "Your partner of excellence for short-term rental management and private concierge services.",
+    "servicesTitle": "Our Services",
+    "navTitle": "Navigation",
+    "contactTitle": "Contact & Support",
+    "copyright": "© 2026 BABFEZ Conciergerie. All rights reserved.",
+    "admin": "🔒 Admin"
   },
   "sim": {
     "propType": "Property Type",
@@ -280,7 +287,9 @@
     "planCustom": "A la Carte Services",
     "message": "Details about your property",
     "consent": "I agree to be contacted by BABFEZ regarding my rental estimate.",
-    "submitBtn": "Request My Free Audit & Estimate"
+    "submitBtn": "Request My Free Audit & Estimate",
+    "heading": "Ready to turn your property into a cash machine?",
+    "subheading": "Leave us your details, a BABFEZ expert will contact you within 24 hours for a free estimation."
   },
   "booking": {
     "searchTitle": "Book your exceptional stay in Fez",
@@ -297,5 +306,75 @@
     "specialRequests": "Special requests",
     "confirmWhatsapp": "Confirm My Request via WhatsApp",
     "badgeHotelStandard": "In-person check-in or lockbox • Police forms included"
+  },
+  "services": {
+    "title": "Our Management Plans",
+    "subtitle": "Choose the support that fits your owner profile",
+    "f1Title": "A la Carte Services",
+    "f1Price": "Per Service",
+    "f1Desc": "One-off interventions for independent owners.",
+    "f1Bullets": [
+      "Physical check-in & police forms (150 MAD)",
+      "Check-out & inventory (100 MAD)",
+      "Cleaning & laundry on demand",
+      "Professional photo shoot & Home staging pack",
+      "Emergency troubleshooting & maintenance"
+    ],
+    "f2Title": "Digital Co-Host",
+    "f2Price": "15% Incl. Tax",
+    "f2Desc": "You manage the field, we maximize your bookings 24/7.",
+    "f2Bullets": [
+      "Creation & SEO optimization on multiple platforms",
+      "Daily dynamic pricing (Yield Management)",
+      "24/7 guest messaging & assistance",
+      "Anti-double booking calendar synchronization (iCal)",
+      "Transparent monthly financial statement"
+    ],
+    "f3Title": "Serenity Management",
+    "f3Price": "20% Incl. Tax",
+    "f3Desc": "100% complete delegation for absolute peace of mind.",
+    "f3Badge": "Recommended",
+    "f3Bullets": [
+      "Everything included in the Digital plan",
+      "Personalized physical welcome or lockbox",
+      "100% legal handling of police forms",
+      "Organization of hotel-quality cleaning & laundry",
+      "Management of deposits & platform disputes",
+      "Dedicated online Owner Space"
+    ],
+    "f4Title": "Premium Management",
+    "f4Price": "25% Incl. Tax",
+    "f4Desc": "The luxury hotel experience for exceptional Riads and apartments.",
+    "f4Badge": "Excellence",
+    "f4Bullets": [
+      "Everything included in the Serenity plan",
+      "Professional photo shoot offered upon signing",
+      "VIP guest concierge (airport transfers, excursions)",
+      "Premium welcome pack offered at each arrival",
+      "Priority preventive maintenance with dedicated craftsmen",
+      "Dedicated account manager available 7 days a week"
+    ]
+  },
+  "advantages": {
+    "title": "Why choose BABFEZ?",
+    "subtitle": "Local expertise combined with international hospitality standards.",
+    "f1Title": "Police Forms",
+    "f1Desc": "We manage 100% of the legal obligation of police forms for each traveler with the authorities.",
+    "f2Title": "Hotel Cleaning",
+    "f2Desc": "A professional cleaning team intervenes after each departure. Laundry included.",
+    "f3Title": "Dynamic Pricing",
+    "f3Desc": "Our algorithms adjust your prices daily to maximize your revenue according to demand.",
+    "f4Title": "Physical Welcome",
+    "f4Desc": "No impersonal lockboxes. A BABFEZ concierge welcomes your travelers with a smile."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about management with BABFEZ.",
+    "q1": "Can I block dates for myself?",
+    "a1": "Yes, absolutely. You retain the freedom to block dates that suit you for your vacations via your Owner Space.",
+    "q2": "Who pays the cleaning fees?",
+    "a2": "They are the direct responsibility of the traveler as additional fees at the time of booking, they are not deducted from your revenue.",
+    "q3": "How do you track revenue?",
+    "a3": "Via your personalized digital dashboard that transparently displays your bookings and revenue."
   }
 }
