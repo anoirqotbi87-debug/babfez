@@ -10,6 +10,8 @@ import es from "@/dictionaries/es.json";
 import ar from "@/dictionaries/ar.json";
 import { CONTACT_INFO } from "@/config/site";
 import Footer from "@/components/Footer";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const dicts = { fr, en, es, ar };
 
@@ -112,13 +114,36 @@ export default function Home({ params }: { params: { lang: string } }) {
 - Email: ${formData.email}
 ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
     
-    setTimeout(() => {
+    try {
+      // 1. Save to Firebase Firestore
+      await addDoc(collection(db, "leads"), {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        quartier: formData.quartier,
+        typeBien: formData.typeBien,
+        surface: formData.surface,
+        formule: formData.formule,
+        message: formData.message,
+        status: "Nouveau", // Default status for admin dashboard
+        createdAt: serverTimestamp(),
+      });
+      
+      // 2. Success UI
       setSubmitSuccess(true);
-      setIsSubmitting(false);
+      
+      // 3. Open WhatsApp
       window.open(`${CONTACT_INFO.whatsappLink}?text=${encodeURIComponent(text)}`, '_blank');
-      setFormData({ name: "", email: "", phone: "", quartier: "", typeBien: "", surface: "", formule: dict.home.formula2Title, message: "", rgpd: false });
+      
+      // 4. Reset form
+      setFormData({ name: "", email: "", phone: "", quartier: "", typeBien: "", surface: "", formule: dict.services?.f3Title || "", message: "", rgpd: false });
       setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 800);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert("Une erreur est survenue lors de l'envoi de la demande. Veuillez réessayer ou nous contacter sur WhatsApp.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
