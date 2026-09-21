@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getFirestore, Firestore } from "firebase/firestore";
+import { getAuth, Auth } from "firebase/auth";
 
 // Provide fallback mock strings so Firebase doesn't crash on Vercel
 // when environment variables are missing during this intermediate state.
@@ -13,7 +13,12 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:123456789:web:abcdef",
 };
 
-let app, db, auth;
+// @ts-ignore
+let app: any;
+// @ts-ignore
+let db: any;
+// @ts-ignore
+let auth: any;
 
 try {
   app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
