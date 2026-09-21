@@ -115,19 +115,21 @@ export default function Home({ params }: { params: { lang: string } }) {
 ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
     
     try {
-      // 1. Save to Firebase Firestore
-      await addDoc(collection(db, "leads"), {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        quartier: formData.quartier,
-        typeBien: formData.typeBien,
-        surface: formData.surface,
-        formule: formData.formule,
-        message: formData.message,
-        status: "Nouveau", // Default status for admin dashboard
-        createdAt: serverTimestamp(),
-      });
+      // TEMP FIX: Only save to Firestore if API key is present (avoids crash without Firebase)
+      if (process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
+        await addDoc(collection(db, "leads"), {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          quartier: formData.quartier,
+          typeBien: formData.typeBien,
+          surface: formData.surface,
+          formule: formData.formule,
+          message: formData.message,
+          status: "Nouveau", // Default status for admin dashboard
+          createdAt: serverTimestamp(),
+        });
+      }
       
       // 2. Success UI
       setSubmitSuccess(true);
