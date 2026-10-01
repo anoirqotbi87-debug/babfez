@@ -7,6 +7,7 @@ import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
 import ar from "@/dictionaries/ar.json";
+import { supabase } from "@/lib/supabaseClient";
 
 const dicts = { fr, en, es, ar };
 
@@ -37,14 +38,31 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === "admin@babfez.ma" && password === "admin123") {
-      localStorage.setItem("babfez_admin_logged_in", "true");
-      router.push(`/${lang}/admin/dashboard`);
-    } else {
+    setIsLoading(true);
+    
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (signInError) {
       setError("Identifiants administrateur incorrects.");
+      setIsLoading(false);
+      return;
     }
+
+    if (data.user?.email !== "admin@babfez.com") {
+      setError("Accès refusé. Compte non administrateur.");
+      await supabase.auth.signOut();
+      setIsLoading(false);
+      return;
+    }
+
+    router.push(`/${lang}/admin/dashboard`);
   };
 
   return (
@@ -72,7 +90,7 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Adresse Email</label>
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@babfez.ma" className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" />
+            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@babfez.com" className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" />
           </div>
           
           <div>
@@ -81,12 +99,12 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
           </div>
 
           <button type="submit" className="w-full bg-slate-950 text-white font-bold py-3.5 rounded-xl hover:bg-slate-800 transition-all shadow-md hover:shadow-lg mt-4">
-            Connexion Admin
+            {isLoading ? "Connexion..." : "Connexion Admin"}
           </button>
         </form>
       </div>
       <div className="mt-8 text-center text-xs font-bold text-slate-400">
-        Demo Credentials: admin@babfez.ma / admin123
+        Demo Credentials: admin@babfez.com / admin123 (Veuillez créer ce compte sur Supabase)
       </div>
     </div>
   );

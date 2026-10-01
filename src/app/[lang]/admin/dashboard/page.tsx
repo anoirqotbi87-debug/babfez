@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
 
 const MOCK_LEADS = [
   { id: "l1", date: "18 Sep 2026", name: "Karim Alaoui", phone: "212611223344", zone: "Route d'Immouzzer", type: "Appartement F3", formule: "Gestion Sérénité", status: "Nouveau" },
@@ -45,15 +46,43 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
   const [police, setPolice] = useState(MOCK_POLICE);
   const [payouts, setPayouts] = useState(MOCK_PAYOUTS);
 
+  const [user, setUser] = useState<any>(null);
+
   useEffect(() => {
     setIsClient(true);
-    if (!localStorage.getItem("babfez_admin_logged_in")) {
-      router.push(`/${lang}/admin/login`);
-    }
+    const checkAdmin = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session || session.user.email !== "admin@babfez.com") {
+        router.push(`/${lang}/admin/login`);
+      } else {
+        setUser(session.user);
+        fetchData();
+      }
+    };
+    checkAdmin();
   }, [router, lang]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("babfez_admin_logged_in");
+  const fetchData = async () => {
+    const { data: leadsData } = await supabase.from('leads').select('*').order('created_at', { ascending: false });
+    if (leadsData && leadsData.length > 0) setLeads(leadsData.map((l: any) => ({
+      id: l.id,
+      date: new Date(l.created_at).toLocaleDateString('fr-FR'),
+      name: l.name,
+      phone: l.phone,
+      zone: l.zone,
+      type: l.property_type,
+      formule: l.formula,
+      status: l.status
+    })));
+  };
+
+  const updateLeadStatus = async (id: string, newStatus: string) => {
+    setLeads(leads.map(l => l.id === id ? {...l, status: newStatus} : l));
+    await supabase.from('leads').update({ status: newStatus }).eq('id', id);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     router.push(`/${lang}/admin/login`);
   };
 
@@ -152,7 +181,7 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
                       <td className="p-4">
                         <select 
                           value={lead.status}
-                          onChange={(e) => setLeads(leads.map(l => l.id === lead.id ? {...l, status: e.target.value} : l))}
+                          onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
                           className={`text-xs font-bold px-3 py-1.5 rounded-lg border-none outline-none cursor-pointer appearance-none ${getStatusColor(lead.status)}`}
                         >
                           <option value="Nouveau">Nouveau</option>

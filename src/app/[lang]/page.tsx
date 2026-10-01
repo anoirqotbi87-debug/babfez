@@ -10,8 +10,7 @@ import es from "@/dictionaries/es.json";
 import ar from "@/dictionaries/ar.json";
 import { CONTACT_INFO } from "@/config/site";
 import Footer from "@/components/Footer";
-import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { supabase } from "@/lib/supabaseClient";
 
 const dicts = { fr, en, es, ar };
 
@@ -115,21 +114,16 @@ export default function Home({ params }: { params: { lang: string } }) {
 ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
     
     try {
-      // TEMP FIX: Only save to Firestore if API key is present (avoids crash without Firebase)
-      if (process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
-        await addDoc(collection(db, "leads"), {
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          quartier: formData.quartier,
-          typeBien: formData.typeBien,
-          surface: formData.surface,
-          formule: formData.formule,
-          message: formData.message,
-          status: "Nouveau", // Default status for admin dashboard
-          createdAt: serverTimestamp(),
-        });
-      }
+      await supabase.from('leads').insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        zone: formData.quartier,
+        property_type: formData.typeBien,
+        formula: formData.formule,
+        message: formData.message,
+        status: "Nouveau"
+      });
       
       // 2. Success UI
       setSubmitSuccess(true);
