@@ -8,6 +8,7 @@ import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
 import ar from "@/dictionaries/ar.json";
+import { supabase } from "@/lib/supabaseClient";
 
 const dicts = { fr, en, es, ar };
 
@@ -38,20 +39,35 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-    setTimeout(() => {
-      if (email && password) {
-        localStorage.setItem("babfez_owner_logged_in", "true");
-        router.push(`/${lang}/proprietaire/dashboard`);
-      } else {
-        setError("Veuillez remplir tous les champs.");
+    if (!email || !password) {
+      setError("Veuillez remplir tous les champs.");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        setError("Identifiants incorrects ou compte inexistant.");
         setIsLoading(false);
+        return;
       }
-    }, 1000);
+
+      // Successful login
+      router.push(`/${lang}/proprietaire/dashboard`);
+    } catch (err) {
+      setError("Une erreur est survenue lors de la connexion.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -79,9 +95,7 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-2xl sm:px-10 border border-slate-100">
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-sm">
-            {dict.proprietaire.demoWarning}
-          </div>
+
 
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>

@@ -8,15 +8,11 @@ import fr from "@/dictionaries/fr.json";
 import en from "@/dictionaries/en.json";
 import es from "@/dictionaries/es.json";
 import ar from "@/dictionaries/ar.json";
+import { supabase } from "@/lib/supabaseClient";
 
 const dicts = { fr, en, es, ar };
 
-const MOCK_PROPERTY = { id: "p1", name: "Riad Dar Ziryab", zone: "Médina" };
-const MOCK_RESERVATIONS = [
-  { id: "r1", date: "02 Oct - 05 Oct", source: "Airbnb", nights: 3, gross: 3600, commission: 720, cleaning: 250, net: 2630 },
-  { id: "r2", date: "08 Oct - 10 Oct", source: "Direct", nights: 2, gross: 2400, commission: 360, cleaning: 250, net: 1790 },
-  { id: "r3", date: "15 Oct - 20 Oct", source: "Booking.com", nights: 5, gross: 6000, commission: 1200, cleaning: 250, net: 4550 },
-];
+
 
 export default function Dashboard({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
@@ -43,17 +39,48 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
   const [isClient, setIsClient] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockDates, setBlockDates] = useState({ start: "", end: "" });
-  const [blockedDays, setBlockedDays] = useState<number[]>([25, 26, 27]);
+  const [blockedDays, setBlockedDays] = useState<number[]>([]);
+  
+  // Real data state
+  const [user, setUser] = useState<any>(null);
+  const [properties, setProperties] = useState<any[]>([]);
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string>("");
+  const [reservations, setReservations] = useState<any[]>([]);
+  const [financials, setFinancials] = useState<any[]>([]);
 
   useEffect(() => {
     setIsClient(true);
-    if (!localStorage.getItem("babfez_owner_logged_in")) {
-      router.push(`/${lang}/proprietaire/login`);
-    }
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push(`/${lang}/proprietaire/login`);
+      } else {
+        setUser(session.user);
+        fetchOwnerData();
+      }
+    };
+    checkUser();
   }, [router, lang]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("babfez_owner_logged_in");
+  const fetchOwnerData = async () => {
+    // Fetch properties
+    const { data: props, error: propsErr } = await supabase.from('properties').select('*');
+    if (props && props.length > 0) {
+      setProperties(props);
+      setSelectedPropertyId(props[0].id);
+      
+      // Fetch bookings for the selected property
+      const { data: books } = await supabase.from('bookings').select('*').eq('property_id', props[0].id);
+      if (books) setReservations(books);
+      
+      // Fetch financials
+      const { data: fins } = await supabase.from('financial_statements').select('*').eq('property_id', props[0].id);
+      if (fins) setFinancials(fins);
+    }
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     router.push(`/${lang}/proprietaire/login`);
   };
 
@@ -89,7 +116,7 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-xs text-slate-400 font-medium">{dict.proprietaire.property}</span>
                 <select className="bg-slate-800 text-white text-xs font-bold py-1 px-2 rounded outline-none border border-slate-700">
-                  <option>{MOCK_PROPERTY.name} ({MOCK_PROPERTY.zone})</option>
+                  <option>{(properties.find(p => p.id === selectedPropertyId)?.title || "Aucune propriété")} ({(properties.find(p => p.id === selectedPropertyId)?.address || "")})</option>
                 </select>
               </div>
             </div>
@@ -168,7 +195,7 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
             <div className="p-6 border-b border-slate-100 flex justify-between items-center">
               <div>
                 <h2 className="text-xl font-extrabold">{dict.proprietaire.financeTitle} - Oct 2026</h2>
-                <p className="text-sm text-slate-500">{MOCK_PROPERTY.name} • {dict.proprietaire.owner} M. Bennani</p>
+                <p className="text-sm text-slate-500">{(properties.find(p => p.id === selectedPropertyId)?.title || "Aucune propriété")} • {dict.proprietaire.owner} M. Bennani</p>
               </div>
               <button onClick={() => window.print()} className="bg-white border text-slate-700 px-4 py-2 rounded-lg font-bold print:hidden">
                 {dict.proprietaire.btnPrint}
@@ -188,15 +215,17 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
                   </tr>
                 </thead>
                 <tbody className="text-sm">
-                  {MOCK_RESERVATIONS.map(res => (
+                  {reservations.length === 0 ? (
+                    <tr><td colSpan={7} className="p-4 text-center text-slate-500">Aucune donnée disponible.</td></tr>
+                  ) : reservations.map((res: any) => (
                     <tr key={res.id} className="border-b border-slate-100">
-                      <td className="p-4 font-medium">{res.date}</td>
-                      <td className="p-4">{res.source}</td>
-                      <td className="p-4">{res.nights}</td>
-                      <td className="p-4 text-slate-600">{res.gross}</td>
-                      <td className="p-4 text-slate-600">{res.cleaning}</td>
-                      <td className="p-4 text-rose-600">-{res.commission}</td>
-                      <td className="p-4 font-extrabold text-emerald-600">{res.net}</td>
+                      <td className="p-4 font-medium">{`${res.start_date} au ${res.end_date}`}</td>
+                      <td className="p-4">{"Direct"}</td>
+                      <td className="p-4">{Math.ceil((new Date(res.end_date).getTime() - new Date(res.start_date).getTime()) / (1000 * 3600 * 24))}</td>
+                      <td className="p-4 text-slate-600">{"-"}</td>
+                      <td className="p-4 text-slate-600">{"-"}</td>
+                      <td className="p-4 text-rose-600">-{"-"}</td>
+                      <td className="p-4 font-extrabold text-emerald-600">{"-"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -219,12 +248,12 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
                 <input 
                   type="text" 
                   readOnly 
-                  value={isClient ? `${window.location.origin}/api/ical/${MOCK_PROPERTY.id}` : ''}
+                  value={isClient ? `${window.location.origin}/api/ical/${selectedPropertyId}` : ''}
                   className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm text-slate-600 outline-none" 
                 />
                 <button 
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.origin}/api/ical/${MOCK_PROPERTY.id}`);
+                    navigator.clipboard.writeText(`${window.location.origin}/api/ical/${selectedPropertyId}`);
                     alert("Lien copié dans le presse-papier !");
                   }}
                   className="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-800"
@@ -249,7 +278,7 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
                   const res = await fetch('/api/ical/sync', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ propertyId: MOCK_PROPERTY.id, airbnbUrl: airbnb, bookingUrl: booking })
+                    body: JSON.stringify({ propertyId: selectedPropertyId, airbnbUrl: airbnb, bookingUrl: booking })
                   });
                   const data = await res.json();
                   if(data.success) {
