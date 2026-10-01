@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 // Initialize Supabase admin client using the service role key to bypass RLS 
 // for secure backend-only operations (generating signed URLs).
 const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
 );
 
 export async function getSecurePassportUrl(filePath: string): Promise<string | null> {
