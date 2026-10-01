@@ -86,7 +86,7 @@ export default function Home({ params }: { params: { lang: string } }) {
 
   const handleSimulateToForm = () => {
     const zoneLabel = zone === "medina" ? "Médina / Riad" : zone === "ville_nouvelle" ? "Ville Nouvelle / Atlas" : "Route d'Immouzzer";
-    const typeLabel = propertyType === "appart" ? "Appartement" : propertyType === "riad" ? "Riad" : "Villa";
+    const typeLabel = propertyType === "appartement" ? "Appartement" : propertyType === "riad" ? "Riad" : "Villa";
     
     setFormData({
       ...formData,
