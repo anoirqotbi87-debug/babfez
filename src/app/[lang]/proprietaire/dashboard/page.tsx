@@ -47,6 +47,10 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
   const [selectedPropertyId, setSelectedPropertyId] = useState<string>("");
   const [reservations, setReservations] = useState<any[]>([]);
   const [financials, setFinancials] = useState<any[]>([]);
+  const [icalUrls, setIcalUrls] = useState({ airbnb: '', booking: '' });
+  const [syncing, setSyncing] = useState(false);
+  const [lastSync, setLastSync] = useState('');
+  const [icalToken, setIcalToken] = useState('');
 
   useEffect(() => {
     setIsClient(true);
@@ -76,7 +80,39 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
       // Fetch financials
       const { data: fins } = await supabase.from('financial_statements').select('*').eq('property_id', props[0].id);
       if (fins) setFinancials(fins);
+      
+      setIcalUrls({ airbnb: props[0].airbnb_ical_url || '', booking: props[0].booking_ical_url || '' });
+      setLastSync(props[0].last_ical_sync || '');
+      setIcalToken(props[0].ical_feed_token || '');
     }
+  };
+
+    const saveIcalUrls = async () => {
+    if (!selectedPropertyId) return;
+    await supabase.from('properties').update({
+      airbnb_ical_url: icalUrls.airbnb,
+      booking_ical_url: icalUrls.booking
+    }).eq('id', selectedPropertyId);
+    alert('URLs sauvegardées.');
+  };
+
+  const handleSync = async () => {
+    if (!selectedPropertyId) return;
+    setSyncing(true);
+    try {
+      const res = await fetch(`/api/calendar/${selectedPropertyId}/sync`, { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setLastSync(new Date().toISOString());
+        alert(`Synchronisation réussie (${data.count} importées).`);
+        fetchOwnerData();
+      } else {
+        alert('Erreur: ' + data.error);
+      }
+    } catch (e) {
+      alert('Erreur réseau.');
+    }
+    setSyncing(false);
   };
 
   const handleLogout = async () => {
