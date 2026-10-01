@@ -58,25 +58,31 @@ export default function Home({ params }: { params: { lang: string } }) {
     setIsSubmitting(true);
     
     try {
-      await supabase.from('leads').insert({
-        name: formData.name,
-        phone: formData.phone,
-        zone: zone,
-        property_type: propType,
-        formula: "Formule Unique 20%",
-        message: `Simulation: Brut ${brutSaisonnier.toLocaleString('fr-FR')} MAD / Net ${net.toLocaleString('fr-FR')} MAD (Chambres: ${rooms})`,
-        status: "Nouveau"
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          zone: zone,
+          property_type: propType,
+          formula: "Formule Unique 20%",
+          message: `Simulation: Brut ${brutSaisonnier} MAD / Net ${net} MAD (Chambres: ${rooms})`
+        })
       });
       
-      setSubmitSuccess(true);
+      const data = await res.json();
       
-      const waText = `Bonjour BABFEZ, je suis ${formData.name}. J'ai simulé mes revenus pour un bien (${propType}, ${rooms} chambres) à ${zone}. Je souhaite réserver mon audit technique gratuit.`;
-      window.open(`https://wa.me/212778874114?text=${encodeURIComponent(waText)}`, '_blank');
-      
-      setFormData({ name: "", phone: "" });
-      setTimeout(() => setSubmitSuccess(false), 5000);
+      if (data.success) {
+        setSubmitSuccess(true);
+        window.open(data.waLink, '_blank');
+        setFormData({ name: "", phone: "" });
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } else {
+        alert("Erreur lors de l'envoi.");
+      }
     } catch (error) {
-      alert("Erreur lors de l'envoi.");
+      alert("Erreur réseau.");
     } finally {
       setIsSubmitting(false);
     }
