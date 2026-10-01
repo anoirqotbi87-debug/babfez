@@ -7,24 +7,25 @@ export async function POST(req: Request) {
     
     const { data, error } = await supabase.from('leads').insert({
       name: body.name,
+      email: body.email || null,
       phone: body.phone,
-      zone: body.zone,
-      property_type: body.property_type,
-      formula: body.formula,
-      message: body.message,
+      zone: body.zone || body.quartier || null,
+      property_type: body.property_type || body.typeBien || null,
+      formula: body.formula || body.formule || null,
+      message: body.message || null,
       status: "Nouveau"
     });
 
     if (error) throw error;
 
-    const waText = `Bonjour BABFEZ, je suis ${body.name}. J'ai simulé mes revenus pour un bien à ${body.zone}. Je souhaite réserver mon audit technique gratuit.`;
+    const waText = `Bonjour BABFEZ, je suis ${body.name}. Je souhaite des informations pour mon bien à Fès.`;
     const waLink = `https://wa.me/212778874114?text=${encodeURIComponent(waText)}`;
 
-    console.log(`[ALERT] Nouveau Lead Propriétaire: ${body.name} - ${body.phone} - ${body.zone}`);
+    console.log(`[ALERT] Nouveau Lead Propriétaire: ${body.name} - ${body.phone}`);
 
     return NextResponse.json({ success: true, waLink });
-  } catch (error) {
+  } catch (error: any) {
     console.error("API Error Leads:", error);
-    return NextResponse.json({ success: false, error: "Failed to process lead" }, { status: 500 });
+    return NextResponse.json({ success: false, error: error?.message || "Failed to process lead" }, { status: 500 });
   }
 }
