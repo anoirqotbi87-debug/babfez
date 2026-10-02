@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -40,6 +40,7 @@ export default function Home({ params }: { params: { lang: string } }) {
 
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuDrawerOpen, setIsMenuDrawerOpen] = useState(false);
 
   // Routage direct de l'APK vers l'Espace Propriétaire (Login)
   useEffect(() => {
@@ -164,12 +165,12 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
 
   return (
     <div className="min-h-screen bg-[#F2F2F2] text-[#646767] font-sans selection:bg-[#A1C0BA] selection:text-white">
-      {/* 1. Header & Navigation Fixe Haut de Gamme — style babfez.com */}
-      <header className="fixed w-full top-0 z-50 bg-white backdrop-blur-md border-b border-[#D8E8E6] transition-all shadow-sm">
+      {/* 1. Header Fixe Épuré & Menu 3-Lignes — Élégance babfez.com (Zéro condensation) */}
+      <header className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#D8E8E6] transition-all shadow-sm">
         <AndroidInstallBanner lang={lang} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+          {/* Logo BABFEZ */}
           <Link href={`/${lang}`} className="flex items-center gap-3 group">
-            {/* Vrai logo babfez.com */}
             <img
               src="https://babfez.com/wp-content/uploads/2022/06/logo.png"
               alt="Logo BABFEZ"
@@ -180,7 +181,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                 const next = e.currentTarget.nextElementSibling as HTMLElement;
                 if (next) next.style.display = 'flex';
               }}
-              className="h-12 w-auto object-contain group-hover:scale-105 transition-transform"
+              className="h-11 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
             />
             <div style={{display:'none'}} className="w-11 h-11 bg-gradient-to-br from-[#6F8E88] to-[#63968C] rounded-xl items-center justify-center text-white shadow-md">
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>
@@ -190,75 +191,247 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               <span className="text-[10px] text-[#8A8A8A] font-semibold tracking-widest uppercase block">{dict.nav?.subtitle || "Conciergerie Privée"}</span>
             </div>
           </Link>
-          
-          {/* Menu Desktop */}
-          <nav className="hidden md:flex space-x-8 items-center">
-            <a href="#simulateur" className="text-sm font-semibold text-[#646767] hover:text-[#6F8E88] transition-colors">{dict.nav.simulator}</a>
-            <a href="#services" className="text-sm font-semibold text-[#646767] hover:text-[#6F8E88] transition-colors">{dict.nav.services}</a>
-            <a href="#atouts" className="text-sm font-semibold text-[#646767] hover:text-[#6F8E88] transition-colors">{dict.nav.advantages}</a>
-            <a href="#faq" className="text-sm font-semibold text-[#646767] hover:text-[#6F8E88] transition-colors">{dict.nav.faq}</a>
-            <Link href={`/${lang}/reserver`} className="text-sm font-bold text-[#6F8E88] bg-[#6F8E88]/10 px-3.5 py-1.5 rounded-full border border-[#6F8E88]/30 hover:bg-[#6F8E88] hover:text-white transition-all">{dict.nav.properties}</Link>
-          </nav>
 
-          <div className="hidden lg:flex items-center gap-3">
-            <div className="flex items-center gap-2 mr-2">
+          {/* Action Rapide & Menu 3-Lignes (Ultra-Épuré pour éliminer toute condensation) */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <LanguageSwitcher currentLang={lang} />
               <div className="h-4 w-px bg-[#D8E8E6]"></div>
               <CurrencySwitcher />
             </div>
 
-            <a 
-              href="/downloads/babfez.apk" 
-              download="babfez.apk" 
-              className="android-app-only-hide hidden xl:inline-flex items-center gap-1.5 text-xs font-bold text-[#6F8E88] bg-[#6F8E88]/10 hover:bg-[#6F8E88] hover:text-white px-3 py-2 rounded-xl border border-[#6F8E88]/30 transition-all shadow-sm"
-              title="Télécharger l'application Android BABFEZ (APK)"
+            {/* Bouton Réserver Direct */}
+            <Link 
+              href={`/${lang}/reserver`} 
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#6F8E88] bg-[#6F8E88]/10 hover:bg-[#6F8E88] hover:text-white px-3.5 py-2 rounded-xl border border-[#6F8E88]/30 transition-all shadow-sm"
             >
-              <span>📱</span>
-              <span>App Android</span>
-            </a>
-            
-            <Link href={`/${lang}/proprietaire/login`} className="flex items-center gap-2 text-sm font-bold text-[#646767] bg-white border border-[#D8E8E6] hover:border-[#6F8E88] hover:text-[#6F8E88] px-4 py-2.5 rounded-xl transition-all shadow-warm">
-              <svg className="w-4 h-4 text-[#A1C0BA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-              {dict.nav.ownerSpace}
+              <span>🔑</span>
+              <span>{dict.nav.properties || "Réserver"}</span>
             </Link>
 
-            <a href={`/${lang}/#simulateur`} className="bg-gradient-to-r from-[#6F8E88] to-[#63968C] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-[#6F8E88]/20 hover:brightness-105 transition-all">
-              {dict.nav.estimateBtn}
-            </a>
-          </div>
-
-          <div className="flex items-center md:hidden gap-2">
-            <CurrencySwitcher />
-            <div className="h-4 w-px bg-[#D8E8E6]"></div>
-            <LanguageSwitcher currentLang={lang} />
-            <button className="text-[#2D3748] ml-1 p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Menu Mobile">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            {/* Bouton Hamburger 3-Lignes Élégant */}
+            <button
+              onClick={() => setIsMenuDrawerOpen(true)}
+              className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-[#2D3748] text-white hover:bg-[#1A202C] transition-all font-bold text-xs sm:text-sm shadow-md shadow-[#2D3748]/15 hover:scale-[1.02] active:scale-95"
+              aria-label="Ouvrir le menu complet"
+            >
+              <div className="flex flex-col gap-1 w-4 sm:w-4.5">
+                <span className="h-0.5 w-full bg-white rounded-full"></span>
+                <span className="h-0.5 w-full bg-[#A1C0BA] rounded-full"></span>
+                <span className="h-0.5 w-full bg-white rounded-full"></span>
+              </div>
+              <span className="tracking-wide">{isAr ? "القائمة" : "Menu"}</span>
             </button>
           </div>
         </div>
-        
-        {/* Menu Mobile */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-[#D8E8E6] px-4 py-5 space-y-4 shadow-xl">
-            <a href="#simulateur" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-[#646767] hover:text-[#6F8E88]">{dict.nav.simulator}</a>
-            <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-[#646767] hover:text-[#6F8E88]">{dict.nav.services}</a>
-            <a href="#atouts" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-[#646767] hover:text-[#6F8E88]">{dict.nav.advantages}</a>
-            <a href="#faq" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-[#646767] hover:text-[#6F8E88]">{dict.nav.faq}</a>
-            <Link href={`/${lang}/reserver`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-[#6F8E88]">{dict.nav.properties}</Link>
-            <Link href={`/${lang}/proprietaire/login`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-[#646767]">{dict.nav.ownerSpace}</Link>
-            
-            <a 
-              href="/downloads/babfez.apk" 
-              download="babfez.apk" 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="android-app-only-hide flex items-center justify-between font-bold text-[#6F8E88] py-2.5 px-3 bg-[#6F8E88]/10 rounded-xl border border-[#6F8E88]/30 transition-all hover:bg-[#6F8E88] hover:text-white"
-            >
-              <div className="flex items-center gap-2">
-                <span>📱</span>
-                <span>{lang === 'ar' ? 'تحميل تطبيق أندرويد (APK)' : "Télécharger l'App Android (APK)"}</span>
+
+        {/* Tiroir Latéral Slide-over Menu Complet (Desktop & Mobile) */}
+        {isMenuDrawerOpen && (
+          <div className="fixed inset-0 z-50 overflow-hidden animate-fadeIn">
+            {/* Backdrop sombre flouté */}
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+              onClick={() => setIsMenuDrawerOpen(false)}
+            />
+
+            <div className={`fixed inset-y-0 ${isAr ? 'left-0' : 'right-0'} max-w-full flex`}>
+              <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between border-l border-[#D8E8E6] overflow-y-auto">
+                {/* Header du Tiroir */}
+                <div className="p-6 border-b border-[#D8E8E6] flex items-center justify-between bg-[#F2F2F2]/60">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src="https://babfez.com/wp-content/uploads/2022/06/logo.png"
+                      alt="Logo BABFEZ"
+                      width={36}
+                      height={42}
+                      className="h-9 w-auto object-contain"
+                    />
+                    <div>
+                      <span className={`text-lg font-bold text-[#6F8E88] block leading-tight ${isAr ? '' : 'font-serif'}`}>BABFEZ</span>
+                      <span className="text-[10px] text-[#8A8A8A] font-semibold uppercase tracking-wider block">Conciergerie Privée • Fès</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsMenuDrawerOpen(false)}
+                    className="w-9 h-9 rounded-full bg-white border border-[#D8E8E6] flex items-center justify-center text-[#646767] hover:text-[#2D3748] hover:bg-stone-100 transition-colors shadow-sm font-bold"
+                    aria-label="Fermer le menu"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Contenu de Navigation du Tiroir */}
+                <div className="px-6 py-6 space-y-6 flex-1">
+                  {/* Section Explorer & Réserver */}
+                  <div>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-[#6F8E88] block mb-3">
+                      {isAr ? "استكشاف وحجز" : "Explorer & Réserver"}
+                    </span>
+                    <div className="space-y-1.5">
+                      <Link 
+                        href={`/${lang}/reserver`} 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="flex items-center justify-between p-3 rounded-2xl bg-[#6F8E88]/10 text-[#6F8E88] font-bold hover:bg-[#6F8E88] hover:text-white transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl">🔑</span>
+                          <div>
+                            <span className="block text-sm">{dict.nav.properties || "Réserver un séjour"}</span>
+                            <span className="block text-[11px] opacity-75 font-normal">Riads & appartements d'exception</span>
+                          </div>
+                        </div>
+                        <span className="text-xs bg-white text-[#6F8E88] px-2 py-0.5 rounded-full font-bold group-hover:bg-white/20 group-hover:text-white transition-colors">Catalogue</span>
+                      </Link>
+
+                      <a 
+                        href="#experiences" 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="flex items-center gap-3 p-3 rounded-xl text-[#2D3748] font-semibold hover:bg-stone-50 hover:text-[#6F8E88] transition-colors"
+                      >
+                        <span className="text-lg">✨</span>
+                        <div>
+                          <span className="block text-sm">{isAr ? "خدماتنا وتجاربنا الحصرية" : "Nos Services Exclusifs"}</span>
+                          <span className="block text-[11px] text-[#8A8A8A] font-normal">Transfert VIP, Guide, Petit-déjeuner</span>
+                        </div>
+                      </a>
+
+                      <a 
+                        href="#simulateur" 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="flex items-center gap-3 p-3 rounded-xl text-[#2D3748] font-semibold hover:bg-stone-50 hover:text-[#6F8E88] transition-colors"
+                      >
+                        <span className="text-lg">📊</span>
+                        <div>
+                          <span className="block text-sm">{dict.nav.simulator}</span>
+                          <span className="block text-[11px] text-[#8A8A8A] font-normal">Estimez vos revenus en 1 clic</span>
+                        </div>
+                      </a>
+
+                      <a 
+                        href="#services" 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="flex items-center gap-3 p-3 rounded-xl text-[#2D3748] font-semibold hover:bg-stone-50 hover:text-[#6F8E88] transition-colors"
+                      >
+                        <span className="text-lg">💼</span>
+                        <div>
+                          <span className="block text-sm">{dict.nav.services}</span>
+                          <span className="block text-[11px] text-[#8A8A8A] font-normal">Sérénité, Digitale, Sur-mesure</span>
+                        </div>
+                      </a>
+
+                      <a 
+                        href="#atouts" 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="flex items-center gap-3 p-3 rounded-xl text-[#2D3748] font-semibold hover:bg-stone-50 hover:text-[#6F8E88] transition-colors"
+                      >
+                        <span className="text-lg">⭐</span>
+                        <div>
+                          <span className="block text-sm">{dict.nav.advantages}</span>
+                          <span className="block text-[11px] text-[#8A8A8A] font-normal">Rigueur, conformité & rentabilité</span>
+                        </div>
+                      </a>
+
+                      <a 
+                        href="#faq" 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="flex items-center gap-3 p-3 rounded-xl text-[#2D3748] font-semibold hover:bg-stone-50 hover:text-[#6F8E88] transition-colors"
+                      >
+                        <span className="text-lg">❓</span>
+                        <div>
+                          <span className="block text-sm">{dict.nav.faq}</span>
+                          <span className="block text-[11px] text-[#8A8A8A] font-normal">Questions fréquentes</span>
+                        </div>
+                      </a>
+
+                      <Link 
+                        href={`/${lang}/guide/riad-dar-ziryab`} 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="flex items-center gap-3 p-3 rounded-xl text-[#2D3748] font-semibold hover:bg-stone-50 hover:text-[#6F8E88] transition-colors"
+                      >
+                        <span className="text-lg">🧭</span>
+                        <div>
+                          <span className="block text-sm">{isAr ? "دليل النزلاء الرقمي" : "Livret d'Accueil Voyageurs"}</span>
+                          <span className="block text-[11px] text-[#8A8A8A] font-normal">Wi-Fi, adresses & bons plans</span>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Section Espaces Dédiés */}
+                  <div className="pt-4 border-t border-[#D8E8E6]">
+                    <span className="text-[11px] font-black uppercase tracking-widest text-[#8A8A8A] block mb-3">
+                      {isAr ? "فضاءات خاصة" : "Espaces Réservés"}
+                    </span>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link 
+                        href={`/${lang}/proprietaire/login`} 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="p-3 rounded-xl bg-stone-50 border border-[#D8E8E6] hover:border-[#6F8E88] hover:bg-[#6F8E88]/5 transition-all text-left"
+                      >
+                        <span className="text-base block mb-1">🔐</span>
+                        <span className="text-xs font-bold text-[#2D3748] block">{dict.nav.ownerSpace}</span>
+                        <span className="text-[10px] text-[#8A8A8A] block">Accès propriétaire</span>
+                      </Link>
+
+                      <Link 
+                        href={`/${lang}/admin/login`} 
+                        onClick={() => setIsMenuDrawerOpen(false)}
+                        className="p-3 rounded-xl bg-stone-50 border border-[#D8E8E6] hover:border-[#6F8E88] hover:bg-[#6F8E88]/5 transition-all text-left"
+                      >
+                        <span className="text-base block mb-1">🛡️</span>
+                        <span className="text-xs font-bold text-[#2D3748] block">Administration</span>
+                        <span className="text-[10px] text-[#8A8A8A] block">Gestion conciergerie</span>
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Section Téléchargement APK */}
+                  <div className="pt-4 border-t border-[#D8E8E6] android-app-only-hide">
+                    <a 
+                      href="/downloads/babfez.apk" 
+                      download="babfez.apk" 
+                      onClick={() => setIsMenuDrawerOpen(false)}
+                      className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-[#2D3748] to-[#1A202C] text-white hover:brightness-110 transition-all shadow-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">📱</span>
+                        <div>
+                          <span className="block text-xs font-bold">
+                            {isAr ? "تحميل تطبيق أندرويد" : "Télécharger l'App Android"}
+                          </span>
+                          <span className="block text-[10px] text-[#A1C0BA]">APK officiel signé • 1.05 Mo</span>
+                        </div>
+                      </div>
+                      <span className="text-xs bg-white/10 px-2.5 py-1 rounded-lg font-mono">↓ APK</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Footer du Tiroir */}
+                <div className="p-6 border-t border-[#D8E8E6] bg-[#F2F2F2]/60">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="block text-[10px] uppercase font-bold text-[#8A8A8A] tracking-wider">Assistance 24/7</span>
+                      <a 
+                        href={CONTACT_INFO.whatsappLink} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="text-sm font-black text-[#6F8E88] hover:underline"
+                      >
+                        💬 +212 7 78 87 41 14
+                      </a>
+                    </div>
+                    <a 
+                      href={`/${lang}/#simulateur`}
+                      onClick={() => setIsMenuDrawerOpen(false)}
+                      className="bg-gradient-to-r from-[#6F8E88] to-[#63968C] text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm hover:brightness-105 transition-all"
+                    >
+                      {dict.nav.estimateBtn}
+                    </a>
+                  </div>
+                </div>
               </div>
-              <span className="text-[10px] bg-[#2D3748] text-white font-mono px-2 py-0.5 rounded">1.05 Mo</span>
-            </a>
+            </div>
           </div>
         )}
       </header>
@@ -660,7 +833,195 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
         </div>
       </section>
 
-      {/* 6. Section FAQ en Accordéons Fluides */}
+      {/* 6. Section Nos Services Exclusifs & Expériences locales sur mesure */}
+      <section id="experiences" className="py-24 bg-white border-t border-[#D8E8E6] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-[#6F8E88] text-xs font-black uppercase tracking-widest block mb-2">
+              {isAr ? "فن الضيافة الفاسية" : "Excellence & Art de Vivre Fassi"}
+            </span>
+            <h2 className={`text-3xl md:text-5xl font-black text-[#6F8E88] mb-4 ${isAr ? '' : 'font-serif'}`}>
+              {isAr ? "خدماتنا وتجاربنا الحصرية على المقاس" : "Nos Services Exclusifs & Expériences Sur-Mesure"}
+            </h2>
+            <p className="text-[#646767] text-lg max-w-2xl mx-auto font-medium">
+              {isAr 
+                ? "اجعل إقامتك أو إقامة ضيوفك استثنائية مع خدمات الكونسيرج الخاصة المتاحة 24/7."
+                : "Sublimez votre séjour ou celui de vos voyageurs grâce à nos prestations hôtelières haut de gamme et notre conciergerie privée 24/7."}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Service 1: Transfert VIP Aéroport */}
+            <div className="bg-[#F2F2F2] rounded-3xl overflow-hidden border border-[#D8E8E6] shadow-warm hover:shadow-warm-lg hover:border-[#6F8E88]/40 transition-all flex flex-col group">
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80" 
+                  alt="Transfert VIP Aéroport Fès"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 bg-[#2D3748] text-[#A1C0BA] text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                  🚖 Confort & Sérénité
+                </span>
+                <span className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-sm text-[#2D3748] font-black text-sm px-3 py-1 rounded-xl shadow-sm border border-[#D8E8E6]">
+                  200 MAD <span className="text-[11px] font-normal text-stone-500">(~19 €)</span>
+                </span>
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-lg font-black text-[#2D3748] mb-2">
+                  {isAr ? "توصيل VIP من/إلى مطار فاس سايس" : "Transfert VIP Aéroport Fès-Saïss"}
+                </h3>
+                <p className="text-xs text-[#646767] leading-relaxed mb-6 font-medium flex-1">
+                  {isAr
+                    ? "استقبال خاص عند النزول من الطائرة مع لافتة بالاسم وسائق خاص ومركبة مكيفة فاخرة حتى باب إقامتكم."
+                    : "Accueil personnalisé dès votre sortie avec pancarte nominative, chauffeur privé bilingue et véhicule climatisé avec portage des bagages jusqu'à votre Riad."}
+                </p>
+                <a 
+                  href={`https://wa.me/212778874114?text=${encodeURIComponent("Bonjour BABFEZ, je souhaite réserver le Transfert VIP Aéroport Fès-Saïss (200 MAD).")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full text-center bg-[#2D3748] hover:bg-[#1A202C] text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>💬</span>
+                  <span>{isAr ? "طلب الخدمة (200 درهم)" : "Réserver via WhatsApp"}</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Service 2: Visite Guidée Médina */}
+            <div className="bg-[#F2F2F2] rounded-3xl overflow-hidden border border-[#D8E8E6] shadow-warm hover:shadow-warm-lg hover:border-[#6F8E88]/40 transition-all flex flex-col group">
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" 
+                  alt="Visite Guidée Médina Fès"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 bg-[#6F8E88] text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                  🏛️ Authenticité Garantie
+                </span>
+                <span className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-sm text-[#2D3748] font-black text-sm px-3 py-1 rounded-xl shadow-sm border border-[#D8E8E6]">
+                  350 MAD <span className="text-[11px] font-normal text-stone-500">(~33 €)</span>
+                </span>
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-lg font-black text-[#2D3748] mb-2">
+                  {isAr ? "جولة خاصة مع مرشد في المدينة القديمة" : "Visite Privée Médina & Artisans"}
+                </h3>
+                <p className="text-xs text-[#646767] leading-relaxed mb-6 font-medium flex-1">
+                  {isAr
+                    ? "مرشد سياحي رسمي معتمد لاكتشاف أسرار المدينة العتيقة، المدارس التاريخية، دار الدباغ والورش الحرفية الأصيلة."
+                    : "Guide conférencier officiel assermenté (circuit 3h). Médersa Bou Inania, tanneries Chouara, dinandiers et trésors cachés de Fès El-Bali sans rabatteurs."}
+                </p>
+                <a 
+                  href={`https://wa.me/212778874114?text=${encodeURIComponent("Bonjour BABFEZ, je souhaite réserver la Visite Guidée Privée de la Médina (350 MAD).")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full text-center bg-[#2D3748] hover:bg-[#1A202C] text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>💬</span>
+                  <span>{isAr ? "طلب الخدمة (350 درهم)" : "Réserver via WhatsApp"}</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Service 3: Petit-Déjeuner Fassi */}
+            <div className="bg-[#F2F2F2] rounded-3xl overflow-hidden border border-[#D8E8E6] shadow-warm hover:shadow-warm-lg hover:border-[#6F8E88]/40 transition-all flex flex-col group">
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80" 
+                  alt="Petit-déjeuner traditionnel Fassi"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 bg-[#A1C0BA] text-[#2D3748] text-xs font-black px-3 py-1 rounded-full shadow-md">
+                  ☕ Saveurs du Terroir
+                </span>
+                <span className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-sm text-[#2D3748] font-black text-sm px-3 py-1 rounded-xl shadow-sm border border-[#D8E8E6]">
+                  80 MAD <span className="text-[11px] font-normal text-stone-500">/ pers (~7.5 €)</span>
+                </span>
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-lg font-black text-[#2D3748] mb-2">
+                  {isAr ? "فطور فاسي تقليدي فاخر" : "Petit-Déjeuner Traditionnel Fassi"}
+                </h3>
+                <p className="text-xs text-[#646767] leading-relaxed mb-6 font-medium flex-1">
+                  {isAr
+                    ? "فطور فاسي شهي محضر يومياً: مسمن، بغرير طازج، عسل حر، زيت زيتون بكر، جبن بلدي، عصير برتقال وشاي بالنعناع."
+                    : "Préparé chaque matin : crêpes msemmen et baghrir toutes chaudes, miel d'oranger pur, huile d'olive vierge, jben frais, jus pressé et thé à la menthe."}
+                </p>
+                <a 
+                  href={`https://wa.me/212778874114?text=${encodeURIComponent("Bonjour BABFEZ, je souhaite commander le Petit-Déjeuner Traditionnel Fassi (80 MAD/pers).")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full text-center bg-[#2D3748] hover:bg-[#1A202C] text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>💬</span>
+                  <span>{isAr ? "طلب الفطور (80 درهم)" : "Commander via WhatsApp"}</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Service 4: Excursion Chefchaouen ou Volubilis */}
+            <div className="bg-[#F2F2F2] rounded-3xl overflow-hidden border border-[#D8E8E6] shadow-warm hover:shadow-warm-lg hover:border-[#6F8E88]/40 transition-all flex flex-col group">
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1569383746724-6f1b882b8f46?auto=format&fit=crop&w=800&q=80" 
+                  alt="Excursion Chefchaouen Volubilis"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 bg-[#2D3748] text-[#A1C0BA] text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                  ⛰️ Évasion Totale
+                </span>
+                <span className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-sm text-[#2D3748] font-black text-sm px-3 py-1 rounded-xl shadow-sm border border-[#D8E8E6]">
+                  600 MAD <span className="text-[11px] font-normal text-stone-500">(~56 €)</span>
+                </span>
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-lg font-black text-[#2D3748] mb-2">
+                  {isAr ? "رحلة يوم كامل لشفشاون أو وليلى" : "Excursion Chefchaouen ou Volubilis"}
+                </h3>
+                <p className="text-xs text-[#646767] leading-relaxed mb-6 font-medium flex-1">
+                  {isAr
+                    ? "يوم كامل لاكتشاف المدينة الزرقاء شفشاون في جبال الريف، أو الآثار الرومانية لوليلى ومكناس مع سائق خاص."
+                    : "Véhicule climatisé haut de gamme et chauffeur dédié pour une journée d'évasion vers la perle bleue de Chefchaouen ou les ruines romaines de Volubilis."}
+                </p>
+                <a 
+                  href={`https://wa.me/212778874114?text=${encodeURIComponent("Bonjour BABFEZ, je souhaite réserver l'Excursion Chefchaouen / Volubilis (600 MAD).")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full text-center bg-[#2D3748] hover:bg-[#1A202C] text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>💬</span>
+                  <span>{isAr ? "طلب الرحلة (600 درهم)" : "Réserver via WhatsApp"}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Bandeau d'Appel vers le Catalogue Logements */}
+          <div className="mt-14 p-8 rounded-3xl bg-gradient-to-r from-[#2D3748] to-[#1A202C] text-white flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-[#A1C0BA]/20 shadow-xl">
+            <div className="text-center md:text-left">
+              <span className="text-[#A1C0BA] text-xs font-bold uppercase tracking-widest block mb-1">
+                {isAr ? "إقامة فاخرة في فاس" : "Séjourner à Fès"}
+              </span>
+              <h3 className={`text-2xl font-bold ${isAr ? '' : 'font-serif'}`}>
+                {isAr ? "هل تبحثون عن مكان إقامة استثنائي؟" : "Vous préparez votre venue à Fès ?"}
+              </h3>
+              <p className="text-stone-300 text-sm mt-1 max-w-xl">
+                {isAr 
+                  ? "اكتشفوا شققنا ورياضاتنا الأصيلة للاستمتاع بهذه التجارب بأقصى درجات الراحة."
+                  : "Découvrez notre collection de Riads en Médina et appartements grand standing en Ville Nouvelle."}
+              </p>
+            </div>
+            <Link 
+              href={`/${lang}/reserver`}
+              className="bg-gradient-to-r from-[#6F8E88] to-[#63968C] hover:brightness-110 text-white font-black px-8 py-4 rounded-2xl shadow-lg transition-all text-sm uppercase tracking-wider whitespace-nowrap"
+            >
+              🔑 {dict.nav.properties || "Réserver un logement"}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Section FAQ en Accordéons Fluides */}
       <section id="faq" className="py-24 bg-[#F2F2F2] border-t border-[#D8E8E6]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">

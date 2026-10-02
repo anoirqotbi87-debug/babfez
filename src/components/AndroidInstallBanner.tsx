@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -19,6 +19,7 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
       window.matchMedia('(display-mode: minimal-ui)').matches ||
       (navigator as any).standalone === true ||
       document.referrer.includes('android-app://') ||
+      (typeof window !== 'undefined' && window.location.search.includes('source=apk')) ||
       sessionStorage.getItem('babfez_is_installed_app') === 'true';
 
     if (isStandalone) {
