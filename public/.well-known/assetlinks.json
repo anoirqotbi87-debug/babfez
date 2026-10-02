@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.babfez.conciergerie",
+      "sha256_cert_fingerprints": [
+        "DD:17:04:91:FB:0A:9C:1B:5C:A7:BF:B7:B0:7C:C7:E9:66:D0:82:04:14:52:2B:84:D2:E6:30:ED:BD:4B:B5:8B"
+      ]
+    }
+  }
+]

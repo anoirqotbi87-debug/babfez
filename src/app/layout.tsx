@@ -13,6 +13,7 @@ const cairo = Cairo({
 export const metadata: Metadata = {
   title: "BABFEZ - Conciergerie & Intendance Privée à Fès",
   description: "Déléguez à 100% la gestion locative de votre appartement ou Riad à Fès.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
