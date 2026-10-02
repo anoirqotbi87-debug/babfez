@@ -66,7 +66,7 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 font-sans text-slate-900">
+    <div className="min-h-screen bg-[#FBF9F5] text-[#1C1917] flex flex-col justify-center items-center p-4 font-sans">
       <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
         <Link 
           href={`/${lang}`} 
@@ -80,12 +80,12 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
 
 
 
-      <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
+      <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-warm border border-[#E7DDD3]">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-slate-950 rounded-2xl mx-auto flex items-center justify-center text-amber-500 mb-4 shadow-lg shadow-slate-900/20">
+          <div className="w-16 h-16 bg-gradient-to-br from-[#B85D36] to-[#A04E2B] rounded-2xl mx-auto flex items-center justify-center text-[#D4AF37] mb-4 shadow-lg shadow-[#B85D36]/20 border border-[#C59B27]/40">
             <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-950">Espace Administrateur</h1>
+          <h1 className={`text-2xl font-black text-[#1C1917] ${lang === 'ar' ? '' : 'font-serif'}`}>Espace Administrateur</h1>
           <p className="text-sm text-slate-500 mt-2 font-medium">Gestion globale de la plateforme BABFEZ</p>
         </div>
 
@@ -106,7 +106,7 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
             <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" />
           </div>
 
-          <button type="submit" className="w-full bg-slate-950 text-white font-bold py-3.5 rounded-xl hover:bg-slate-800 transition-all shadow-md hover:shadow-lg mt-4">
+          <button type="submit" className="w-full bg-gradient-to-r from-[#B85D36] to-[#A04E2B] text-white font-bold py-3.5 rounded-xl hover:shadow-lg hover:shadow-[#B85D36]/25 transition-all shadow-md mt-4">
             {isLoading ? "Connexion..." : "Connexion Admin"}
           </button>
         </form>

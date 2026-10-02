@@ -122,13 +122,13 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
       <aside 
         aria-label="Application Android BABFEZ"
         dir={isRtl ? 'rtl' : 'ltr'} 
-        className="android-app-only-hide relative z-40 bg-[#0B2545] text-white border-b-2 border-[#C59B27]/40 shadow-lg px-3 py-2.5 sm:px-4"
+        className="android-app-only-hide relative z-40 bg-[#1C1917] text-white border-b-2 border-[#B85D36]/40 shadow-lg px-3 py-2.5 sm:px-4"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
           {/* Logo / Android Icon & Text */}
           <div className="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-[#C59B27]/40 flex items-center justify-center shrink-0 text-[#C59B27] shadow-inner">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-[#B85D36]/40 flex items-center justify-center shrink-0 text-[#D4AF37] shadow-inner">
               <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor">
                 {/* Android robot icon */}
                 <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1523-.5676.416.416 0 00-.5676.1523l-2.0223 3.503C15.5902 8.4126 13.8533 8.0818 12 8.0818s-3.5902.3308-5.1366.8682L4.841 5.447a.416.416 0 00-.5677-.1523.416.416 0 00-.1522.5676l1.9972 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
@@ -140,7 +140,7 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
                 <span className="text-xs sm:text-sm font-extrabold text-white truncate block">
                   {t.title}
                 </span>
-                <span className="bg-[#C59B27] text-[#0B2545] font-black text-[9px] uppercase px-1.5 py-0.2 rounded font-mono">
+                <span className="bg-[#B85D36] text-white font-black text-[9px] uppercase px-1.5 py-0.2 rounded font-mono">
                   APK
                 </span>
               </div>
@@ -172,7 +172,7 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
                   setTimeout(() => setShowHelpModal(true), 800);
                 }
               }}
-              className="inline-flex items-center gap-1.5 bg-[#C59B27] hover:bg-[#B38920] text-white text-xs sm:text-sm font-black px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl transition-all shadow-md shadow-[#C59B27]/30 transform active:scale-95"
+              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-[#B85D36] to-[#A04E2B] hover:brightness-110 text-white text-xs sm:text-sm font-black px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl transition-all shadow-md shadow-[#B85D36]/30 transform active:scale-95"
             >
               <svg className="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -200,7 +200,7 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn"
           dir={isRtl ? 'rtl' : 'ltr'}
         >
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 text-[#0B2545] shadow-2xl border-2 border-[#C59B27]/30 relative animate-scaleUp">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 text-[#1C1917] shadow-2xl border-2 border-[#E7DDD3] relative animate-scaleUp">
             
             <button
               onClick={() => setShowHelpModal(false)}
@@ -212,13 +212,13 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
               </svg>
             </button>
 
-            <div className="w-12 h-12 rounded-2xl bg-[#0B2545] text-[#C59B27] flex items-center justify-center mb-4 shadow-md">
+            <div className="w-12 h-12 rounded-2xl bg-[#1C1917] text-[#D4AF37] flex items-center justify-center mb-4 shadow-md">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
 
-            <h3 className="text-lg font-black text-[#0B2545] mb-2">
+            <h3 className="text-lg font-black text-[#1C1917] mb-2">
               {t.modalTitle}
             </h3>
             
@@ -237,7 +237,7 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
                 href="/downloads/babfez.apk"
                 download="babfez.apk"
                 onClick={() => setShowHelpModal(false)}
-                className="flex-1 text-center bg-[#C59B27] text-white font-black py-3 rounded-xl hover:bg-[#B38920] transition-all text-xs uppercase tracking-wider shadow-md"
+                className="flex-1 text-center bg-gradient-to-r from-[#B85D36] to-[#A04E2B] text-white font-black py-3 rounded-xl hover:brightness-110 transition-all text-xs uppercase tracking-wider shadow-md shadow-[#B85D36]/25"
               >
                 {t.btn}
               </a>

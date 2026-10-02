@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    background-color: #FBF9F5;
+    color: #1C1917;
+  }
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -9,6 +16,12 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .shadow-warm {
+    box-shadow: 0 10px 30px -10px rgba(184, 93, 54, 0.08);
+  }
+  .shadow-warm-lg {
+    box-shadow: 0 20px 40px -15px rgba(184, 93, 54, 0.14);
   }
 }
 
@@ -33,4 +46,3 @@
     display: none !important;
   }
 }
-
