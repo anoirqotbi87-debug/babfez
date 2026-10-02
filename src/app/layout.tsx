@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Cairo, Playfair_Display } from "next/font/google";
+import { DM_Sans, Cairo, Libre_Baskerville } from "next/font/google";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", display: "swap" });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
+const libreBaskerville = Libre_Baskerville({ 
+  subsets: ["latin"], 
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair", 
+  display: "swap" 
+});
 const cairo = Cairo({ 
   subsets: ["arabic", "latin"], 
   weight: ['400', '600', '700', '800'],
@@ -24,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="scroll-smooth">
-      <body className={`${jakarta.variable} ${cairo.variable} ${playfair.variable} font-sans antialiased bg-[#FBF9F5] text-[#1C1917]`}>
+      <body className={`${dmSans.variable} ${cairo.variable} ${libreBaskerville.variable} font-sans antialiased bg-[#F2F2F2] text-[#646767]`}>
         {children}
       </body>
     </html>

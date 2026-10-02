@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -172,15 +172,15 @@ export default function Reserver({ params }: { params: { lang: string } }) {
   const filteredCatalog = searchZone === "Tous" ? MOCK_CATALOG : MOCK_CATALOG.filter(p => p.zone.includes(searchZone));
 
   return (
-    <div className="min-h-screen bg-[#FBF9F5] text-[#1C1917] font-sans">
-      <header className="fixed w-full top-0 z-40 bg-[#FBF9F5]/90 backdrop-blur-md border-b border-[#E7DDD3]">
+    <div className="min-h-screen bg-[#F2F2F2] text-[#2D3748] font-sans">
+      <header className="fixed w-full top-0 z-40 bg-[#F2F2F2]/90 backdrop-blur-md border-b border-[#D8E8E6]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
           <Link href={`/${lang}`} className="flex items-center gap-3">
-            <div className="w-11 h-11 bg-gradient-to-br from-[#B85D36] to-[#A04E2B] rounded-xl flex items-center justify-center text-[#D4AF37] shadow-md shadow-[#B85D36]/25 group-hover:scale-105 transition-transform border border-[#C59B27]/40">
+            <div className="w-11 h-11 bg-gradient-to-br from-[#6F8E88] to-[#63968C] rounded-xl flex items-center justify-center text-[#A1C0BA] shadow-md shadow-[#6F8E88]/25 group-hover:scale-105 transition-transform border border-[#A1C0BA]/40">
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>
             </div>
             <div>
-              <span className="text-2xl font-black tracking-tight text-[#1C1917] block leading-tight">BAB<span className="text-[#B85D36]">FEZ</span></span>
+              <span className="text-2xl font-black tracking-tight text-[#2D3748] block leading-tight">BAB<span className="text-[#6F8E88]">FEZ</span></span>
               <span className="text-[10px] text-slate-500 font-bold tracking-widest uppercase block">{dict.reserver.tagline}</span>
             </div>
           </Link>
@@ -216,7 +216,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
 
 
-            <a href={`/${lang}/#simulateur`} className="bg-gradient-to-r from-[#B85D36] to-[#A04E2B] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-[#B85D36]/20 hover:brightness-105 transition-all">
+            <a href={`/${lang}/#simulateur`} className="bg-gradient-to-r from-[#6F8E88] to-[#63968C] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-[#6F8E88]/20 hover:brightness-105 transition-all">
               {dict.nav.estimateBtn}
             </a>
           </div>

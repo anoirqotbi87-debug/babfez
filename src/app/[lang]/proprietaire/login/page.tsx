@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -71,7 +71,7 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
   };
 
   return (
-    <div className="min-h-screen bg-[#FBF9F5] text-[#1C1917] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative pt-24 sm:pt-16">
+    <div className="min-h-screen bg-[#F2F2F2] text-[#2D3748] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative pt-24 sm:pt-16">
       <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
         <Link 
           href={`/${lang}`} 
@@ -92,12 +92,12 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
       
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link href={`/${lang}`} className="flex justify-center items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-gradient-to-br from-[#B85D36] to-[#A04E2B] rounded-xl flex items-center justify-center text-[#D4AF37] shadow-md shadow-[#B85D36]/25 border border-[#C59B27]/40">
+          <div className="w-12 h-12 bg-gradient-to-br from-[#6F8E88] to-[#63968C] rounded-xl flex items-center justify-center text-[#A1C0BA] shadow-md shadow-[#6F8E88]/25 border border-[#A1C0BA]/40">
             <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>
           </div>
-          <span className="text-2xl font-black tracking-tight text-[#1C1917]">BAB<span className="text-[#B85D36]">FEZ</span></span>
+          <span className="text-2xl font-black tracking-tight text-[#2D3748]">BAB<span className="text-[#6F8E88]">FEZ</span></span>
         </Link>
-        <h2 className={`text-center text-3xl font-black text-[#1C1917] ${lang === 'ar' ? '' : 'font-serif'}`}>
+        <h2 className={`text-center text-3xl font-black text-[#2D3748] ${lang === 'ar' ? '' : 'font-serif'}`}>
           {dict.proprietaire.loginTitle}
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
@@ -106,7 +106,7 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-warm sm:rounded-2xl sm:px-10 border border-[#E7DDD3]">
+        <div className="bg-white py-8 px-4 shadow-warm sm:rounded-2xl sm:px-10 border border-[#D8E8E6]">
 
 
           <form className="space-y-6" onSubmit={handleLogin}>
@@ -126,7 +126,7 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
               <a href="#" className="text-sm font-bold text-amber-600 hover:text-amber-700">{dict.login?.forgot || "Mot de passe oublié ?"}</a>
             </div>
             {error && <div className="text-red-500 text-sm font-medium">{error}</div>}
-            <button type="submit" disabled={isLoading} className="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-[#B85D36] to-[#A04E2B] hover:shadow-lg hover:shadow-[#B85D36]/25 transition-all disabled:opacity-70 shadow-md">
+            <button type="submit" disabled={isLoading} className="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-[#6F8E88] to-[#63968C] hover:shadow-lg hover:shadow-[#6F8E88]/25 transition-all disabled:opacity-70 shadow-md">
               {isLoading ? dict.proprietaire.btnLoading : dict.proprietaire.btnLogin}
             </button>
           </form>
