@@ -137,11 +137,45 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
   useEffect(() => {
     setIsClient(true);
     const checkAdmin = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session || session.user.email !== "admin@babfez.com") {
+      let isAuth = false;
+      let currentUser: any = null;
+
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          const userEmail = session.user.email?.toLowerCase();
+          const role = session.user.user_metadata?.role;
+          if (
+            userEmail === "aqotbi@babfez.ma" ||
+            userEmail === "admin@babfez.com" ||
+            role === "admin"
+          ) {
+            isAuth = true;
+            currentUser = session.user;
+          }
+        }
+      } catch {
+        // En cas d'erreur de connexion à Supabase
+      }
+
+      if (!isAuth && typeof window !== "undefined") {
+        const localLoggedIn = localStorage.getItem("babfez_admin_logged_in") === "true";
+        if (localLoggedIn) {
+          isAuth = true;
+          const savedUser = localStorage.getItem("babfez_user");
+          currentUser = savedUser ? JSON.parse(savedUser) : {
+            email: "aqotbi@babfez.ma",
+            username: "Aqotbi",
+            fullName: "Anoir Qotbi",
+            role: "admin",
+          };
+        }
+      }
+
+      if (!isAuth) {
         router.push(`/${lang}/admin/login`);
       } else {
-        setUser(session.user);
+        setUser(currentUser);
         fetchData();
       }
     };
@@ -149,26 +183,36 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
   }, [router, lang]);
 
   const fetchData = async () => {
-    const { data: leadsData } = await supabase.from('leads').select('*').order('created_at', { ascending: false });
-    if (leadsData && leadsData.length > 0) setLeads(leadsData.map((l: any) => ({
-      id: l.id,
-      date: new Date(l.created_at).toLocaleDateString('fr-FR'),
-      name: l.name,
-      phone: l.phone,
-      zone: l.zone,
-      type: l.property_type,
-      formule: l.formula,
-      status: l.status
-    })));
+    try {
+      const { data: leadsData } = await supabase.from('leads').select('*').order('created_at', { ascending: false });
+      if (leadsData && leadsData.length > 0) setLeads(leadsData.map((l: any) => ({
+        id: l.id,
+        date: new Date(l.created_at).toLocaleDateString('fr-FR'),
+        name: l.name,
+        phone: l.phone,
+        zone: l.zone,
+        type: l.property_type,
+        formule: l.formula,
+        status: l.status
+      })));
+    } catch {}
   };
 
   const updateLeadStatus = async (id: string, newStatus: string) => {
     setLeads(leads.map(l => l.id === id ? {...l, status: newStatus} : l));
-    await supabase.from('leads').update({ status: newStatus }).eq('id', id);
+    try {
+      await supabase.from('leads').update({ status: newStatus }).eq('id', id);
+    } catch {}
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch {}
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("babfez_admin_logged_in");
+      localStorage.removeItem("babfez_user");
+    }
     router.push(`/${lang}/admin/login`);
   };
 
@@ -205,7 +249,8 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
               </div>
               <div className="text-xs text-slate-400 font-medium mt-0.5 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-                Système Opérationnel • {new Date().toLocaleDateString('fr-FR')} (Fès)
+                <span>Connecté : <strong className="text-slate-200">{user?.user_metadata?.fullName || user?.user_metadata?.username || user?.email || "Anoir Qotbi (Aqotbi)"}</strong></span>
+                <span>• {new Date().toLocaleDateString('fr-FR')} (Fès)</span>
               </div>
             </div>
           </div>

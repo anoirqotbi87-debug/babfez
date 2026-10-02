@@ -37,32 +37,91 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    setError("");
 
-    if (signInError) {
-      setError("Identifiants administrateur incorrects.");
-      setIsLoading(false);
+    // Normalisation de l'identifiant ("Aqotbi" -> "aqotbi@babfez.ma")
+    const rawInput = email.trim();
+    let resolvedEmail = rawInput;
+    if (rawInput.toLowerCase() === "aqotbi") {
+      resolvedEmail = "aqotbi@babfez.ma";
+    } else if (rawInput.toLowerCase() === "admin") {
+      resolvedEmail = "aqotbi@babfez.ma";
+    } else if (!rawInput.includes("@")) {
+      resolvedEmail = `${rawInput.toLowerCase()}@babfez.ma`;
+    }
+
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: resolvedEmail,
+        password,
+      });
+
+      if (!signInError && data?.user) {
+        const userEmail = data.user.email?.toLowerCase();
+        const role = data.user.user_metadata?.role;
+        if (
+          userEmail === "aqotbi@babfez.ma" ||
+          userEmail === "admin@babfez.com" ||
+          role === "admin"
+        ) {
+          if (typeof window !== "undefined") {
+            localStorage.setItem("babfez_admin_logged_in", "true");
+            localStorage.setItem(
+              "babfez_user",
+              JSON.stringify({
+                id: data.user.id,
+                email: data.user.email,
+                username: data.user.user_metadata?.username || "Aqotbi",
+                fullName: data.user.user_metadata?.fullName || "Anoir Qotbi",
+                role: "admin",
+              })
+            );
+          }
+          router.push(`/${lang}/admin/dashboard`);
+          return;
+        } else {
+          setError("Accès refusé. Ce compte ne possède pas les privilèges administrateur.");
+          await supabase.auth.signOut();
+          setIsLoading(false);
+          return;
+        }
+      }
+    } catch {
+      // Fallback si Supabase est hors ligne ou utilise des clés fictives
+    }
+
+    // Authentification de secours (Démo / Hors-ligne / Preview)
+    const isAqotbiAdmin =
+      (resolvedEmail.toLowerCase() === "aqotbi@babfez.ma" || resolvedEmail.toLowerCase() === "aqotbi") &&
+      password === "Moth326sine706.";
+    const isLegacyAdmin =
+      resolvedEmail.toLowerCase() === "admin@babfez.com" &&
+      (password === "Moth326sine706." || password === "admin123");
+
+    if (isAqotbiAdmin || isLegacyAdmin) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("babfez_admin_logged_in", "true");
+        localStorage.setItem(
+          "babfez_user",
+          JSON.stringify({
+            email: resolvedEmail,
+            username: "Aqotbi",
+            fullName: "Anoir Qotbi",
+            role: "admin",
+          })
+        );
+      }
+      router.push(`/${lang}/admin/dashboard`);
       return;
     }
 
-    if (data.user?.email !== "admin@babfez.com") {
-      setError("Accès refusé. Compte non administrateur.");
-      await supabase.auth.signOut();
-      setIsLoading(false);
-      return;
-    }
-
-    router.push(`/${lang}/admin/dashboard`);
+    setError("Identifiants administrateur incorrects.");
+    setIsLoading(false);
   };
 
   return (
@@ -76,9 +135,6 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
           <span>{lang === 'ar' ? "العودة للرئيسية" : (lang === 'en' ? "Back to Home" : (lang === 'es' ? "Volver al inicio" : "Retour à l'accueil"))}</span>
         </Link>
       </div>
-
-
-
 
       <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-warm border border-[#D8E8E6]">
         <div className="text-center mb-8">
@@ -97,13 +153,31 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Adresse Email</label>
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@babfez.com" className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" />
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+              {lang === 'ar' ? "اسم المستخدم أو البريد الإلكتروني" : (lang === 'en' ? "Username or Email" : (lang === 'es' ? "Usuario o Email" : "Identifiant ou Email"))}
+            </label>
+            <input 
+              type="text" 
+              required 
+              value={email} 
+              onChange={e => setEmail(e.target.value)} 
+              placeholder="Aqotbi ou aqotbi@babfez.ma" 
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" 
+            />
           </div>
           
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Mot de passe</label>
-            <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" />
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+              {lang === 'ar' ? "كلمة المرور" : (lang === 'en' ? "Password" : (lang === 'es' ? "Contraseña" : "Mot de passe"))}
+            </label>
+            <input 
+              type="password" 
+              required 
+              value={password} 
+              onChange={e => setPassword(e.target.value)} 
+              placeholder="••••••••" 
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:border-amber-500 transition-colors font-medium text-slate-900" 
+            />
           </div>
 
           <button type="submit" className="w-full bg-gradient-to-r from-[#6F8E88] to-[#63968C] text-white font-bold py-3.5 rounded-xl hover:shadow-lg hover:shadow-[#6F8E88]/25 transition-all shadow-md mt-4">
@@ -112,7 +186,7 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
         </form>
       </div>
       <div className="mt-8 text-center text-xs font-bold text-slate-400">
-        Demo Credentials: admin@babfez.com / admin123 (Veuillez créer ce compte sur Supabase)
+        Accès Super-Admin : <span className="text-[#6F8E88]">Aqotbi</span> / <span className="text-slate-500">Moth326sine706.</span>
       </div>
     </div>
   );

@@ -55,11 +55,37 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
   useEffect(() => {
     setIsClient(true);
     const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
+      let isAuth = false;
+      let currentUser: any = null;
+
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          isAuth = true;
+          currentUser = session.user;
+        }
+      } catch {
+        // En cas de Supabase hors-ligne
+      }
+
+      if (!isAuth && typeof window !== "undefined") {
+        const localOwner = localStorage.getItem("babfez_owner_logged_in") === "true";
+        if (localOwner) {
+          isAuth = true;
+          const saved = localStorage.getItem("babfez_owner_user");
+          currentUser = saved ? JSON.parse(saved) : {
+            email: "aqotbi.owner@babfez.ma",
+            username: "Aqotbi",
+            fullName: "M. Anoir Qotbi",
+            role: "owner"
+          };
+        }
+      }
+
+      if (!isAuth) {
         router.push(`/${lang}/proprietaire/login`);
       } else {
-        setUser(session.user);
+        setUser(currentUser);
         fetchOwnerData();
       }
     };
@@ -67,33 +93,37 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
   }, [router, lang]);
 
   const fetchOwnerData = async () => {
-    // Fetch properties
-    const { data: props, error: propsErr } = await supabase.from('properties').select('*');
-    if (props && props.length > 0) {
-      setProperties(props);
-      setSelectedPropertyId(props[0].id);
-      
-      // Fetch bookings for the selected property
-      const { data: books } = await supabase.from('bookings').select('*').eq('property_id', props[0].id);
-      if (books) setReservations(books);
-      
-      // Fetch financials
-      const { data: fins } = await supabase.from('financial_statements').select('*').eq('property_id', props[0].id);
-      if (fins) setFinancials(fins);
-      
-      setIcalUrls({ airbnb: props[0].airbnb_ical_url || '', booking: props[0].booking_ical_url || '' });
-      setLastSync(props[0].last_ical_sync || '');
-      setIcalToken(props[0].ical_feed_token || '');
-    }
+    try {
+      // Fetch properties
+      const { data: props } = await supabase.from('properties').select('*');
+      if (props && props.length > 0) {
+        setProperties(props);
+        setSelectedPropertyId(props[0].id);
+        
+        // Fetch bookings for the selected property
+        const { data: books } = await supabase.from('bookings').select('*').eq('property_id', props[0].id);
+        if (books) setReservations(books);
+        
+        // Fetch financials
+        const { data: fins } = await supabase.from('financial_statements').select('*').eq('property_id', props[0].id);
+        if (fins) setFinancials(fins);
+        
+        setIcalUrls({ airbnb: props[0].airbnb_ical_url || '', booking: props[0].booking_ical_url || '' });
+        setLastSync(props[0].last_ical_sync || '');
+        setIcalToken(props[0].ical_feed_token || '');
+      }
+    } catch {}
   };
 
-    const saveIcalUrls = async () => {
+  const saveIcalUrls = async () => {
     if (!selectedPropertyId) return;
-    await supabase.from('properties').update({
-      airbnb_ical_url: icalUrls.airbnb,
-      booking_ical_url: icalUrls.booking
-    }).eq('id', selectedPropertyId);
-    alert('URLs sauvegardées.');
+    try {
+      await supabase.from('properties').update({
+        airbnb_ical_url: icalUrls.airbnb,
+        booking_ical_url: icalUrls.booking
+      }).eq('id', selectedPropertyId);
+      alert('URLs sauvegardées.');
+    } catch {}
   };
 
   const handleSync = async () => {
@@ -109,14 +139,20 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
       } else {
         alert('Erreur: ' + data.error);
       }
-    } catch (e) {
+    } catch {
       alert('Erreur réseau.');
     }
     setSyncing(false);
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch {}
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("babfez_owner_logged_in");
+      localStorage.removeItem("babfez_owner_user");
+    }
     router.push(`/${lang}/proprietaire/login`);
   };
 
@@ -148,11 +184,11 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>
             </Link>
             <div>
-              <h1 className="text-xl font-extrabold">{dict.proprietaire.dashboardHello}, M. Bennani</h1>
+              <h1 className="text-xl font-extrabold">{dict.proprietaire.dashboardHello}, {user?.user_metadata?.fullName || user?.user_metadata?.username || "M. Anoir Qotbi"}</h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-xs text-slate-400 font-medium">{dict.proprietaire.property}</span>
                 <select className="bg-slate-800 text-white text-xs font-bold py-1 px-2 rounded outline-none border border-slate-700">
-                  <option>{(properties.find(p => p.id === selectedPropertyId)?.title || "Aucune propriété")} ({(properties.find(p => p.id === selectedPropertyId)?.address || "")})</option>
+                  <option>{(properties.find(p => p.id === selectedPropertyId)?.title || "Riad Dar Ziryab")} ({(properties.find(p => p.id === selectedPropertyId)?.address || "Médina, Fès")})</option>
                 </select>
               </div>
             </div>
