@@ -38,4 +38,11 @@ next-env.d.ts
 # android / keystore
 *.keystore
 twa/
+local.properties
+.gradle/
+*.aab
+*.apk
+*.idsig
+app/build/
+manifest-checksum.txt
 
