@@ -50,6 +50,41 @@ const GUIDE_DATA: Record<string, any> = {
   }
 };
 
+const EXCLUSIVE_SERVICES = [
+  {
+    id: "airport",
+    title: "Transfert VIP Aéroport Fès-Saïss",
+    desc: "Chauffeur privé climatisé, accueil personnalisé à l'arrivée avec pancarte nominative.",
+    price: "200 MAD",
+    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
+    badge: "VIP Arrivée / Départ"
+  },
+  {
+    id: "guide",
+    title: "Visite Guidée Privée de la Médina",
+    desc: "Guide officiel bilingue agréé par le Ministère du Tourisme (3 à 4 heures) au cœur des souks et médersas.",
+    price: "350 MAD",
+    image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80",
+    badge: "Recommandé BABFEZ"
+  },
+  {
+    id: "breakfast",
+    title: "Petit-déjeuner Traditionnel Fassi",
+    desc: "Baghrir, Msemen, miel pur, huile d'olive du Saïss, œufs fermiers, thé à la menthe et jus d'orange frais livré au logement.",
+    price: "80 MAD / pers",
+    image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80",
+    badge: "Fait Maison"
+  },
+  {
+    id: "excursion",
+    title: "Excursion Journée Chefchaouen ou Meknès/Volubilis",
+    desc: "Chauffeur dédié aller-retour pour découvrir la Perle Bleue ou les ruines romaines de Volubilis et la cité de Moulay Ismaïl.",
+    price: "600 MAD",
+    image: "https://images.unsplash.com/photo-1569383746724-6f1b882b8f46?auto=format&fit=crop&w=800&q=80",
+    badge: "Journée Complète"
+  }
+];
+
 export default function WelcomeBook({ params }: { params: { lang: string, propertyId: string } }) {
   const lang = params.lang;
   const propertyId = params.propertyId;
@@ -211,6 +246,48 @@ export default function WelcomeBook({ params }: { params: { lang: string, proper
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed">Bab Boujloud (Porte Bleue), la Médersa Bou Inania (Architecture fascinante) et bien sûr les Tanneries Chouara (à voir depuis les terrasses gratuites des vendeurs de cuir).</p>
             </div>
+          </div>
+        </div>
+
+        {/* SECTION UPSELLS EXCLUSIFS VOYAGEUR LIVRET D'ACCUEIL */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 text-xl shadow-inner">✨</div>
+            <div>
+              <h2 className="text-xl font-extrabold text-slate-900">Nos Services Exclusifs pour votre Séjour à Fès</h2>
+              <p className="text-xs text-slate-500 font-medium">Réservez directement vos prestations conciergerie avec notre équipe locale</p>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {EXCLUSIVE_SERVICES.map(srv => (
+              <div key={srv.id} className="border border-slate-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow flex flex-col bg-slate-50/50">
+                <div className="relative h-36 w-full overflow-hidden">
+                  <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" />
+                  <div className="absolute top-2.5 right-2.5 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                    {srv.badge}
+                  </div>
+                  <div className="absolute bottom-2.5 left-2.5 bg-[#B85D36] text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-md">
+                    {srv.price}
+                  </div>
+                </div>
+                <div className="p-4 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-extrabold text-sm text-slate-900 mb-1">{srv.title}</h3>
+                    <p className="text-xs text-slate-600 leading-relaxed mb-4">{srv.desc}</p>
+                  </div>
+                  <a
+                    href={`${CONTACT_INFO.whatsappLink}?text=${encodeURIComponent(`Bonjour BABFEZ, je séjourne au ${property.name} et je souhaite réserver : ${srv.title} (${srv.price})`)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-4 rounded-xl transition-colors shadow-sm"
+                  >
+                    <span>💬</span>
+                    <span>Commander ce service via WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

@@ -193,6 +193,53 @@ export default function WelcomeBook({ params }: { params: { propertyId: string }
           </div>
         </div>
 
+        {/* SERVICES EXCLUSIFS UPSELL */}
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-4">
+          <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+            <span className="text-xl">✨</span>
+            <div>
+              <h3 className="font-bold text-[#134074] text-lg">Nos Services Exclusifs à Fès</h3>
+              <p className="text-[11px] text-slate-400">Commandez directement vos prestations par WhatsApp</p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              {
+                title: "🚖 Transfert VIP Aéroport Fès-Saïss",
+                desc: "Accueil personnalisé avec pancarte à l'arrivée (200 MAD)"
+              },
+              {
+                title: "🏛️ Visite Guidée Privée de la Médina",
+                desc: "Guide officiel bilingue 3h à 4h (350 MAD)"
+              },
+              {
+                title: "☕ Petit-déjeuner Traditionnel Fassi",
+                desc: "Msemen, Baghrir, miel & thé livré (80 MAD / pers / jour)"
+              },
+              {
+                title: "⛰️ Excursion Chefchaouen ou Meknès",
+                desc: "Chauffeur privé dédié pour la journée (600 MAD)"
+              }
+            ].map((srv, idx) => (
+              <div key={idx} className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between gap-3">
+                <div>
+                  <div className="text-xs font-bold text-slate-900">{srv.title}</div>
+                  <div className="text-[11px] text-slate-500">{srv.desc}</div>
+                </div>
+                <a
+                  href={`https://wa.me/212778874114?text=${encodeURIComponent(`Bonjour BABFEZ, je séjourne au ${propertyId} et je souhaite réserver : ${srv.title}`)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors"
+                >
+                  Commander
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* ASSISTANCE */}
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-4 text-center">
           <h3 className="font-bold text-[#134074] text-lg mb-2">Assistance & Urgences</h3>

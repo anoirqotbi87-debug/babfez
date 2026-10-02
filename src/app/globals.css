@@ -58,3 +58,29 @@
     display: none !important;
   }
 }
+
+/* Print optimization for Chevalet (A5) and Fiche Police (A4) */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .printable-area {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    background: #FFFFFF !important;
+    z-index: 999999 !important;
+    overflow: visible !important;
+  }
+}
+

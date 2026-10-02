@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -12,64 +12,63 @@ import ar from "@/dictionaries/ar.json";
 import { CONTACT_INFO } from "@/config/site";
 import dynamic from 'next/dynamic';
 import Footer from "@/components/Footer";
+import { PROPERTIES, DEFAULT_FALLBACK_IMAGE } from "@/data/properties";
 
 const PropertiesMap = dynamic(() => import('@/components/PropertiesMap'), { 
   ssr: false, 
   loading: () => <div className="w-full h-full bg-slate-100 animate-pulse flex items-center justify-center text-slate-400 font-bold rounded-2xl md:rounded-l-none">Chargement de la carte...</div>
 });
 
-import { PROPERTIES, DEFAULT_FALLBACK_IMAGE } from "@/data/properties";
-
 const dicts = { fr, en, es, ar };
 
 const MOCK_CATALOG = PROPERTIES;
-/* const OLD_MOCK = [
+
+export const UPSELL_SERVICES = [
   {
-    id: "p1",
-    title: "Riad Dar Ziryab",
-    type: "Riad Entier",
-    zone: "Médina",
-    guests: 6,
-    bedrooms: 3,
-    price: 1200,
-    cleaningFee: 250,
-    rating: 4.98,
-    reviews: 124,
-    coords: [34.0592, -4.9815],
-    image: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=1000&auto=format&fit=crop",
-    amenities: ["Wi-Fi Fibre", "Patio", "Climatisation", "Petit-déjeuner"]
+    id: "airport",
+    icon: "🚖",
+    title: "Transfert VIP Aéroport Fès-Saïss",
+    titleEn: "VIP Fès-Saïss Airport Transfer",
+    titleEs: "Traslado VIP Aeropuerto Fez-Saïss",
+    titleAr: "توصيل VIP من/إلى مطار فاس سايس",
+    priceMAD: 200,
+    pricingType: "flat" as const,
+    badge: "+200 MAD"
   },
   {
-    id: "p2",
-    title: "Appartement Standing Atlas",
-    type: "Appartement",
-    zone: "Ville Nouvelle",
-    guests: 4,
-    bedrooms: 2,
-    price: 650,
-    cleaningFee: 150,
-    rating: 4.92,
-    reviews: 86,
-    coords: [34.0335, -5.0005],
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1000&auto=format&fit=crop",
-    amenities: ["Wi-Fi Fibre", "Terrasse", "Climatisation", "Smart TV"]
+    id: "guide",
+    icon: "🏛️",
+    title: "Visite Guidée Privée de la Médina",
+    titleEn: "Private Medina Guided Tour",
+    titleEs: "Visita Guiada Privada por la Medina",
+    titleAr: "جولة خاصة مع مرشد في المدينة القديمة",
+    priceMAD: 350,
+    pricingType: "flat" as const,
+    badge: "+350 MAD"
   },
   {
-    id: "p3",
-    title: "Studio Moderne Palmier",
-    type: "Studio",
-    zone: "Route d'Immouzzer",
-    guests: 2,
-    bedrooms: 1,
-    price: 450,
-    cleaningFee: 100,
-    rating: 4.88,
-    reviews: 42,
-    coords: [34.0150, -4.9850],
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Parking", "Cuisine", "Fiches Police", "Wi-Fi"]
+    id: "breakfast",
+    icon: "☕",
+    title: "Petit-déjeuner Traditionnel Fassi",
+    titleEn: "Traditional Fassi Breakfast",
+    titleEs: "Desayuno Tradicional Fassi",
+    titleAr: "فطور فاسي تقليدي فاخر",
+    priceMAD: 80,
+    pricingType: "per_person_per_day" as const,
+    badge: "+80 MAD / pers / jour"
+  },
+  {
+    id: "excursion",
+    icon: "⛰️",
+    title: "Excursion Journée Chefchaouen ou Meknès/Volubilis",
+    titleEn: "Day Trip to Chefchaouen or Meknes/Volubilis",
+    titleEs: "Excursión de un día a Chefchaouen o Meknes/Volubilis",
+    titleAr: "رحلة يوم كامل إلى شفشاون أو مكناس/وليلى",
+    priceMAD: 600,
+    pricingType: "flat" as const,
+    badge: "+600 MAD"
   }
-]; */
+];
 
 export default function Reserver({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
@@ -99,6 +98,9 @@ export default function Reserver({ params }: { params: { lang: string } }) {
   const [showMapOnMobile, setShowMapOnMobile] = useState(false);
   
   const [activeCurrency, setActiveCurrency] = useState<Currency>('MAD');
+  
+  // Upsells State
+  const [selectedUpsells, setSelectedUpsells] = useState<string[]>([]);
   
   useEffect(() => {
     setActiveHash(window.location.hash);
@@ -146,7 +148,28 @@ export default function Reserver({ params }: { params: { lang: string } }) {
   };
 
   const nights = getDaysDiff(bookingDetails.startDate, bookingDetails.endDate);
-  const totalAmountMAD = selectedProperty ? (nights * selectedProperty.price) + selectedProperty.cleaningFee : 0;
+
+  const toggleUpsell = (id: string) => {
+    setSelectedUpsells(prev => 
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  };
+
+  const calculateUpsellMAD = (upsellId: string) => {
+    const s = UPSELL_SERVICES.find(u => u.id === upsellId);
+    if (!s) return 0;
+    if (s.pricingType === "per_person_per_day") {
+      const numAdults = Number(bookingDetails.adults) || 1;
+      const stayDays = nights > 0 ? nights : 1;
+      return s.priceMAD * numAdults * stayDays;
+    }
+    return s.priceMAD;
+  };
+
+  const totalUpsellsMAD = selectedUpsells.reduce((acc, id) => acc + calculateUpsellMAD(id), 0);
+  const baseStayMAD = selectedProperty ? (nights * selectedProperty.price) : 0;
+  const cleaningMAD = selectedProperty ? selectedProperty.cleaningFee : 0;
+  const totalAmountMAD = selectedProperty ? (baseStayMAD + cleaningMAD + totalUpsellsMAD) : 0;
   const totalAmountConverted = convertFromMAD(totalAmountMAD, activeCurrency);
 
   const formatDate = (dateStr: string) => {
@@ -164,9 +187,18 @@ export default function Reserver({ params }: { params: { lang: string } }) {
       totalText = `${formatPrice(totalAmountConverted, activeCurrency)} (~${totalAmountMAD} MAD)`;
     }
 
-    const text = `Bonjour BABFEZ, je souhaite réserver ${selectedProperty.title} du ${formatDate(bookingDetails.startDate)} au ${formatDate(bookingDetails.endDate)} pour ${bookingDetails.adults} Adulte(s) et ${bookingDetails.children} Enfant(s).\nNom: ${bookingDetails.name}\nEmail: ${bookingDetails.email}\nArrivée: ${bookingDetails.arrival}\nDemandes: ${bookingDetails.requests || 'Aucune'}\nTotal devis: ${totalText}.`;
+    const optionsList = selectedUpsells.map(id => {
+      const u = UPSELL_SERVICES.find(x => x.id === id);
+      const title = lang === 'ar' ? u?.titleAr : lang === 'en' ? u?.titleEn : lang === 'es' ? u?.titleEs : u?.title;
+      return `${u?.icon} ${title} (+${calculateUpsellMAD(id)} MAD)`;
+    }).join(', ');
+
+    const optionsText = optionsList ? `\nOptions choisies : ${optionsList}` : '';
+
+    const text = `Bonjour BABFEZ, je souhaite réserver ${selectedProperty.title} du ${formatDate(bookingDetails.startDate)} au ${formatDate(bookingDetails.endDate)} pour ${bookingDetails.adults} Adulte(s) et ${bookingDetails.children} Enfant(s).${optionsText}\nNom: ${bookingDetails.name}\nEmail: ${bookingDetails.email}\nArrivée: ${bookingDetails.arrival}\nDemandes: ${bookingDetails.requests || 'Aucune'}\nTotal devis avec options: ${totalText}.`;
     window.open(`${CONTACT_INFO.whatsappLink}?text=${encodeURIComponent(text)}`, '_blank');
     setSelectedProperty(null);
+    setSelectedUpsells([]);
   };
 
   const filteredCatalog = searchZone === "Tous" ? MOCK_CATALOG : MOCK_CATALOG.filter(p => p.zone.includes(searchZone));
@@ -211,8 +243,6 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               {dict.nav.ownerSpace}
             </Link>
-
-
 
             <a href={`/${lang}/#simulateur`} className="bg-gradient-to-r from-[#6F8E88] to-[#63968C] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-[#6F8E88]/20 hover:brightness-105 transition-all">
               {dict.nav.estimateBtn}
@@ -289,7 +319,13 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                         <span className="text-2xl font-extrabold text-slate-950">{formatPrice(convertFromMAD(prop.price, activeCurrency), activeCurrency)}</span>
                         <span className="text-slate-500 text-sm font-medium"> {dict.reserver.pricePerNight}</span>
                       </div>
-                      <button onClick={() => setSelectedProperty(prop)} className="bg-slate-950 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-amber-600 shadow-md">
+                      <button 
+                        onClick={() => {
+                          setSelectedProperty(prop);
+                          setSelectedUpsells([]);
+                        }} 
+                        className="bg-slate-950 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-amber-600 shadow-md"
+                      >
                         {dict.reserver.btnReserve}
                       </button>
                     </div>
@@ -306,7 +342,10 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               activeCurrency={activeCurrency} 
               formatPrice={formatPrice} 
               convertFromMAD={convertFromMAD} 
-              onSelectProperty={setSelectedProperty} 
+              onSelectProperty={(prop) => {
+                setSelectedProperty(prop);
+                setSelectedUpsells([]);
+              }} 
             />
           </div>
         </div>
@@ -363,39 +402,49 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
       {selectedProperty && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col md:flex-row">
-            <div className="w-full md:w-5/12 bg-slate-50 p-8 flex flex-col">
-              <div className="flex justify-between mb-6">
-                <h3 className="text-2xl font-extrabold">{selectedProperty.title}</h3>
-                <button onClick={() => setSelectedProperty(null)} className="md:hidden"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+          <div className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col md:flex-row my-8 max-h-[90vh] overflow-hidden">
+            
+            {/* Colonne Gauche Résumé & Tarification */}
+            <div className="w-full md:w-5/12 bg-slate-50 p-6 md:p-8 flex flex-col overflow-y-auto border-b md:border-b-0 md:border-r border-slate-200">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-2xl font-extrabold text-slate-900">{selectedProperty.title}</h3>
+                <button onClick={() => setSelectedProperty(null)} className="md:hidden text-slate-400 hover:text-slate-700"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
               </div>
-              <img src={selectedProperty.image} alt={selectedProperty.title} onError={(e) => { e.currentTarget.src = DEFAULT_FALLBACK_IMAGE; }} className="w-full h-40 object-cover rounded-2xl mb-6 shadow-sm" />
+              <img src={selectedProperty.image} alt={selectedProperty.title} onError={(e) => { e.currentTarget.src = DEFAULT_FALLBACK_IMAGE; }} className="w-full h-40 object-cover rounded-2xl mb-6 shadow-sm shrink-0" />
               
-              <div className="space-y-4 text-sm font-medium">
-                <div className="flex justify-between">
-                  <span>{dict.booking.perNight}</span>
-                  <span className="font-bold">{formatPrice(convertFromMAD(selectedProperty.price, activeCurrency), activeCurrency)}</span>
+              <div className="space-y-3 text-sm font-medium">
+                <div className="flex justify-between text-slate-600">
+                  <span>{dict.booking.perNight} ({nights > 0 ? nights : 1} {nights > 1 ? 'nuits' : 'nuit'})</span>
+                  <span className="font-bold text-slate-900">{formatPrice(convertFromMAD(baseStayMAD, activeCurrency), activeCurrency)}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between text-slate-600">
                   <span>{dict.booking.cleaningFee}</span>
-                  <span className="font-bold">{formatPrice(convertFromMAD(selectedProperty.cleaningFee, activeCurrency), activeCurrency)}</span>
+                  <span className="font-bold text-slate-900">{formatPrice(convertFromMAD(selectedProperty.cleaningFee, activeCurrency), activeCurrency)}</span>
                 </div>
+
+                {/* Subtotal Options Additionnelles */}
+                {selectedUpsells.length > 0 && (
+                  <div className="pt-2 border-t border-slate-200 flex justify-between text-[#B85D36] font-bold">
+                    <span>Options choisies ({selectedUpsells.length}) :</span>
+                    <span>+{formatPrice(convertFromMAD(totalUpsellsMAD, activeCurrency), activeCurrency)}</span>
+                  </div>
+                )}
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-200">
-                <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl text-amber-900 text-sm mb-4">
-                  <div className="flex justify-between font-extrabold text-base mb-1">
+              <div className="mt-auto pt-6 border-t border-slate-200">
+                <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl text-amber-900 text-sm mb-4 shadow-sm">
+                  <div className="flex justify-between items-baseline font-extrabold text-base mb-1">
                     <span>{dict.booking.totalStay}</span>
                     <div className="flex flex-col items-end">
-                      <span>{formatPrice(totalAmountConverted, activeCurrency)}</span>
+                      <span className="text-xl text-[#B85D36]">{formatPrice(totalAmountConverted, activeCurrency)}</span>
                       {activeCurrency !== 'MAD' && (
-                        <span className="text-xs font-medium text-amber-700 opacity-80 mt-1">~{totalAmountMAD} MAD</span>
+                        <span className="text-xs font-semibold text-amber-700 opacity-80">~{totalAmountMAD} MAD</span>
                       )}
                     </div>
                   </div>
-                  <span className="text-xs">{dict.reserver.modalNotice.replace('{nights}', nights.toString())}</span>
+                  <span className="text-xs text-amber-800">{dict.reserver.modalNotice.replace('{nights}', (nights > 0 ? nights : 1).toString())}</span>
                 </div>
-                <p className="text-[10px] text-slate-500 text-center font-medium mb-4">{dict.reserver.modalDisclaimer}</p>
+                <p className="text-[10px] text-slate-500 text-center font-medium mb-3">{dict.reserver.modalDisclaimer}</p>
                 <Link 
                   href={`/${lang}/guide/${selectedProperty.id}`} 
                   target="_blank"
@@ -406,34 +455,101 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               </div>
             </div>
 
-            <div className="w-full md:w-7/12 p-8 relative">
-              <button onClick={() => setSelectedProperty(null)} className="hidden md:block absolute top-6 right-6 text-slate-400"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-              <h4 className="text-xl font-extrabold text-slate-950 mb-6">{dict.reserver.modalFormTitle}</h4>
+            {/* Colonne Droite Formulaire & Upsells */}
+            <div className="w-full md:w-7/12 p-6 md:p-8 relative overflow-y-auto">
+              <button onClick={() => setSelectedProperty(null)} className="hidden md:block absolute top-6 right-6 text-slate-400 hover:text-slate-700"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+              <h4 className="text-xl font-extrabold text-slate-950 mb-5">{dict.reserver.modalFormTitle}</h4>
               
               <form onSubmit={handleBookingSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.checkIn}</label>
-                    <input type="date" required value={bookingDetails.startDate} onChange={e => setBookingDetails({...bookingDetails, startDate: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200" />
+                    <input type="date" required value={bookingDetails.startDate} onChange={e => setBookingDetails({...bookingDetails, startDate: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.checkOut}</label>
-                    <input type="date" required value={bookingDetails.endDate} onChange={e => setBookingDetails({...bookingDetails, endDate: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200" />
+                    <input type="date" required value={bookingDetails.endDate} onChange={e => setBookingDetails({...bookingDetails, endDate: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.adults}</label>
-                    <select value={bookingDetails.adults} onChange={e => setBookingDetails({...bookingDetails, adults: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white">
+                    <select value={bookingDetails.adults} onChange={e => setBookingDetails({...bookingDetails, adults: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm">
                       {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n}</option>)}
                     </select>
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase text-slate-500 mb-1">{dict.booking.children}</label>
-                    <select value={bookingDetails.children} onChange={e => setBookingDetails({...bookingDetails, children: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white">
+                    <select value={bookingDetails.children} onChange={e => setBookingDetails({...bookingDetails, children: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm">
                       {[0,1,2,3,4].map(n => <option key={n} value={n}>{n}</option>)}
                     </select>
+                  </div>
+                </div>
+
+                {/* MODULE UPSELLS : SERVICES & EXPÉRIENCES À FÈS (OPTIONNEL) */}
+                <div className="pt-2 pb-1 border-t border-slate-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                      <span>✨</span>
+                      <span>
+                        {lang === 'ar' 
+                          ? 'خدمات وتجارب إضافية في فاس (اختياري)' 
+                          : lang === 'en' 
+                          ? 'Services & Experiences in Fez (Optional)' 
+                          : lang === 'es' 
+                          ? 'Servicios y Experiencias en Fez (Opcional)' 
+                          : 'Services & Expériences à Fès (Optionnel)'}
+                      </span>
+                    </span>
+                    {selectedUpsells.length > 0 && (
+                      <span className="text-[11px] font-bold text-[#B85D36] bg-[#B85D36]/10 px-2 py-0.5 rounded-full">
+                        +{formatPrice(convertFromMAD(totalUpsellsMAD, activeCurrency), activeCurrency)}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    {UPSELL_SERVICES.map(service => {
+                      const isChecked = selectedUpsells.includes(service.id);
+                      const serviceCostMAD = calculateUpsellMAD(service.id);
+                      const serviceCostConverted = convertFromMAD(serviceCostMAD, activeCurrency);
+                      const title = lang === 'ar' ? service.titleAr : lang === 'en' ? service.titleEn : lang === 'es' ? service.titleEs : service.title;
+
+                      return (
+                        <label
+                          key={service.id}
+                          className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-all ${
+                            isChecked
+                              ? 'bg-[#B85D36]/5 border-[#B85D36] shadow-sm'
+                              : 'bg-white border-slate-200 hover:border-slate-300'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => toggleUpsell(service.id)}
+                              className="w-4 h-4 rounded text-[#B85D36] focus:ring-[#B85D36] accent-[#B85D36]"
+                            />
+                            <span className="text-base shrink-0">{service.icon}</span>
+                            <div className="truncate">
+                              <span className={`text-xs block truncate ${isChecked ? 'font-bold text-slate-900' : 'font-medium text-slate-700'}`}>
+                                {title}
+                              </span>
+                              <span className="text-[10px] text-slate-400 block">
+                                {service.pricingType === 'per_person_per_day'
+                                  ? `(${bookingDetails.adults} pers. × ${nights > 0 ? nights : 1} j.)`
+                                  : 'Tarif fixe'}
+                              </span>
+                            </div>
+                          </div>
+                          <span className={`text-xs font-bold whitespace-nowrap ml-2 ${isChecked ? 'text-[#B85D36]' : 'text-slate-500'}`}>
+                            +{formatPrice(serviceCostConverted, activeCurrency)}
+                          </span>
+                        </label>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -470,7 +586,9 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                     <svg className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span>{dict.booking.badgeHotelStandard}</span>
                   </div>
-                  <button type="submit" className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-700">{dict.booking.confirmWhatsapp}</button>
+                  <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg transition-colors text-sm uppercase tracking-wider">
+                    {dict.booking.confirmWhatsapp}
+                  </button>
                 </div>
               </form>
             </div>
