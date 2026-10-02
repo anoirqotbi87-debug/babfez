@@ -18,9 +18,12 @@ const PropertiesMap = dynamic(() => import('@/components/PropertiesMap'), {
   loading: () => <div className="w-full h-full bg-slate-100 animate-pulse flex items-center justify-center text-slate-400 font-bold rounded-2xl md:rounded-l-none">Chargement de la carte...</div>
 });
 
+import { PROPERTIES, DEFAULT_FALLBACK_IMAGE } from "@/data/properties";
+
 const dicts = { fr, en, es, ar };
 
-const MOCK_CATALOG = [
+const MOCK_CATALOG = PROPERTIES;
+/* const OLD_MOCK = [
   {
     id: "p1",
     title: "Riad Dar Ziryab",
@@ -66,7 +69,7 @@ const MOCK_CATALOG = [
     image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
     amenities: ["Parking", "Cuisine", "Fiches Police", "Wi-Fi"]
   }
-];
+]; */
 
 export default function Reserver({ params }: { params: { lang: string } }) {
   const lang = params.lang as keyof typeof dicts;
@@ -273,7 +276,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
               {filteredCatalog.map(prop => (
                 <div key={prop.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col">
                   <div className="relative h-64 overflow-hidden">
-                    <img src={prop.image} alt={prop.title} className="w-full h-full object-cover" />
+                    <img src={prop.image} alt={prop.title} onError={(e) => { e.currentTarget.src = DEFAULT_FALLBACK_IMAGE; }} className="w-full h-full object-cover" />
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="mb-4">
@@ -368,7 +371,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
                 <h3 className="text-2xl font-extrabold">{selectedProperty.title}</h3>
                 <button onClick={() => setSelectedProperty(null)} className="md:hidden"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
               </div>
-              <img src={selectedProperty.image} alt={selectedProperty.title} className="w-full h-40 object-cover rounded-2xl mb-6 shadow-sm" />
+              <img src={selectedProperty.image} alt={selectedProperty.title} onError={(e) => { e.currentTarget.src = DEFAULT_FALLBACK_IMAGE; }} className="w-full h-40 object-cover rounded-2xl mb-6 shadow-sm" />
               
               <div className="space-y-4 text-sm font-medium">
                 <div className="flex justify-between">

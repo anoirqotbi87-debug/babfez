@@ -67,10 +67,18 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 font-sans text-slate-900">
-      <Link href={`/${lang}`} className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        {dict.nav.backHome}
-      </Link>
+      <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
+        <Link 
+          href={`/${lang}`} 
+          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium"
+        >
+          <span>{lang === 'ar' ? "→" : "←"}</span>
+          <span>{lang === 'ar' ? "العودة للرئيسية" : (lang === 'en' ? "Back to Home" : (lang === 'es' ? "Volver al inicio" : "Retour à l'accueil"))}</span>
+        </Link>
+      </div>
+
+
+
 
       <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
         <div className="text-center mb-8">

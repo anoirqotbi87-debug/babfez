@@ -2,7 +2,7 @@
   "name": "BABFEZ — Conciergerie Privée Fès",
   "short_name": "BABFEZ",
   "description": "Conciergerie & Intendance Privée de résidences et Riads à Fès",
-  "start_url": "/fr",
+  "start_url": "/fr/proprietaire/login?source=apk",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",

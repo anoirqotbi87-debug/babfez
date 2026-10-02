@@ -71,12 +71,24 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
-      <Link href={`/${lang}`} className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        {dict.nav.backHome}
-      </Link>
-      <div className="absolute top-8 right-8"><LanguageSwitcher currentLang={lang} /></div>
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative pt-24 sm:pt-16">
+      <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
+        <Link 
+          href={`/${lang}`} 
+          onClick={() => {
+            if (typeof window !== "undefined") sessionStorage.setItem("navigated_to_home", "true");
+          }}
+          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium"
+        >
+          <span>{lang === 'ar' ? "→" : "←"}</span>
+          <span>{lang === 'ar' ? "العودة للرئيسية" : (lang === 'en' ? "Back to Home" : (lang === 'es' ? "Volver al inicio" : "Retour à l'accueil"))}</span>
+        </Link>
+      </div>
+
+
+
+
+      <div className="absolute top-6 right-6 sm:top-8 sm:right-8 z-10"><LanguageSwitcher currentLang={lang} /></div>
       
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link href={`/${lang}`} className="flex justify-center items-center gap-3 mb-6">

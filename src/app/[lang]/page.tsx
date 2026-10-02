@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CurrencySwitcher from "@/components/CurrencySwitcher";
 import fr from "@/dictionaries/fr.json";
@@ -37,7 +38,23 @@ export default function Home({ params }: { params: { lang: string } }) {
     login: { ...(dicts.fr as any).login, ...(baseDict as any).login }
   };
 
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Routage direct de l'APK vers l'Espace Propriétaire (Login)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search || "";
+      const isApkSource = search.includes("source=apk");
+      const isAndroidApp = document.referrer.includes("android-app://");
+      const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
+      const hasExplicitlyNavigatedHome = sessionStorage.getItem("navigated_to_home") === "true";
+
+      if ((isApkSource || isAndroidApp || isStandalone) && !hasExplicitlyNavigatedHome) {
+        router.replace(`/${lang}/proprietaire/login?source=apk`);
+      }
+    }
+  }, [lang, router]);
   
   // Simulator State - 100% Réactif & Intelligence de Marché Fès
   const [zone, setZone] = useState<"ville_nouvelle" | "medina" | "immouzzer">("ville_nouvelle");
