@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -245,7 +245,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
             <a href="#atouts" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-[#646767] hover:text-[#6F8E88]">{dict.nav.advantages}</a>
             <a href="#faq" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-[#646767] hover:text-[#6F8E88]">{dict.nav.faq}</a>
             <Link href={`/${lang}/reserver`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-[#6F8E88]">{dict.nav.properties}</Link>
-            <Link href={`/${lang}/proprietaire/login`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-[#2D3748]">{dict.nav.ownerSpace}</Link>
+            <Link href={`/${lang}/proprietaire/login`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-[#646767]">{dict.nav.ownerSpace}</Link>
             
             <a 
               href="/downloads/babfez.apk" 
@@ -277,7 +277,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                 ✨ {dict.hero.badge}
               </span>
 
-              <h1 className={`text-4xl sm:text-5xl lg:text-6xl text-[#2D3748] mb-6 tracking-tight leading-[1.15] ${isAr ? 'font-black' : 'font-serif font-bold'}`}>
+              <h1 className={`text-4xl sm:text-5xl lg:text-6xl text-[#6F8E88] mb-6 tracking-tight leading-[1.15] ${isAr ? 'font-black' : 'font-serif font-bold'}`}>
                 {dict.hero.title}
               </h1>
 
@@ -305,19 +305,19 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-[#D8E8E6]">
                 <div className="bg-white border border-[#D8E8E6] p-3.5 rounded-2xl shadow-warm flex items-center gap-3">
                   <span className="text-xl">📈</span>
-                  <div className="text-xs font-bold text-[#2D3748]">
+                  <div className="text-xs font-bold text-[#646767]">
                     {dict.hero?.kpi1 || "+40% Revenu vs location classique"}
                   </div>
                 </div>
                 <div className="bg-white border border-[#D8E8E6] p-3.5 rounded-2xl shadow-warm flex items-center gap-3">
                   <span className="text-xl">🛡️</span>
-                  <div className="text-xs font-bold text-[#2D3748]">
+                  <div className="text-xs font-bold text-[#646767]">
                     {dict.hero?.kpi2 || "100% Conformité fiches de police"}
                   </div>
                 </div>
                 <div className="bg-white border border-[#D8E8E6] p-3.5 rounded-2xl shadow-warm flex items-center gap-3">
                   <span className="text-xl">🤝</span>
-                  <div className="text-xs font-bold text-[#2D3748]">
+                  <div className="text-xs font-bold text-[#646767]">
                     {dict.hero?.kpi3 || "24/7 Assistance voyageurs"}
                   </div>
                 </div>
@@ -373,7 +373,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <span className="text-[#6F8E88] text-xs font-black uppercase tracking-widest block mb-2">Market Intelligence Fès</span>
-            <h2 className={`text-3xl md:text-5xl font-black mb-4 text-[#2D3748] ${isAr ? '' : 'font-serif'}`}>{dict.simulator.title}</h2>
+            <h2 className={`text-3xl md:text-5xl font-black mb-4 text-[#6F8E88] ${isAr ? '' : 'font-serif'}`}>{dict.simulator.title}</h2>
             <p className="text-[#646767] text-lg max-w-2xl mx-auto font-medium">Simulation en temps réel basée sur les flux réels Airbnb, Booking.com et Avito.</p>
           </div>
 
@@ -545,14 +545,14 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
       <section id="services" className="py-24 bg-[#F2F2F2] border-t border-[#D8E8E6]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-[#6F8E88] text-xs font-black uppercase tracking-widest block mb-2">Transparence & Performance</span>
-          <h2 className={`text-3xl md:text-5xl font-black text-[#2D3748] mb-4 ${isAr ? '' : 'font-serif'}`}>{dict.services?.title}</h2>
+          <h2 className={`text-3xl md:text-5xl font-black text-[#6F8E88] mb-4 ${isAr ? '' : 'font-serif'}`}>{dict.services?.title}</h2>
           <p className="text-lg text-[#646767] max-w-2xl mx-auto mb-16 font-medium">{dict.services?.subtitle}</p>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-left items-stretch">
             
             {/* Formule 1: Services À la carte */}
             <div className="bg-white rounded-3xl p-8 border border-[#D8E8E6] shadow-warm hover:border-[#6F8E88]/40 transition-all flex flex-col hover:shadow-warm-lg">
-              <h3 className="text-xl font-black text-[#2D3748] mb-1">{dict.services?.f1Title}</h3>
+              <h3 className="text-xl font-black text-[#6F8E88] mb-1">{dict.services?.f1Title}</h3>
               <div className="text-3xl font-black text-[#2D3748] mb-4">{dict.services?.f1Price}</div>
               <p className="text-[#646767] mb-6 text-sm font-medium leading-relaxed">{dict.services?.f1Desc}</p>
               <ul className="mb-8 space-y-3.5 flex-1">
@@ -570,7 +570,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
 
             {/* Formule 2: Gestion Digitale */}
             <div className="bg-white rounded-3xl p-8 border border-[#D8E8E6] shadow-warm hover:border-[#6F8E88]/40 transition-all flex flex-col hover:shadow-warm-lg">
-              <h3 className="text-xl font-black text-[#2D3748] mb-1">{dict.services?.f2Title}</h3>
+              <h3 className="text-xl font-black text-[#6F8E88] mb-1">{dict.services?.f2Title}</h3>
               <div className="text-3xl font-black text-[#6F8E88] mb-4">{dict.services?.f2Price}</div>
               <p className="text-[#646767] mb-6 text-sm font-medium leading-relaxed">{dict.services?.f2Desc}</p>
               <ul className="mb-8 space-y-3.5 flex-1">
@@ -612,7 +612,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#2D3748] text-[#A1C0BA] border border-[#A1C0BA]/40 font-black px-4 py-1.5 rounded-full text-xs uppercase tracking-wider whitespace-nowrap shadow-md">
                 👑 {dict.services?.f4Badge || "Excellence"}
               </div>
-              <h3 className="text-xl font-black text-[#2D3748] mb-1">{dict.services?.f4Title}</h3>
+              <h3 className="text-xl font-black text-[#6F8E88] mb-1">{dict.services?.f4Title}</h3>
               <div className="text-3xl font-black text-[#2D3748] mb-4">{dict.services?.f4Price}</div>
               <p className="text-[#646767] mb-6 text-sm font-medium leading-relaxed">{dict.services?.f4Desc}</p>
               <ul className="mb-8 space-y-3.5 flex-1">
@@ -637,7 +637,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-[#6F8E88] text-xs font-black uppercase tracking-widest block mb-2">Savoir-Faire & Rigueur</span>
-            <h2 className={`text-3xl md:text-5xl font-black text-[#2D3748] mb-4 ${isAr ? '' : 'font-serif'}`}>{dict.advantages?.title}</h2>
+            <h2 className={`text-3xl md:text-5xl font-black text-[#6F8E88] mb-4 ${isAr ? '' : 'font-serif'}`}>{dict.advantages?.title}</h2>
             <p className="text-[#646767] text-lg max-w-2xl mx-auto font-medium">{dict.advantages?.subtitle}</p>
           </div>
           
@@ -652,7 +652,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                 <div className="w-14 h-14 bg-[#2D3748] text-[#A1C0BA] rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-[#2D3748]/20 group-hover:scale-110 transition-transform">
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d={atout.icon}/></svg>
                 </div>
-                <h4 className="text-xl font-black text-[#2D3748] mb-3">{atout.title}</h4>
+                <h4 className="text-xl font-black text-[#6F8E88] mb-3">{atout.title}</h4>
                 <p className="text-[#646767] leading-relaxed text-sm font-medium">{atout.desc}</p>
               </div>
             ))}
@@ -665,7 +665,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-[#6F8E88] text-xs font-black uppercase tracking-widest block mb-2">Réponses Claires</span>
-            <h2 className={`text-3xl md:text-5xl font-black text-[#2D3748] mb-4 ${isAr ? '' : 'font-serif'}`}>{dict.faq?.title}</h2>
+            <h2 className={`text-3xl md:text-5xl font-black text-[#6F8E88] mb-4 ${isAr ? '' : 'font-serif'}`}>{dict.faq?.title}</h2>
             <p className="text-[#646767] text-lg font-medium">{dict.faq?.subtitle}</p>
           </div>
           <div className="space-y-4">
@@ -678,7 +678,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                 <button 
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)} 
-                  className="w-full text-left px-6 py-5 font-bold text-[#2D3748] flex justify-between items-center focus:outline-none"
+                  className="w-full text-left px-6 py-5 font-bold text-[#6F8E88] flex justify-between items-center focus:outline-none"
                 >
                   <span className="text-base sm:text-lg">{faq.q}</span>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-[#F2F2F2] text-[#6F8E88] transition-transform ${openFaq === i ? 'rotate-180 bg-[#2D3748] text-[#A1C0BA]' : ''}`}>
@@ -726,26 +726,26 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                   <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/></svg>
                   </div>
-                  <h3 className="text-2xl font-black text-[#2D3748]">{dict.home.formSuccess}</h3>
+                  <h3 className="text-2xl font-black text-[#646767]">{dict.home.formSuccess}</h3>
                   <p className="text-sm text-stone-500 font-medium">Votre dossier a été enregistré dans notre base de données sécurisée. Ouverture de la discussion WhatsApp...</p>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input type="text" required placeholder={dict.contact.fullName} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#2D3748]" />
-                    <input type="email" required placeholder={dict.contact.email} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#2D3748]" />
+                    <input type="text" required placeholder={dict.contact.fullName} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#646767]" />
+                    <input type="email" required placeholder={dict.contact.email} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#646767]" />
                   </div>
                   <div>
-                    <input type="tel" required placeholder={dict.contact.phone} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#2D3748]" />
+                    <input type="tel" required placeholder={dict.contact.phone} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#646767]" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <select value={formData.quartier} onChange={e => setFormData({...formData, quartier: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none bg-white font-medium text-sm text-[#2D3748]">
+                    <select value={formData.quartier} onChange={e => setFormData({...formData, quartier: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none bg-white font-medium text-sm text-[#646767]">
                       <option value="" disabled>{dict.contact.area}</option>
                       <option value="Ville Nouvelle / Atlas">Ville Nouvelle / Atlas / Champs de Course</option>
                       <option value="Médina / Riad">Médina / Riad</option>
                       <option value="Route d'Immouzzer">Route d'Immouzzer</option>
                     </select>
-                    <select value={formData.typeBien} onChange={e => setFormData({...formData, typeBien: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none bg-white font-medium text-sm text-[#2D3748]">
+                    <select value={formData.typeBien} onChange={e => setFormData({...formData, typeBien: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none bg-white font-medium text-sm text-[#646767]">
                       <option value="" disabled>{dict.simulator.typeLabel}</option>
                       <option value="Appartement">Appartement</option>
                       <option value="Riad">Riad</option>
@@ -753,8 +753,8 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                     </select>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input type="number" placeholder={dict.contact.surface} value={formData.surface} onChange={e => setFormData({...formData, surface: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#2D3748]" />
-                    <select value={formData.formule} onChange={e => setFormData({...formData, formule: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none bg-white font-medium text-sm text-[#2D3748]">
+                    <input type="number" placeholder={dict.contact.surface} value={formData.surface} onChange={e => setFormData({...formData, surface: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none font-medium text-sm text-[#646767]" />
+                    <select value={formData.formule} onChange={e => setFormData({...formData, formule: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none bg-white font-medium text-sm text-[#646767]">
                       <option value="" disabled>{dict.contact.plan}</option>
                       <option value={dict.services?.f3Title || "Gestion Sérénité"}>{dict.services?.f3Title || "Gestion Sérénité (20% TTC)"}</option>
                       <option value={dict.services?.f2Title || "Gestion Digitale"}>{dict.services?.f2Title || "Gestion Digitale (15% TTC)"}</option>
@@ -763,7 +763,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
                     </select>
                   </div>
                   <div>
-                    <textarea placeholder={dict.contact.message} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none h-24 resize-none font-medium text-sm text-[#2D3748]"></textarea>
+                    <textarea placeholder={dict.contact.message} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-[#D8E8E6] focus:border-[#6F8E88] outline-none h-24 resize-none font-medium text-sm text-[#646767]"></textarea>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <input type="checkbox" id="rgpd" required checked={formData.rgpd} onChange={e => setFormData({...formData, rgpd: e.target.checked})} className="mt-1 accent-[#6F8E88]" />

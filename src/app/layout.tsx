@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Cairo, Libre_Baskerville } from "next/font/google";
 import "./globals.css";
 
@@ -16,6 +16,10 @@ const cairo = Cairo({
   variable: "--font-cairo",
   display: "swap"
 });
+
+export const viewport: Viewport = {
+  themeColor: "#F2F2F2",
+};
 
 export const metadata: Metadata = {
   title: "BABFEZ - Conciergerie & Intendance Privée à Fès",

@@ -173,14 +173,12 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
   return (
     <div className="min-h-screen bg-[#F2F2F2] text-[#2D3748] font-sans">
-      <header className="fixed w-full top-0 z-40 bg-[#F2F2F2]/90 backdrop-blur-md border-b border-[#D8E8E6]">
+      <header className="fixed w-full top-0 z-40 bg-white backdrop-blur-md border-b border-[#D8E8E6] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
           <Link href={`/${lang}`} className="flex items-center gap-3">
-            <div className="w-11 h-11 bg-gradient-to-br from-[#6F8E88] to-[#63968C] rounded-xl flex items-center justify-center text-[#A1C0BA] shadow-md shadow-[#6F8E88]/25 group-hover:scale-105 transition-transform border border-[#A1C0BA]/40">
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>
-            </div>
+            <img src="https://babfez.com/wp-content/uploads/2022/06/logo.png" alt="Logo BABFEZ" width={40} height={48} className="h-11 w-auto object-contain" />
             <div>
-              <span className="text-2xl font-black tracking-tight text-[#2D3748] block leading-tight">BAB<span className="text-[#6F8E88]">FEZ</span></span>
+              <span className="text-xl font-bold tracking-tight text-[#6F8E88] block leading-tight">BABFEZ</span>
               <span className="text-[10px] text-slate-500 font-bold tracking-widest uppercase block">{dict.reserver.tagline}</span>
             </div>
           </Link>

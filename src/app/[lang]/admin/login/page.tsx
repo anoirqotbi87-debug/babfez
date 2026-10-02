@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -85,7 +85,7 @@ export default function AdminLogin({ params }: { params: { lang: string } }) {
           <div className="w-16 h-16 bg-gradient-to-br from-[#6F8E88] to-[#63968C] rounded-2xl mx-auto flex items-center justify-center text-[#A1C0BA] mb-4 shadow-lg shadow-[#6F8E88]/20 border border-[#A1C0BA]/40">
             <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           </div>
-          <h1 className={`text-2xl font-black text-[#2D3748] ${lang === 'ar' ? '' : 'font-serif'}`}>Espace Administrateur</h1>
+          <h1 className={`text-2xl font-black text-[#6F8E88] ${lang === 'ar' ? '' : 'font-serif'}`}>Espace Administrateur</h1>
           <p className="text-sm text-slate-500 mt-2 font-medium">Gestion globale de la plateforme BABFEZ</p>
         </div>
 
