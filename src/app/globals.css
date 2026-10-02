@@ -26,3 +26,11 @@
 .custom-popup .leaflet-popup-tip {
   background: white;
 }
+
+/* Hide Android Install Banner and prompts when inside installed Standalone TWA / PWA */
+@media all and (display-mode: standalone), all and (display-mode: fullscreen), all and (display-mode: minimal-ui) {
+  .android-app-only-hide {
+    display: none !important;
+  }
+}
+

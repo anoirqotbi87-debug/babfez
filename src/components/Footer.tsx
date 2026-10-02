@@ -45,7 +45,7 @@ export default function Footer({ lang, dict }: { lang: string, dict: any }) {
               <li><Link href={`/${lang}/reserver`} className="hover:text-amber-500 transition-colors">{dict.nav?.properties}</Link></li>
               <li><Link href={`/${lang}/proprietaire/login`} className="hover:text-amber-500 transition-colors">{dict.nav?.ownerSpace}</Link></li>
               <li><a href={`/${lang}/#faq`} className="hover:text-amber-500 transition-colors">{dict.nav?.faq || 'FAQ'}</a></li>
-              <li>
+              <li className="android-app-only-hide">
                 <a 
                   href="/downloads/babfez.apk" 
                   download="babfez.apk" 

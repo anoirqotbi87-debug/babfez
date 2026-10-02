@@ -12,13 +12,28 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
   const [isAndroidDevice, setIsAndroidDevice] = useState(false);
 
   useEffect(() => {
-    // Check if dismissed in this session
+    // 1. Immediately eliminate banner if running inside installed standalone app (TWA / PWA / WebAPK)
+    const isStandalone = 
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches ||
+      (navigator as any).standalone === true ||
+      document.referrer.includes('android-app://') ||
+      sessionStorage.getItem('babfez_is_installed_app') === 'true';
+
+    if (isStandalone) {
+      sessionStorage.setItem('babfez_is_installed_app', 'true');
+      setIsVisible(false);
+      return;
+    }
+
+    // 2. Check if dismissed in this session
     const isDismissed = sessionStorage.getItem('babfez_android_banner_dismissed');
     if (isDismissed === 'true') {
       return;
     }
 
-    // Detect Android or mobile user agent
+    // 3. Detect Android or mobile user agent
     const ua = navigator.userAgent || '';
     const isAndroid = /android/i.test(ua);
     setIsAndroidDevice(isAndroid);
@@ -28,6 +43,16 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
     if (isMobile) {
       setIsVisible(true);
     }
+
+    // Listen for display-mode changes
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    const handleModeChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        setIsVisible(false);
+      }
+    };
+    mediaQuery.addEventListener('change', handleModeChange);
+    return () => mediaQuery.removeEventListener('change', handleModeChange);
   }, []);
 
   const handleDismiss = () => {
@@ -97,7 +122,7 @@ export default function AndroidInstallBanner({ lang = 'fr' }: AndroidInstallBann
       <aside 
         aria-label="Application Android BABFEZ"
         dir={isRtl ? 'rtl' : 'ltr'} 
-        className="relative z-40 bg-[#0B2545] text-white border-b-2 border-[#C59B27]/40 shadow-lg px-3 py-2.5 sm:px-4"
+        className="android-app-only-hide relative z-40 bg-[#0B2545] text-white border-b-2 border-[#C59B27]/40 shadow-lg px-3 py-2.5 sm:px-4"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           

@@ -178,7 +178,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
             <a 
               href="/downloads/babfez.apk" 
               download="babfez.apk" 
-              className="hidden xl:inline-flex items-center gap-1.5 text-xs font-bold text-[#C59B27] bg-[#C59B27]/10 hover:bg-[#C59B27] hover:text-white px-3 py-2 rounded-xl border border-[#C59B27]/30 transition-all shadow-sm"
+              className="android-app-only-hide hidden xl:inline-flex items-center gap-1.5 text-xs font-bold text-[#C59B27] bg-[#C59B27]/10 hover:bg-[#C59B27] hover:text-white px-3 py-2 rounded-xl border border-[#C59B27]/30 transition-all shadow-sm"
               title="Télécharger l'application Android BABFEZ (APK)"
             >
               <span>📱</span>
@@ -219,7 +219,7 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               href="/downloads/babfez.apk" 
               download="babfez.apk" 
               onClick={() => setIsMobileMenuOpen(false)} 
-              className="flex items-center justify-between font-bold text-[#C59B27] py-2.5 px-3 bg-[#C59B27]/10 rounded-xl border border-[#C59B27]/30 transition-all hover:bg-[#C59B27] hover:text-white"
+              className="android-app-only-hide flex items-center justify-between font-bold text-[#C59B27] py-2.5 px-3 bg-[#C59B27]/10 rounded-xl border border-[#C59B27]/30 transition-all hover:bg-[#C59B27] hover:text-white"
             >
               <div className="flex items-center gap-2">
                 <span>📱</span>
