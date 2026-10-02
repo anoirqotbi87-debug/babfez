@@ -42,7 +42,17 @@ local.properties
 .gradle/
 *.aab
 *.apk
+!public/downloads/*.apk
 *.idsig
-app/build/
+app/
+gradle/
+gradlew*
+*.gradle
+gradle.properties
 manifest-checksum.txt
+store_icon.png
+twa-manifest.json
+generate_twa.js
+make_icons.py
+
 

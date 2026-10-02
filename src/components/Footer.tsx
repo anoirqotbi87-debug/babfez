@@ -45,6 +45,24 @@ export default function Footer({ lang, dict }: { lang: string, dict: any }) {
               <li><Link href={`/${lang}/reserver`} className="hover:text-amber-500 transition-colors">{dict.nav?.properties}</Link></li>
               <li><Link href={`/${lang}/proprietaire/login`} className="hover:text-amber-500 transition-colors">{dict.nav?.ownerSpace}</Link></li>
               <li><a href={`/${lang}/#faq`} className="hover:text-amber-500 transition-colors">{dict.nav?.faq || 'FAQ'}</a></li>
+              <li>
+                <a 
+                  href="/downloads/babfez.apk" 
+                  download="babfez.apk" 
+                  className="inline-flex items-center gap-1.5 font-bold text-[#C59B27] hover:text-amber-400 transition-colors"
+                >
+                  <span>📱</span>
+                  <span>
+                    {lang === 'ar' 
+                      ? 'تحميل تطبيق أندرويد (APK)' 
+                      : lang === 'es' 
+                      ? 'Descargar App Android (APK)' 
+                      : lang === 'en' 
+                      ? 'Download Android App (APK)' 
+                      : "Télécharger l'App Android (APK)"}
+                  </span>
+                </a>
+              </li>
             </ul>
           </div>
 

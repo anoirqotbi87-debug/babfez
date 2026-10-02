@@ -10,6 +10,7 @@ import es from "@/dictionaries/es.json";
 import ar from "@/dictionaries/ar.json";
 import { CONTACT_INFO } from "@/config/site";
 import Footer from "@/components/Footer";
+import AndroidInstallBanner from "@/components/AndroidInstallBanner";
 import { FES_MARKET_DATA } from "@/config/market-pricing";
 
 const dicts = { fr, en, es, ar };
@@ -145,7 +146,8 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#0B2545] font-sans selection:bg-[#C59B27] selection:text-white">
       {/* 1. Header & Navigation Fixe Haut de Gamme */}
-      <header className="fixed w-full top-0 z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#0B2545]/10 transition-all">
+      <header className="fixed w-full top-0 z-50 bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#0B2545]/10 transition-all">
+        <AndroidInstallBanner lang={lang} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
           <Link href={`/${lang}`} className="flex items-center gap-3 group">
             <div className="w-11 h-11 bg-[#0B2545] rounded-xl flex items-center justify-center text-[#C59B27] shadow-md shadow-[#0B2545]/20 group-hover:scale-105 transition-transform">
@@ -172,6 +174,16 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               <div className="h-4 w-px bg-slate-200"></div>
               <CurrencySwitcher />
             </div>
+
+            <a 
+              href="/downloads/babfez.apk" 
+              download="babfez.apk" 
+              className="hidden xl:inline-flex items-center gap-1.5 text-xs font-bold text-[#C59B27] bg-[#C59B27]/10 hover:bg-[#C59B27] hover:text-white px-3 py-2 rounded-xl border border-[#C59B27]/30 transition-all shadow-sm"
+              title="Télécharger l'application Android BABFEZ (APK)"
+            >
+              <span>📱</span>
+              <span>App Android</span>
+            </a>
             
             <Link href={`/${lang}/proprietaire/login`} className="flex items-center gap-2 text-sm font-bold text-[#134074] bg-white border border-[#0B2545]/10 hover:border-[#C59B27] px-4 py-2.5 rounded-xl transition-all shadow-sm">
               <svg className="w-4 h-4 text-[#C59B27]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -202,6 +214,19 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
             <a href="#faq" onClick={() => setIsMobileMenuOpen(false)} className="block font-semibold text-[#134074]">{dict.nav.faq}</a>
             <Link href={`/${lang}/reserver`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-[#C59B27]">{dict.nav.properties}</Link>
             <Link href={`/${lang}/proprietaire/login`} onClick={() => setIsMobileMenuOpen(false)} className="block font-bold text-[#0B2545]">{dict.nav.ownerSpace}</Link>
+            
+            <a 
+              href="/downloads/babfez.apk" 
+              download="babfez.apk" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="flex items-center justify-between font-bold text-[#C59B27] py-2.5 px-3 bg-[#C59B27]/10 rounded-xl border border-[#C59B27]/30 transition-all hover:bg-[#C59B27] hover:text-white"
+            >
+              <div className="flex items-center gap-2">
+                <span>📱</span>
+                <span>{lang === 'ar' ? 'تحميل تطبيق أندرويد (APK)' : "Télécharger l'App Android (APK)"}</span>
+              </div>
+              <span className="text-[10px] bg-[#0B2545] text-white font-mono px-2 py-0.5 rounded">1.05 Mo</span>
+            </a>
           </div>
         )}
       </header>
