@@ -13,7 +13,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-$unsignedApk = ".\app\build\outputs\apk\release\app-release-unsigned.apk"
+$unsignedApk = if (Test-Path ".\android_app\build\outputs\apk\release\android_app-release-unsigned.apk") { ".\android_app\build\outputs\apk\release\android_app-release-unsigned.apk" } else { ".\android_app\build\outputs\apk\release\app-release-unsigned.apk" }
 $alignedApk = ".\app-release-unsigned-aligned.apk"
 $signedApk = ".\app-release-signed.apk"
 $publicApk = ".\public\downloads\babfez.apk"

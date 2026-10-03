@@ -23,7 +23,7 @@ const dicts = { fr, en, es, ar };
 
 const MOCK_CATALOG = PROPERTIES;
 
-export const UPSELL_SERVICES = [
+const UPSELL_SERVICES = [
   {
     id: "airport",
     icon: "🚖",

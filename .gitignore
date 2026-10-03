@@ -45,6 +45,7 @@ local.properties
 !public/downloads/*.apk
 *.idsig
 /app/
+/android_app/
 /gradle/
 gradlew*
 *.gradle
