@@ -31,10 +31,28 @@ function ProprietaireLoginForm({ lang }: { lang: keyof typeof dicts }) {
 
   useEffect(() => {
     const err = searchParams?.get("error");
-    if (err === "unauthorized") {
-      setError("Connexion impossible ou session expirée. Veuillez réessayer.");
+    if (err === "oauth_failed") {
+      setError(
+        lang === "ar"
+          ? "فشل تسجيل الدخول عبر Google. يرجى المحاولة مرة أخرى أو استخدام معرفك وكلمة المرور."
+          : (lang === "en"
+            ? "Google login failed. Please try again or use your username and password."
+            : (lang === "es"
+              ? "Error al iniciar sesión con Google. Inténtelo de nuevo o use su usuario y contraseña."
+              : "Échec de l'authentification Google. Veuillez réessayer ou vous connecter avec vos identifiants."))
+      );
+    } else if (err === "unauthorized") {
+      setError(
+        lang === "ar"
+          ? "انتهت صلاحية الجلسة أو تعذر الاتصال. يرجى تسجيل الدخول مجدداً."
+          : (lang === "en"
+            ? "Session expired or access denied. Please log in again."
+            : (lang === "es"
+              ? "Sesión expirada o acceso denegado. Inicie sesión de nuevo."
+              : "Connexion impossible ou session expirée. Veuillez vous reconnecter."))
+      );
     }
-  }, [searchParams]);
+  }, [searchParams, lang]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

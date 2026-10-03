@@ -22,8 +22,10 @@ function AdminLoginForm({ lang }: { lang: keyof typeof dicts }) {
 
   useEffect(() => {
     const err = searchParams?.get("error");
-    if (err === "unauthorized" || err === "unauthorized_admin") {
-      setError("Accès refusé : Ce compte Google ne dispose pas des privilèges administrateur BABFEZ.");
+    if (err === "oauth_failed") {
+      setError("Échec de l'authentification Google. Veuillez réessayer ou utiliser votre mot de passe.");
+    } else if (err === "unauthorized" || err === "unauthorized_admin") {
+      setError("Accès refusé : Ce compte ne dispose pas des privilèges administrateur BABFEZ.");
     }
   }, [searchParams]);
 

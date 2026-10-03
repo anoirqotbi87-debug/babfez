@@ -12,7 +12,8 @@ export function middleware(request: NextRequest) {
     pathname.includes('.') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/auth') ||
-    pathname.startsWith('/_next')
+    pathname.startsWith('/_next') ||
+    pathname.includes('/auth/callback')
   ) {
     return NextResponse.next();
   }
@@ -27,8 +28,9 @@ export function middleware(request: NextRequest) {
   // 3. RBAC - Protection de l'Espace Administrateur (/admin/*)
   const isAdminRoute = pathWithoutLocale.startsWith('/admin');
   const isAdminLogin = pathWithoutLocale === '/admin/login' || pathWithoutLocale === '/admin/login/';
+  const isAdminCallback = pathWithoutLocale.includes('/auth/callback');
 
-  if (isAdminRoute && !isAdminLogin) {
+  if (isAdminRoute && !isAdminLogin && !isAdminCallback) {
     const roleCookie = request.cookies.get('babfez-auth-role')?.value;
     const hasAdminRole = roleCookie === 'admin';
 
@@ -42,8 +44,9 @@ export function middleware(request: NextRequest) {
   // 4. RBAC - Protection de l'Espace Propriétaire (/proprietaire/*)
   const isOwnerRoute = pathWithoutLocale.startsWith('/proprietaire');
   const isOwnerLogin = pathWithoutLocale === '/proprietaire/login' || pathWithoutLocale === '/proprietaire/login/';
+  const isOwnerCallback = pathWithoutLocale.includes('/auth/callback');
 
-  if (isOwnerRoute && !isOwnerLogin) {
+  if (isOwnerRoute && !isOwnerLogin && !isOwnerCallback) {
     const roleCookie = request.cookies.get('babfez-auth-role')?.value;
     const hasOwnerRole = roleCookie === 'owner' || roleCookie === 'admin';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { CONTACT_INFO } from "@/config/site";
 
@@ -57,10 +59,14 @@ export default function Footer({ lang, dict }: { lang: string, dict: any }) {
               <li><Link href={`/${lang}/proprietaire/login`} className="hover:text-[#A1C0BA] transition-colors">{dict.nav?.ownerSpace}</Link></li>
               <li><a href={`/${lang}/#faq`} className="hover:text-[#A1C0BA] transition-colors">{dict.nav?.faq || 'FAQ'}</a></li>
               <li className="android-app-only-hide">
-                <a 
-                  href="/downloads/babfez.apk" 
-                  download="babfez.apk" 
-                  className="inline-flex items-center gap-1.5 font-bold text-[#6F8E88] hover:text-[#A1C0BA] transition-colors"
+                <button 
+                  type="button"
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(new CustomEvent('babfez:open-apk-modal'));
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 font-bold text-[#C59B27] hover:text-[#d8ab2e] transition-colors text-left"
                 >
                   <span>📱</span>
                   <span>
@@ -72,7 +78,7 @@ export default function Footer({ lang, dict }: { lang: string, dict: any }) {
                       ? 'Download Android App (APK)' 
                       : "Télécharger l'App Android (APK)"}
                   </span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>

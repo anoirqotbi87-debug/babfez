@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react';
 import { Currency } from '@/config/currencies';
 
-export default function CurrencySwitcher() {
+interface CurrencySwitcherProps {
+  theme?: 'light' | 'dark';
+}
+
+export default function CurrencySwitcher({ theme = 'dark' }: CurrencySwitcherProps) {
   const [currency, setCurrency] = useState<Currency>('MAD');
   const [mounted, setMounted] = useState(false);
 
@@ -19,13 +23,14 @@ export default function CurrencySwitcher() {
     const newCurrency = e.target.value as Currency;
     setCurrency(newCurrency);
     localStorage.setItem('babfez_currency', newCurrency);
-    // Dispatch custom event to let other components know the currency changed
     window.dispatchEvent(new Event('currencyChange'));
   };
 
+  const isDark = theme === 'dark';
+
   if (!mounted) {
     return (
-      <select disabled className="bg-transparent text-sm font-bold text-slate-600 outline-none cursor-not-allowed">
+      <select disabled className={`text-xs sm:text-sm font-bold outline-none cursor-not-allowed bg-transparent ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
         <option>MAD</option>
       </select>
     );
@@ -35,11 +40,16 @@ export default function CurrencySwitcher() {
     <select 
       value={currency} 
       onChange={handleChange}
-      className="bg-transparent text-sm font-bold text-slate-600 outline-none cursor-pointer hover:text-amber-600 transition-colors"
+      className={`text-xs sm:text-sm font-bold outline-none cursor-pointer transition-colors bg-transparent rounded-lg px-1.5 py-1 ${
+        isDark
+          ? "text-slate-200 hover:text-[#C59B27] border border-[#C59B27]/40 bg-[#0B2545]/60"
+          : "text-slate-600 hover:text-amber-600 border border-slate-200"
+      }`}
+      aria-label="Changer de devise"
     >
-      <option value="MAD">MAD (د.م.)</option>
-      <option value="EUR">EUR (€)</option>
-      <option value="USD">USD ($)</option>
+      <option value="MAD" className="bg-[#0B2545] text-white">MAD (د.م.)</option>
+      <option value="EUR" className="bg-[#0B2545] text-white">EUR (€)</option>
+      <option value="USD" className="bg-[#0B2545] text-white">USD ($)</option>
     </select>
   );
 }

@@ -40,7 +40,7 @@ export function setAuthCookies(role: string, user: any) {
 export async function signInWithGoogle(context: 'admin' | 'proprietaire', lang: string = 'fr') {
   const redirectBase = typeof window !== 'undefined' ? window.location.origin : '';
   const nextDestination = context === 'admin' ? `/${lang}/admin/dashboard` : `/${lang}/proprietaire/dashboard`;
-  const redirectTo = `${redirectBase}/auth/callback?next=${encodeURIComponent(nextDestination)}&context=${context}`;
+  const redirectTo = `${redirectBase}/auth/callback?next=${encodeURIComponent(nextDestination)}&context=${context}&lang=${encodeURIComponent(lang)}`;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -48,7 +48,7 @@ export async function signInWithGoogle(context: 'admin' | 'proprietaire', lang: 
       redirectTo,
       queryParams: {
         access_type: 'offline',
-        prompt: 'select_account',
+        prompt: 'consent',
       },
     },
   });

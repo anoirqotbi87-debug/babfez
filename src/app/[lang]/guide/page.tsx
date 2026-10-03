@@ -21,9 +21,19 @@ export default function GuideIndex({ params }: { params: { lang: string } }) {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-6 text-slate-900">
-      <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-      <h1 className="text-xl font-bold">Ouverture du Livret d'Accueil...</h1>
-      <Link href={`/${lang}`} className="mt-8 text-slate-500 hover:text-slate-900 underline">Retourner à l'accueil</Link>
+      <div className="w-16 h-16 rounded-2xl bg-[#0B2545] p-2 flex items-center justify-center border border-[#C59B27]/40 shadow-md mb-6">
+        <img
+          src="/icons/logo.svg"
+          alt="Logo BABFEZ"
+          width={48}
+          height={48}
+          className="w-full h-full object-contain"
+          onError={(e) => { e.currentTarget.src = "/icon-192.png"; }}
+        />
+      </div>
+      <div className="w-10 h-10 border-3 border-[#C59B27] border-t-transparent rounded-full animate-spin mb-4"></div>
+      <h1 className="text-xl font-bold text-[#0B2545]">Ouverture du Livret d'Accueil...</h1>
+      <Link href={`/${lang}`} className="mt-8 text-slate-500 hover:text-slate-900 underline text-sm">Retourner à l'accueil</Link>
     </div>
   );
 }

@@ -56,8 +56,15 @@ export default function WelcomeBook({ params }: { params: { propertyId: string }
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-[#C59B27]">
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>
+            <div className="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center p-1 border border-[#C59B27]/40 shadow-sm">
+              <img
+                src="/icons/logo.svg"
+                alt="Logo BABFEZ"
+                width={36}
+                height={36}
+                className="w-full h-full object-contain"
+                onError={(e) => { e.currentTarget.src = "/icon-192.png"; }}
+              />
             </div>
             <div>
               <h1 className="text-xl font-black tracking-widest uppercase">BABFEZ</h1>
