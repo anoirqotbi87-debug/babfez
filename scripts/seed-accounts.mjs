@@ -12,7 +12,7 @@ if (!supabaseUrl || !supabaseServiceRoleKey) {
   console.log('\nExemple d\'exécution en PowerShell :');
   console.log('  $env:NEXT_PUBLIC_SUPABASE_URL="https://votre-projet.supabase.co"');
   console.log('  $env:SUPABASE_SERVICE_ROLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."');
-  console.log('  node scripts/seed-accounts.mjs\n');
+  console.log('  npm run db:seed\n');
   process.exit(1);
 }
 
@@ -24,7 +24,7 @@ const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
 });
 
 async function seedAccounts() {
-  console.log('🚀 Initialisation des comptes d\'accès BABFEZ sur Supabase...\n');
+  console.log('🚀 Initialisation et synchronisation des comptes BABFEZ sur Supabase...\n');
 
   // 1. COMPTE SUPER-ADMIN
   const adminEmail = 'aqotbi@babfez.ma';
@@ -44,6 +44,7 @@ async function seedAccounts() {
   }
 
   const existingAdmin = usersData.users.find((u) => u.email === adminEmail);
+  let adminId = existingAdmin?.id;
 
   if (!existingAdmin) {
     const { data: newAdmin, error: createError } = await supabase.auth.admin.createUser({
@@ -56,7 +57,8 @@ async function seedAccounts() {
     if (createError) {
       console.error('❌ Erreur création admin :', createError.message);
     } else {
-      console.log(`✅ Super-Admin créé avec succès : ID ${newAdmin.user.id}`);
+      adminId = newAdmin.user.id;
+      console.log(`✅ Super-Admin créé avec succès : ID ${adminId}`);
     }
   } else {
     const { error: updateError } = await supabase.auth.admin.updateUserById(existingAdmin.id, {
@@ -69,6 +71,23 @@ async function seedAccounts() {
       console.error('❌ Erreur mise à jour admin :', updateError.message);
     } else {
       console.log(`✅ Super-Admin mis à jour avec succès : ID ${existingAdmin.id}`);
+    }
+  }
+
+  // Synchronisation profile admin
+  if (adminId) {
+    try {
+      await supabase.from('profiles').upsert({
+        id: adminId,
+        email: adminEmail,
+        full_name: 'Anoir Qotbi',
+        role: 'admin',
+        username: 'Aqotbi',
+        updated_at: new Date().toISOString(),
+      });
+      console.log('✅ Profil public.profiles (Super-Admin) synchronisé.');
+    } catch (e) {
+      console.warn('ℹ️ Synchronisation du profil admin ignorée (table profiles non prête).');
     }
   }
 
@@ -110,6 +129,23 @@ async function seedAccounts() {
       console.error('❌ Erreur mise à jour propriétaire :', updateOwnerErr.message);
     } else {
       console.log(`✅ Propriétaire mis à jour avec succès : ID ${existingOwner.id}`);
+    }
+  }
+
+  // Synchronisation profile owner
+  if (ownerId) {
+    try {
+      await supabase.from('profiles').upsert({
+        id: ownerId,
+        email: ownerEmail,
+        full_name: 'M. Anoir Qotbi',
+        role: 'owner',
+        username: 'Aqotbi',
+        updated_at: new Date().toISOString(),
+      });
+      console.log('✅ Profil public.profiles (Propriétaire) synchronisé.');
+    } catch (e) {
+      console.warn('ℹ️ Synchronisation du profil propriétaire ignorée (table profiles non prête).');
     }
   }
 

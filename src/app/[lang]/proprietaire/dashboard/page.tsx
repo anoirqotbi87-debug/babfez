@@ -68,6 +68,23 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
         // En cas de Supabase hors-ligne
       }
 
+      if (!isAuth && typeof document !== "undefined") {
+        const matchRole = document.cookie.match(/babfez-auth-role=([^;]+)/);
+        const role = matchRole ? matchRole[1] : null;
+        if (role === 'owner' || role === 'admin') {
+          isAuth = true;
+          const matchUser = document.cookie.match(/babfez-auth-user=([^;]+)/);
+          currentUser = matchUser ? JSON.parse(decodeURIComponent(matchUser[1])) : {
+            email: "aqotbi.owner@babfez.ma",
+            username: "Aqotbi",
+            fullName: "M. Anoir Qotbi",
+            role: "owner",
+          };
+          localStorage.setItem("babfez_owner_logged_in", "true");
+          localStorage.setItem("babfez_owner_user", JSON.stringify(currentUser));
+        }
+      }
+
       if (!isAuth && typeof window !== "undefined") {
         const localOwner = localStorage.getItem("babfez_owner_logged_in") === "true";
         if (localOwner) {

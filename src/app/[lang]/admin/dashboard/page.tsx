@@ -147,6 +147,7 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
           const role = session.user.user_metadata?.role;
           if (
             userEmail === "aqotbi@babfez.ma" ||
+            userEmail === "anoirqotbi87@gmail.com" ||
             userEmail === "admin@babfez.com" ||
             role === "admin"
           ) {
@@ -156,6 +157,23 @@ export default function AdminDashboard({ params }: { params: { lang: string } })
         }
       } catch {
         // En cas d'erreur de connexion à Supabase
+      }
+
+      if (!isAuth && typeof document !== "undefined") {
+        const matchRole = document.cookie.match(/babfez-auth-role=([^;]+)/);
+        const role = matchRole ? matchRole[1] : null;
+        if (role === 'admin') {
+          isAuth = true;
+          const matchUser = document.cookie.match(/babfez-auth-user=([^;]+)/);
+          currentUser = matchUser ? JSON.parse(decodeURIComponent(matchUser[1])) : {
+            email: "aqotbi@babfez.ma",
+            username: "Aqotbi",
+            fullName: "Anoir Qotbi",
+            role: "admin",
+          };
+          localStorage.setItem("babfez_admin_logged_in", "true");
+          localStorage.setItem("babfez_user", JSON.stringify(currentUser));
+        }
       }
 
       if (!isAuth && typeof window !== "undefined") {
