@@ -35,6 +35,26 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth">
       <body className={`${dmSans.variable} ${cairo.variable} ${libreBaskerville.variable} font-sans antialiased bg-[#F2F2F2] text-[#646767]`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+                    reg.update();
+                  }).catch(function() {});
+                });
+                var refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', function() {
+                  if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                  }
+                });
+              }
+            `,
+          }}
+        />
         {children}
       </body>
     </html>
