@@ -12,6 +12,7 @@ import ar from "@/dictionaries/ar.json";
 import { CONTACT_INFO } from "@/config/site";
 import dynamic from 'next/dynamic';
 import Footer from "@/components/Footer";
+import Navbar from "@/components/layout/Navbar";
 import { PROPERTIES, DEFAULT_FALLBACK_IMAGE } from "@/data/properties";
 
 const PropertiesMap = dynamic(() => import('@/components/PropertiesMap'), { 
@@ -205,57 +206,7 @@ export default function Reserver({ params }: { params: { lang: string } }) {
 
   return (
     <div className="min-h-screen bg-[#F2F2F2] text-[#2D3748] font-sans">
-      <header className="fixed w-full top-0 z-40 bg-white backdrop-blur-md border-b border-[#D8E8E6] shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-          <Link href={`/${lang}`} className="flex items-center gap-3">
-            <img src="https://babfez.com/wp-content/uploads/2022/06/logo.png" alt="Logo BABFEZ" width={40} height={48} className="h-11 w-auto object-contain" />
-            <div>
-              <span className="text-xl font-bold tracking-tight text-[#6F8E88] block leading-tight">BABFEZ</span>
-              <span className="text-[10px] text-slate-500 font-bold tracking-widest uppercase block">{dict.reserver.tagline}</span>
-            </div>
-          </Link>
-
-          <nav className="hidden md:flex space-x-8 items-center">
-            <Link 
-              href={`/${lang}/reserver`} 
-              className={`text-sm transition-colors pb-1 ${activeHash !== '#experiences' ? 'font-extrabold text-amber-600 border-b-2 border-amber-600' : 'font-semibold text-slate-600 hover:text-amber-600'}`}
-              onClick={() => setActiveHash('')}
-            >
-              {dict.nav.properties}
-            </Link>
-            <a 
-              href="#experiences" 
-              className={`text-sm transition-colors pb-1 ${activeHash === '#experiences' ? 'font-extrabold text-amber-600 border-b-2 border-amber-600' : 'font-semibold text-slate-600 hover:text-amber-600'}`}
-              onClick={() => setActiveHash('#experiences')}
-            >
-              {dict.nav.experiences}
-            </a>
-          </nav>
-
-          <div className="hidden lg:flex items-center gap-3">
-            <div className="flex items-center gap-2 mr-2">
-              <LanguageSwitcher currentLang={lang} />
-              <div className="h-4 w-px bg-slate-300"></div>
-              <CurrencySwitcher />
-            </div>
-            
-            <Link href={`/${lang}/proprietaire/login`} className="flex items-center gap-2 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition-colors">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-              {dict.nav.ownerSpace}
-            </Link>
-
-            <a href={`/${lang}/#simulateur`} className="bg-gradient-to-r from-[#6F8E88] to-[#63968C] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-[#6F8E88]/20 hover:brightness-105 transition-all">
-              {dict.nav.estimateBtn}
-            </a>
-          </div>
-
-          <div className="flex items-center lg:hidden gap-2">
-            <CurrencySwitcher />
-            <div className="h-4 w-px bg-slate-300"></div>
-            <LanguageSwitcher currentLang={lang} />
-          </div>
-        </div>
-      </header>
+      <Navbar lang={lang} dict={dict} showReserveButton={false} />
 
       <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden bg-slate-950 text-white">
         <div className="absolute inset-0 z-0">

@@ -10,18 +10,27 @@ export default function Footer({ lang, dict }: { lang: string, dict: any }) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Colonne 1 : Logo & Description */}
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <img
-                src="https://babfez.com/wp-content/uploads/2022/06/logo.png"
-                alt="Logo BABFEZ"
-                width={36}
-                height={42}
-                className="h-10 w-auto object-contain brightness-110"
-              />
-              <div>
-                <span className={`text-xl font-extrabold tracking-tight text-white block leading-tight ${isAr ? '' : 'font-serif'}`}>BABFEZ</span>
+            <Link 
+              href={`/${lang}`} 
+              onClick={() => {
+                if (typeof window !== "undefined") sessionStorage.setItem("navigated_to_home", "true");
+              }}
+              className="flex items-center gap-3 group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#0B2545] p-1 flex items-center justify-center border border-[#C59B27]/40 shadow-sm group-hover:scale-105 transition-transform">
+                <img
+                  src="/icons/logo.svg"
+                  alt="Logo BABFEZ"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain"
+                  onError={(e) => { e.currentTarget.src = "/icon-192.png"; }}
+                />
               </div>
-            </div>
+              <div>
+                <span className={`text-xl font-extrabold tracking-tight text-white group-hover:text-[#C59B27] transition-colors block leading-tight ${isAr ? '' : 'font-serif'}`}>BABFEZ</span>
+              </div>
+            </Link>
             <p className="text-sm leading-relaxed text-stone-400">{dict.footer?.slogan}</p>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#292524] text-xs font-bold text-stone-300 border border-stone-800">
               📍 {dict.footer?.badge || 'Fès, Maroc'}

@@ -194,26 +194,64 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-20">
-      <header className="bg-slate-950 text-white py-4 px-6 sticky top-0 z-40 shadow-md print:hidden">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Link href={`/${lang}`} className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-amber-500 hover:bg-white/20">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>
+      <header className="bg-[#0B2545] text-white py-3.5 px-4 sm:px-6 sticky top-0 z-40 shadow-md border-b border-[#C59B27]/30 print:hidden">
+        <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
+          {/* Logo & Retour au site vitrine */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <Link 
+              href={`/${lang}`} 
+              onClick={() => {
+                if (typeof window !== "undefined") sessionStorage.setItem("navigated_to_home", "true");
+              }}
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-medium border border-white/10 transition"
+              title="Revenir au site vitrine"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+              </svg>
+              <span className="hidden sm:inline">{lang === "ar" ? "العودة للرئيسية" : "Revenir au site vitrine"}</span>
+              <span className="sm:hidden">{lang === "ar" ? "الرئيسية" : "Accueil"}</span>
             </Link>
-            <div>
-              <h1 className="text-xl font-extrabold">{dict.proprietaire.dashboardHello}, {user?.user_metadata?.fullName || user?.user_metadata?.username || "M. Anoir Qotbi"}</h1>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs text-slate-400 font-medium">{dict.proprietaire.property}</span>
-                <select className="bg-slate-800 text-white text-xs font-bold py-1 px-2 rounded outline-none border border-slate-700">
+
+            <Link 
+              href={`/${lang}`}
+              onClick={() => {
+                if (typeof window !== "undefined") sessionStorage.setItem("navigated_to_home", "true");
+              }}
+              className="flex items-center gap-2.5 group"
+            >
+              <div className="w-9 h-9 rounded-lg bg-white/10 p-1 flex items-center justify-center border border-[#C59B27]/40 shadow-inner group-hover:scale-105 transition-transform">
+                <img src="/icons/logo.svg" alt="BABFEZ" width={28} height={28} className="w-full h-full object-contain" onError={(e) => { e.currentTarget.src = "/icon-192.png"; }} />
+              </div>
+              <span className="text-lg font-black tracking-tight text-white group-hover:text-[#C59B27] transition-colors">
+                BABFEZ
+              </span>
+            </Link>
+
+            <div className="hidden md:block h-6 w-px bg-white/15"></div>
+
+            <div className="hidden lg:block">
+              <h1 className="text-sm font-extrabold text-white">
+                {dict.proprietaire.dashboardHello}, {user?.user_metadata?.fullName || user?.user_metadata?.username || "M. Anoir Qotbi"}
+              </h1>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-[11px] text-slate-300 font-medium">{dict.proprietaire.property}</span>
+                <select className="bg-slate-900/80 text-white text-[11px] font-bold py-0.5 px-2 rounded outline-none border border-white/20">
                   <option>{(properties.find(p => p.id === selectedPropertyId)?.title || "Riad Dar Ziryab")} ({(properties.find(p => p.id === selectedPropertyId)?.address || "Médina, Fès")})</option>
                 </select>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+
+          {/* Actions Droite */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSwitcher currentLang={lang} />
-            <button onClick={handleLogout} className="text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-lg">
-              {dict.proprietaire.btnLogout}
+            <button 
+              onClick={handleLogout} 
+              className="text-xs sm:text-sm font-semibold text-slate-200 hover:text-white flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg border border-white/10 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+              <span>{dict.proprietaire.btnLogout}</span>
             </button>
           </div>
         </div>

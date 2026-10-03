@@ -205,10 +205,13 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
       <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
         <Link 
           href={`/${lang}`} 
-          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors font-medium"
+          onClick={() => {
+            if (typeof window !== "undefined") sessionStorage.setItem("navigated_to_home", "true");
+          }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white hover:bg-slate-50 text-slate-800 text-sm font-semibold border border-slate-200 transition shadow-sm"
         >
-          <span>{lang === "ar" ? "→" : "←"}</span>
-          <span>{lang === "ar" ? "العودة للرئيسية" : (lang === "en" ? "Back to Home" : (lang === "es" ? "Volver al inicio" : "Retour à l'accueil"))}</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          <span>{lang === "ar" ? "العودة للرئيسية" : "Revenir au site vitrine"}</span>
         </Link>
       </div>
 
@@ -217,17 +220,26 @@ export default function ProprietaireLogin({ params }: { params: { lang: string }
       </div>
       
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Link href={`/${lang}`} className="flex justify-center items-center gap-3 mb-6">
-          <img
-            src="https://babfez.com/wp-content/uploads/2022/06/logo.png"
-            alt="Logo BABFEZ"
-            width={48}
-            height={56}
-            className="h-14 w-auto object-contain"
-          />
-          <span className="text-2xl font-bold tracking-tight text-[#6F8E88]">BABFEZ</span>
+        <Link 
+          href={`/${lang}`} 
+          onClick={() => {
+            if (typeof window !== "undefined") sessionStorage.setItem("navigated_to_home", "true");
+          }}
+          className="flex justify-center items-center gap-3 mb-6 group"
+        >
+          <div className="w-12 h-12 rounded-xl bg-[#0B2545] p-1.5 flex items-center justify-center border border-[#C59B27]/40 shadow-sm group-hover:scale-105 transition-transform">
+            <img
+              src="/icons/logo.svg"
+              alt="Logo BABFEZ"
+              width={40}
+              height={40}
+              className="w-full h-full object-contain"
+              onError={(e) => { e.currentTarget.src = "/icon-192.png"; }}
+            />
+          </div>
+          <span className="text-2xl font-black tracking-tight text-[#0B2545]">BABFEZ</span>
         </Link>
-        <h2 className={`text-center text-3xl font-black text-[#6F8E88] ${lang === "ar" ? "" : "font-serif"}`}>
+        <h2 className={`text-center text-3xl font-black text-[#0B2545] ${lang === "ar" ? "" : "font-serif"}`}>
           {dict.proprietaire?.loginTitle || "Espace Propriétaire"}
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">

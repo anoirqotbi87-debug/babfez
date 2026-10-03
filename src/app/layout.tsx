@@ -18,13 +18,23 @@ const cairo = Cairo({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#F2F2F2",
+  themeColor: "#0B2545",
 };
 
 export const metadata: Metadata = {
   title: "BABFEZ - Conciergerie & Intendance Privée à Fès",
   description: "Déléguez à 100% la gestion locative de votre appartement ou Riad à Fès.",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
