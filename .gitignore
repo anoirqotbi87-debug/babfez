@@ -35,15 +35,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# android / keystore
+# --- Mobile Binaries ---
+*.apk
+*.aab
 *.keystore
-twa/
+*.jks
+*.idsig
 local.properties
 .gradle/
-*.aab
-*.apk
-!public/downloads/*.apk
-*.idsig
+twa/
 /app/
 /android_app/build/
 /android_app/.gradle/
@@ -54,7 +54,11 @@ gradle.properties
 manifest-checksum.txt
 store_icon.png
 twa-manifest.json
+
+# --- Local Maintenance Scripts ---
+scripts/local/
+fix*.js
+replace*.js
+inject*.js
 generate_twa.js
 make_icons.py
-
-
