@@ -115,6 +115,9 @@
     "searchGuestPlural": "Guests",
     "searchGuestSingular": "Guest",
     "catalogTitle": "Our Exclusive Properties",
+    "emptyCatalogTitle": "No active properties under management",
+    "emptyCatalogDesc": "The direct booking catalog will open as soon as the first properties managed by BABFEZ go live.",
+    "estimateCta": "Estimate My Property",
     "results": "result(s)",
     "guests": "guests",
     "bedrooms": "bedroom",
@@ -145,7 +148,16 @@
   "proprietaire": {
     "loginTitle": "Owner Portal",
     "loginSubtitle": "Log in to track your revenue and bookings.",
-    "demoWarning": "💡 Demo Mode Active: Enter any email and password to access the dashboard.",
+    "emptyBookingsTitle": "No bookings recorded yet",
+    "emptyBookingsDesc": "Your revenue, commissions, and monthly statements will automatically appear here as soon as the first real booking occurs.",
+    "emptyPropertiesTitle": "No active properties under management",
+    "emptyPropertiesDesc": "Add your first property to enable real-time tracking.",
+    "noProperties": "No active properties under management",
+    "grossRevenue": "Gross Revenue",
+    "conciergeCommission": "BABFEZ Concierge Commission",
+    "netPayout": "Net Owner Payout",
+    "activeProperties": "Active Properties",
+    "noArrival": "No upcoming arrivals",
     "email": "Email address",
     "password": "Password",
     "btnLogin": "Sign In",
@@ -271,6 +283,7 @@
     "room4": "4+ Beds (Riad/Villa)",
     "occupancy": "Estimated occupancy rate",
     "monthlyGross": "Estimated monthly gross revenue",
+    "previewBadge": "Indicative Estimation Simulator — Preview Mode",
     "annualGross": "Approximately {amount} per year",
     "avgRate": "Simulated average rate: {amount} / night",
     "ctaQuote": "Get an Exact Study"
@@ -376,5 +389,18 @@
     "a2": "They are the direct responsibility of the traveler as additional fees at the time of booking, they are not deducted from your revenue.",
     "q3": "How do you track revenue?",
     "a3": "Via your personalized digital dashboard that transparently displays your bookings and revenue."
+  },
+  "admin": {
+    "title": "BABFEZ Super Admin",
+    "emptyLeads": "No estimation requests received — Leads from the simulator will automatically appear here.",
+    "emptyPlanning": "No active properties under management — Occupancy schedule and welcome easel printing will activate once your first properties are onboarded.",
+    "emptyTurnovers": "No turnovers scheduled — Cleaning tasks and linen rotations will automatically organize with each booking.",
+    "emptyPolice": "No police registration forms — DGSN official forms will generate upon guest ID check-in.",
+    "emptyFinances": "No pending payouts — Owner payouts and account statements will appear at the close of each period.",
+    "portfolio": "Portfolio under management",
+    "grossRevenue": "Gross Revenue",
+    "commissions": "BABFEZ Commissions (20%)",
+    "netPayout": "Net Owner Payout",
+    "occupancy": "Global Occupancy Rate"
   }
 }

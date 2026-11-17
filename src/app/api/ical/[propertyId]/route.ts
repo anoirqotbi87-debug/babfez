@@ -1,23 +1,12 @@
 import { NextResponse } from 'next/server';
-
-// Mock data representing database reservations for properties
-const MOCK_RESERVATIONS: Record<string, { id: string, start: string, end: string }[]> = {
-  "p1": [
-    { id: "res_1", start: "2026-10-01", end: "2026-10-05" },
-    { id: "res_2", start: "2026-10-15", end: "2026-10-20" },
-  ],
-  "p2": [
-    { id: "res_3", start: "2026-11-01", end: "2026-11-07" },
-  ]
-};
+import { supabase } from '@/lib/supabaseClient';
 
 const formatDateForICal = (dateStr: string) => {
-  // convert YYYY-MM-DD to YYYYMMDD
   return dateStr.replace(/-/g, '');
 };
 
 const generateICalFeed = (propertyId: string, reservations: { id: string, start: string, end: string }[]) => {
-  let ical = [
+  const ical = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//BABFEZ Conciergerie//FR',
@@ -45,7 +34,27 @@ const generateICalFeed = (propertyId: string, reservations: { id: string, start:
 
 export async function GET(request: Request, { params }: { params: { propertyId: string } }) {
   const propertyId = params.propertyId;
-  const reservations = MOCK_RESERVATIONS[propertyId] || [];
+  let reservations: { id: string, start: string, end: string }[] = [];
+
+  // Récupération dynamique des réservations confirmées depuis Supabase
+  try {
+    const { data: dbBookings } = await supabase
+      .from('bookings')
+      .select('id, start_date, end_date')
+      .eq('property_id', propertyId)
+      .eq('status', 'confirmed');
+
+    if (dbBookings && dbBookings.length > 0) {
+      reservations = dbBookings.map((b: any) => ({
+        id: b.id,
+        start: b.start_date,
+        end: b.end_date,
+      }));
+    }
+  } catch {
+    // Mode Preview : tableau vide par défaut
+    reservations = [];
+  }
 
   const icalFeed = generateICalFeed(propertyId, reservations);
 

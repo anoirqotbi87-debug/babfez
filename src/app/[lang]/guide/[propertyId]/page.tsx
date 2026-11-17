@@ -1,53 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { CONTACT_INFO } from "@/config/site";
+import { supabase } from "@/lib/supabaseClient";
 
-// Mock Data for the Guide
-const GUIDE_DATA: Record<string, any> = {
-  p1: {
-    id: "p1",
-    name: "Riad Dar Ziryab",
-    location: "Médina, Fès",
-    address: "12 Derb El Miter, Fès El Bali",
-    mapLink: "https://maps.google.com/?q=Fes+El+Bali",
-    image: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=1200&q=80",
-    wifi: { ssid: "Riad_Ziryab_5G", pass: "Fes2026!Ziryab" },
-    boxLocation: "Boîte noire située sur la porte en bois massif du Riad.",
-    boxCode: "1482",
-    acManual: "La télécommande est au mur. Appuyez sur 'Mode' jusqu'à l'icône Flocon (Été 23°C) ou Soleil (Hiver 22°C). Merci d'éteindre en quittant le Riad.",
-    waterManual: "Le chauffe-eau est électrique et fonctionne en continu. Laissez couler 2 minutes pour avoir de l'eau très chaude.",
-    trashManual: "Déposez vos sacs poubelles bien fermés dans les bacs verts situés à l'entrée de la ruelle principale (Talaa Kebira).",
-  },
-  p2: {
-    id: "p2",
-    name: "Appartement Standing Atlas",
-    location: "Ville Nouvelle, Fès",
-    address: "Résidence Les Iris, Quartier Atlas, Fès",
-    mapLink: "https://maps.google.com/?q=Avenue+Hassan+II+Fes",
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80",
-    wifi: { ssid: "Atlas_Fiber", pass: "AtlasFiber123@" },
-    boxLocation: "Boîte à clés sécurisée attachée à la grille du compteur d'eau (Palier 3ème étage).",
-    boxCode: "7539",
-    acManual: "Climatisation centralisée. Utilisez l'écran tactile du salon pour régler la température de l'ensemble de l'appartement.",
-    waterManual: "Chauffe-eau au gaz avec sécurité automatique. Ne modifiez pas les réglages sur l'appareil.",
-    trashManual: "Le local poubelle se trouve au sous-sol (niveau -1) accessible par l'ascenseur.",
-  },
-  p3: {
-    id: "p3",
-    name: "Studio Moderne Palmier",
-    location: "Route d'Immouzzer, Fès",
-    address: "Immeuble Palmier, Route d'Immouzzer, Fès",
-    mapLink: "https://maps.google.com/?q=Route+d+Immouzzer+Fes",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1de2d936b4?auto=format&fit=crop&w=1200&q=80",
-    wifi: { ssid: "Studio_Palmier", pass: "PalmierFes2026" },
-    boxLocation: "Pas de boîte à clés, le code de la serrure électronique (porte d'entrée) vous est envoyé par message.",
-    boxCode: "Entrez 4598 puis la touche '#'",
-    acManual: "Télécommande sur la table de nuit. Température idéale : 23°C. Mode éco recommandé.",
-    waterManual: "Chauffe-eau électrique (ballon de 50L). Idéal pour 2 douches consécutives.",
-    trashManual: "Bacs à ordures situés sur le trottoir à 20 mètres à droite en sortant de la résidence.",
-  }
+// Generic Fallback Guide for Preview & New Partners
+const DEFAULT_GUIDE = {
+  id: "preview",
+  name: "Logement Partenaire BABFEZ",
+  location: "Fès, Maroc",
+  address: "Adresse exacte transmise après confirmation de réservation",
+  mapLink: "https://maps.google.com/?q=Fes+Morocco",
+  image: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=1200&q=80",
+  wifi: { ssid: "BABFEZ_Guest", pass: "Fourni à l'arrivée" },
+  boxLocation: "Boîte à clés sécurisée située à l'entrée du logement.",
+  boxCode: "Code sécurisé transmis avant le check-in",
+  acManual: "Télécommande disponible dans la pièce principale. Température recommandée : 23°C (Été) / 22°C (Hiver). Merci d'éteindre en quittant le logement.",
+  waterManual: "Chauffe-eau automatique en continu. Laissez couler 1 à 2 minutes pour obtenir de l'eau chaude.",
+  trashManual: "Déposez vos sacs poubelles bien fermés dans les bacs municipaux situés à proximité de l'entrée.",
 };
 
 const EXCLUSIVE_SERVICES = [
@@ -85,18 +56,79 @@ const EXCLUSIVE_SERVICES = [
   }
 ];
 
-export default function WelcomeBook({ params }: { params: { lang: string, propertyId: string } }) {
-  const lang = params.lang;
-  const propertyId = params.propertyId;
-  const property = GUIDE_DATA[propertyId] || GUIDE_DATA["p1"];
-  
+export default function WelcomeBook({ params }: { params: any }) {
+  const [resolvedParams, setResolvedParams] = useState<{ lang: string; propertyId: string }>({
+    lang: "fr",
+    propertyId: "preview",
+  });
+  const [property, setProperty] = useState(DEFAULT_GUIDE);
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("ac");
 
+  useEffect(() => {
+    if (params) {
+      if (typeof params.then === "function") {
+        params.then((p: any) => {
+          if (p) setResolvedParams({ lang: p.lang || "fr", propertyId: p.propertyId || "preview" });
+        });
+      } else {
+        setResolvedParams({ lang: params.lang || "fr", propertyId: params.propertyId || "preview" });
+      }
+    }
+  }, [params]);
+
+  useEffect(() => {
+    const fetchPropertyGuide = async () => {
+      const propId = resolvedParams.propertyId;
+      if (!propId || propId === "preview" || propId === "default") {
+        setProperty(DEFAULT_GUIDE);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from("properties")
+          .select("*")
+          .eq("id", propId)
+          .maybeSingle();
+
+        if (data && !error) {
+          setProperty({
+            id: data.id,
+            name: data.name || data.title || DEFAULT_GUIDE.name,
+            location: data.city || data.location || DEFAULT_GUIDE.location,
+            address: data.address || DEFAULT_GUIDE.address,
+            mapLink: data.map_link || `https://maps.google.com/?q=${encodeURIComponent(data.name || "Fes")}`,
+            image: data.image_url || (Array.isArray(data.images) && data.images[0]) || DEFAULT_GUIDE.image,
+            wifi: {
+              ssid: data.wifi_ssid || "BABFEZ_Guest",
+              pass: data.wifi_password || "Fourni à l'arrivée",
+            },
+            boxLocation: data.keybox_location || DEFAULT_GUIDE.boxLocation,
+            boxCode: data.keybox_code || DEFAULT_GUIDE.boxCode,
+            acManual: data.ac_instructions || DEFAULT_GUIDE.acManual,
+            waterManual: data.water_instructions || DEFAULT_GUIDE.waterManual,
+            trashManual: data.trash_instructions || DEFAULT_GUIDE.trashManual,
+          });
+        } else {
+          setProperty(DEFAULT_GUIDE);
+        }
+      } catch {
+        setProperty(DEFAULT_GUIDE);
+      }
+    };
+
+    fetchPropertyGuide();
+  }, [resolvedParams.propertyId]);
+
+  const lang = resolvedParams.lang;
+
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(property.wifi.pass);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(property.wifi.pass);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (

@@ -115,6 +115,9 @@
     "searchGuestPlural": "Huéspedes",
     "searchGuestSingular": "Huésped",
     "catalogTitle": "Nuestros Alojamientos Exclusivos",
+    "emptyCatalogTitle": "No hay propiedades activas bajo gestión",
+    "emptyCatalogDesc": "El catálogo de reservas directas se abrirá tan pronto como se publiquen los primeros alojamientos gestionados por BABFEZ.",
+    "estimateCta": "Estimar mi propiedad",
     "results": "resultado(s)",
     "guests": "huéspedes",
     "bedrooms": "habitación",
@@ -145,7 +148,16 @@
   "proprietaire": {
     "loginTitle": "Portal de Propietario",
     "loginSubtitle": "Inicia sesión para realizar un seguimiento de tus ingresos y reservas.",
-    "demoWarning": "💡 Modo Demo Activo: Ingresa cualquier correo electrónico y contraseña para acceder al panel.",
+    "emptyBookingsTitle": "No hay reservas registradas",
+    "emptyBookingsDesc": "Tus ingresos, comisiones y extractos mensuales aparecerán automáticamente aquí tan pronto como se registre la primera reserva real.",
+    "emptyPropertiesTitle": "No hay propiedades activas bajo gestión",
+    "emptyPropertiesDesc": "Añade tu primera propiedad para activar el seguimiento en tiempo real.",
+    "noProperties": "No hay propiedades activas bajo gestión",
+    "grossRevenue": "Ingresos Brutos",
+    "conciergeCommission": "Comisión Conciergerie BABFEZ",
+    "netPayout": "Pago Neto al Propietario",
+    "activeProperties": "Propiedades Activas",
+    "noArrival": "Ninguna llegada prevista",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "btnLogin": "Iniciar Sesión",
@@ -271,6 +283,7 @@
     "room4": "4+ Hab (Riad/Villa)",
     "occupancy": "Tasa de ocupación estimada",
     "monthlyGross": "Ingresos mensuales brutos estimados",
+    "previewBadge": "Simulador de estimación indicativa — Modo Preview",
     "annualGross": "Aprox. {amount} al año",
     "avgRate": "Tarifa media: {amount} / noche",
     "ctaQuote": "Obtener un estudio preciso"
@@ -376,5 +389,18 @@
     "a2": "Son responsabilidad directa del viajero como tarifas adicionales al momento de la reserva, no se deducen de sus ingresos.",
     "q3": "¿Cómo rastrea los ingresos?",
     "a3": "A través de su panel digital personalizado que muestra de manera transparente sus reservas e ingresos."
+  },
+  "admin": {
+    "title": "Super Admin BABFEZ",
+    "emptyLeads": "No se han recibido solicitudes de estimación — Los leads del simulador aparecerán automáticamente aquí.",
+    "emptyPlanning": "No hay alojamientos activos bajo gestión — El calendario de ocupación y la impresión de caballetes de bienvenida se activarán tan pronto como se integren sus primeros alojamientos.",
+    "emptyTurnovers": "No hay turnovers programados — Las tareas de limpieza y rotación de ropa se organizarán automáticamente con cada reserva.",
+    "emptyPolice": "No hay fichas de policía para declarar — Los formularios individuales de la DGSN se generarán tras el registro de los documentos de identidad de los viajeros.",
+    "emptyFinances": "No hay transferencias pendientes — Los pagos y estados de cuenta de propietarios aparecerán al cierre de cada período.",
+    "portfolio": "Cartera bajo gestión",
+    "grossRevenue": "Ingresos Brutos",
+    "commissions": "Comisiones BABFEZ (20%)",
+    "netPayout": "Pago Neto a Propietarios",
+    "occupancy": "Tasa de Ocupación Global"
   }
 }

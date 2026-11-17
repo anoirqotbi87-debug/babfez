@@ -46,8 +46,8 @@ function AdminLoginForm({ lang }: { lang: keyof typeof dicts }) {
           JSON.stringify({
             id: result.user.id,
             email: result.user.email,
-            username: (result.user as any).user_metadata?.username || "Aqotbi",
-            fullName: (result.user as any).user_metadata?.fullName || "Anoir Qotbi",
+            username: (result.user as any).user_metadata?.username || (result.user.email ? result.user.email.split('@')[0] : "Admin"),
+            fullName: (result.user as any).user_metadata?.fullName || "Administrateur BABFEZ",
             role: "admin",
           })
         );
@@ -168,9 +168,7 @@ function AdminLoginForm({ lang }: { lang: keyof typeof dicts }) {
         </button>
       </form>
 
-      <div className="mt-6 text-center text-xs font-bold text-slate-400">
-        Accès Super-Admin : <span className="text-[#6F8E88]">Aqotbi</span> / <span className="text-slate-500">Moth326sine706.</span>
-      </div>
+
     </div>
   );
 }

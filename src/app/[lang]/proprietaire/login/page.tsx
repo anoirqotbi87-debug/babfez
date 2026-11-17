@@ -61,8 +61,8 @@ function ProprietaireLoginForm({ lang }: { lang: keyof typeof dicts }) {
           JSON.stringify({
             id: result.user.id,
             email: result.user.email,
-            username: (result.user as any).user_metadata?.username || "Aqotbi",
-            fullName: (result.user as any).user_metadata?.fullName || "M. Anoir Qotbi",
+            username: (result.user as any).user_metadata?.username || (result.user.email ? result.user.email.split('@')[0] : "Propriétaire"),
+            fullName: (result.user as any).user_metadata?.fullName || "Propriétaire Partenaire",
             role: "owner",
           })
         );
@@ -175,9 +175,7 @@ function ProprietaireLoginForm({ lang }: { lang: keyof typeof dicts }) {
         </button>
       </form>
 
-      <div className="mt-4 text-center text-xs font-bold text-slate-400">
-        Accès Propriétaire : <span className="text-[#6F8E88]">Aqotbi</span> / <span className="text-slate-500">Moth326sine706.</span>
-      </div>
+
 
       <div className="mt-8 bg-amber-50 p-4 rounded-xl border border-amber-100 text-center text-sm">
         <p className="text-amber-900 font-medium mb-2">

@@ -249,41 +249,65 @@ export default function Reserver({ params }: { params: { lang: string } }) {
           <div className={`w-full lg:w-[60%] p-4 sm:p-6 lg:p-10 overflow-y-auto ${!showMapOnMobile ? 'block' : 'hidden lg:block'}`}>
             <div className="flex justify-between items-end mb-10">
               <h2 className="text-3xl font-extrabold text-slate-950 tracking-tight">{dict.reserver.catalogTitle}</h2>
+              <span className="text-sm font-bold text-slate-400">
+                {filteredCatalog.length} {dict.reserver.results}
+              </span>
             </div>
             
-            <div className="grid sm:grid-cols-2 gap-8">
-              {filteredCatalog.map(prop => (
-                <div key={prop.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col">
-                  <div className="relative h-64 overflow-hidden">
-                    <img src={prop.image} alt={prop.title} onError={(e) => { e.currentTarget.src = DEFAULT_FALLBACK_IMAGE; }} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="p-6 flex-1 flex flex-col">
-                    <div className="mb-4">
-                      <h3 className="font-extrabold text-xl text-slate-950 mb-1">{prop.title}</h3>
-                      <p className="text-slate-500 text-sm font-medium">
-                        {prop.guests} {dict.reserver.guests} • {prop.bedrooms} {prop.bedrooms > 1 ? dict.reserver.bedroomsPlural : dict.reserver.bedrooms}
-                      </p>
-                    </div>
-                    
-                    <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-50">
-                      <div>
-                        <span className="text-2xl font-extrabold text-slate-950">{formatPrice(convertFromMAD(prop.price, activeCurrency), activeCurrency)}</span>
-                        <span className="text-slate-500 text-sm font-medium"> {dict.reserver.pricePerNight}</span>
-                      </div>
-                      <button 
-                        onClick={() => {
-                          setSelectedProperty(prop);
-                          setSelectedUpsells([]);
-                        }} 
-                        className="bg-slate-950 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-amber-600 shadow-md"
-                      >
-                        {dict.reserver.btnReserve}
-                      </button>
-                    </div>
-                  </div>
+            {filteredCatalog.length === 0 ? (
+              <div className="bg-[#FBF9F5] border border-[#C59B27]/30 rounded-3xl p-10 sm:p-14 text-center shadow-sm my-4">
+                <div className="w-16 h-16 rounded-2xl bg-[#0B2545]/5 text-[#C59B27] mx-auto flex items-center justify-center text-3xl mb-4 border border-[#C59B27]/20 shadow-inner">
+                  🏛️
                 </div>
-              ))}
-            </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#0B2545] mb-2 font-serif">
+                  {dict.reserver?.emptyCatalogTitle || "Aucun bien actif sous gestion"}
+                </h3>
+                <p className="text-sm text-stone-600 max-w-md mx-auto mb-6 leading-relaxed">
+                  {dict.reserver?.emptyCatalogDesc || "Le catalogue des réservations directes s'ouvrira dès la mise en ligne des premiers logements gérés par BABFEZ."}
+                </p>
+                <Link
+                  href={`/${lang}/#simulateur`}
+                  className="inline-flex items-center gap-2 bg-[#C59B27] hover:bg-[#b0881f] text-[#0B2545] font-black px-6 py-3 rounded-xl transition-all shadow-md text-sm uppercase tracking-wide"
+                >
+                  <span>✨</span>
+                  <span>{dict.reserver?.estimateCta || "Estimer mon bien"}</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="grid sm:grid-cols-2 gap-8">
+                {filteredCatalog.map(prop => (
+                  <div key={prop.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 flex flex-col">
+                    <div className="relative h-64 overflow-hidden">
+                      <img src={prop.image} alt={prop.title} onError={(e) => { e.currentTarget.src = DEFAULT_FALLBACK_IMAGE; }} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="mb-4">
+                        <h3 className="font-extrabold text-xl text-slate-950 mb-1">{prop.title}</h3>
+                        <p className="text-slate-500 text-sm font-medium">
+                          {prop.guests} {dict.reserver.guests} • {prop.bedrooms} {prop.bedrooms > 1 ? dict.reserver.bedroomsPlural : dict.reserver.bedrooms}
+                        </p>
+                      </div>
+                      
+                      <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-50">
+                        <div>
+                          <span className="text-2xl font-extrabold text-slate-950">{formatPrice(convertFromMAD(prop.price, activeCurrency), activeCurrency)}</span>
+                          <span className="text-slate-500 text-sm font-medium"> {dict.reserver.pricePerNight}</span>
+                        </div>
+                        <button 
+                          onClick={() => {
+                            setSelectedProperty(prop);
+                            setSelectedUpsells([]);
+                          }} 
+                          className="bg-slate-950 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-amber-600 shadow-md"
+                        >
+                          {dict.reserver.btnReserve}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* MAP (Right side fixed) */}

@@ -364,8 +364,8 @@ ${formData.message ? `\nMessage: ${formData.message}` : ''}`;
               
               {/* Colonne Droite: Résultat Haute Densité Noir Charbon & Or */}
               <div className="bg-[#2D3748] text-white rounded-3xl p-8 border border-[#A1C0BA]/40 flex flex-col justify-center text-center shadow-2xl relative overflow-hidden space-y-5">
-                <div className="absolute top-0 right-0 bg-[#A1C0BA] text-[#2D3748] px-3 py-1 rounded-bl-xl text-[10px] font-black uppercase tracking-wider">
-                  Données Marché Fès
+                <div className="absolute top-0 right-0 bg-[#C59B27] text-[#0B2545] px-3 py-1.5 rounded-bl-xl text-[10px] font-black uppercase tracking-wider shadow-sm">
+                  ✨ {dict.simulator?.previewBadge || "Simulateur d'estimation indicative — Mode Preview"}
                 </div>
 
                 {/* Animation visuelle Analyse IA en direct */}

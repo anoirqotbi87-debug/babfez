@@ -184,11 +184,43 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
 
   if (!isClient) return null;
 
+  // Calcul dynamique des métriques réelles (mode Preview : 0,00 par défaut)
+  const grossRevenue = reservations.reduce((acc, r) => acc + (Number(r.amount) || Number(r.total_price) || 0), 0);
+  const conciergeCommission = grossRevenue * 0.20;
+  const netRevenue = grossRevenue - conciergeCommission;
+  const totalNightsBooked = reservations.reduce((acc, r) => {
+    if (r.nights) return acc + Number(r.nights);
+    if (r.start_date && r.end_date) {
+      const diff = Math.ceil((new Date(r.end_date).getTime() - new Date(r.start_date).getTime()) / (1000 * 3600 * 24));
+      return acc + (diff > 0 ? diff : 0);
+    }
+    return acc;
+  }, 0);
+  const occupancyRate = reservations.length > 0 ? Math.min(100, Math.round((totalNightsBooked / 31) * 100)) : 0;
+
+  // Prochaine arrivée réelle
+  const upcomingReservations = reservations
+    .filter(r => r.start_date && new Date(r.start_date) >= new Date(new Date().setHours(0,0,0,0)))
+    .sort((a, b) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime());
+  const nextBooking = upcomingReservations.length > 0 ? upcomingReservations[0] : null;
+
   const getDayStatus = (day: number) => {
-    if (blockedDays.includes(day)) return { status: 'blocked', label: dict.proprietaire.blocked };
-    if ([2, 3, 4, 5].includes(day)) return { status: 'airbnb', label: 'Airbnb' };
-    if ([8, 9, 10].includes(day)) return { status: 'direct', label: 'Direct' };
-    if ([15, 16, 17, 18, 19, 20].includes(day)) return { status: 'booking', label: 'Booking' };
+    if (blockedDays.includes(day)) return { status: 'blocked', label: dict.proprietaire?.blocked || 'Bloqué' };
+    
+    const matchingReservation = reservations.find(r => {
+      if (!r.start_date || !r.end_date) return false;
+      const start = new Date(r.start_date).getDate();
+      const end = new Date(r.end_date).getDate();
+      return day >= start && day <= end;
+    });
+
+    if (matchingReservation) {
+      const source = (matchingReservation.source || 'direct').toLowerCase();
+      if (source.includes('airbnb')) return { status: 'airbnb', label: 'Airbnb' };
+      if (source.includes('booking')) return { status: 'booking', label: 'Booking' };
+      return { status: 'direct', label: 'Direct' };
+    }
+
     return { status: 'available', label: '' };
   };
 
@@ -232,12 +264,24 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
 
             <div className="hidden lg:block">
               <h1 className="text-sm font-extrabold text-white">
-                {dict.proprietaire.dashboardHello}, {user?.user_metadata?.fullName || user?.user_metadata?.username || "M. Anoir Qotbi"}
+                {dict.proprietaire?.dashboardHello || "Bonjour"}, {user?.user_metadata?.fullName || user?.user_metadata?.username || user?.fullName || "Propriétaire"}
               </h1>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[11px] text-slate-300 font-medium">{dict.proprietaire.property}</span>
-                <select className="bg-slate-900/80 text-white text-[11px] font-bold py-0.5 px-2 rounded outline-none border border-white/20">
-                  <option>{(properties.find(p => p.id === selectedPropertyId)?.title || "Riad Dar Ziryab")} ({(properties.find(p => p.id === selectedPropertyId)?.address || "Médina, Fès")})</option>
+                <span className="text-[11px] text-slate-300 font-medium">{dict.proprietaire?.property || "Propriété :"}</span>
+                <select 
+                  value={selectedPropertyId}
+                  onChange={(e) => setSelectedPropertyId(e.target.value)}
+                  className="bg-slate-900/80 text-white text-[11px] font-bold py-0.5 px-2 rounded outline-none border border-white/20"
+                >
+                  {properties.length === 0 ? (
+                    <option value="">{dict.proprietaire?.noProperties || "Aucun bien actif sous gestion"}</option>
+                  ) : (
+                    properties.map(p => (
+                      <option key={p.id} value={p.id}>
+                        {p.title || p.name} ({p.zone || p.address || "Fès"})
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
             </div>
@@ -251,33 +295,71 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
               className="text-xs sm:text-sm font-semibold text-slate-200 hover:text-white flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg border border-white/10 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-              <span>{dict.proprietaire.btnLogout}</span>
+              <span>{dict.proprietaire?.btnLogout || "Déconnexion"}</span>
             </button>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
+        {/* Alerte / État vide si aucun bien sous gestion */}
+        {properties.length === 0 && (
+          <div className="bg-[#FBF9F5] border border-[#C59B27]/30 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm print:hidden">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#0B2545]/10 text-[#C59B27] flex items-center justify-center text-2xl font-bold shrink-0 border border-[#C59B27]/30">
+                🏛️
+              </div>
+              <div>
+                <h3 className="font-bold text-[#0B2545] font-serif text-base">
+                  {dict.proprietaire?.emptyPropertiesTitle || "Aucun bien actif sous gestion"}
+                </h3>
+                <p className="text-xs text-stone-600 mt-0.5">
+                  {dict.proprietaire?.emptyPropertiesDesc || "Ajoutez votre premier bien pour activer le suivi en temps réel."}
+                </p>
+              </div>
+            </div>
+            <Link
+              href={`/${lang}/#simulateur`}
+              className="inline-flex items-center gap-2 bg-[#C59B27] hover:bg-[#b0881f] text-[#0B2545] text-xs font-black px-4 py-2.5 rounded-xl transition-all shadow-sm shrink-0 uppercase tracking-wide"
+            >
+              <span>✨</span>
+              <span>{dict.reserver?.estimateCta || "Estimer mon bien"}</span>
+            </Link>
+          </div>
+        )}
+
         <section className="print:hidden">
-          <h2 className="text-lg font-bold mb-4">{dict.proprietaire.overview} - Oct 2026</h2>
+          <h2 className="text-lg font-bold mb-4">{dict.proprietaire?.overview || "Aperçu"}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
-              <span className="text-sm font-bold text-slate-500">{dict.proprietaire.netRevenue}</span>
-              <span className="text-3xl font-extrabold text-slate-950 mt-1">14 850 <span className="text-lg text-slate-400">MAD</span></span>
+              <span className="text-sm font-bold text-slate-500">{dict.proprietaire?.netRevenue || "Revenus Nets Estimés"}</span>
+              <span className="text-3xl font-extrabold text-slate-950 mt-1">
+                {netRevenue.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-lg text-slate-400">MAD</span>
+              </span>
+              <span className="text-xs text-slate-400 mt-2 font-medium">
+                {dict.proprietaire?.grossRevenue || "CA Brut"} : {grossRevenue.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
+              </span>
             </div>
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
-              <span className="text-sm font-bold text-slate-500">{dict.proprietaire.occupancy}</span>
-              <span className="text-3xl font-extrabold text-slate-950 mt-1">76%</span>
+              <span className="text-sm font-bold text-slate-500">{dict.proprietaire?.occupancy || "Taux d'Occupation"}</span>
+              <span className="text-3xl font-extrabold text-slate-950 mt-1">{occupancyRate}%</span>
+              <span className="text-xs text-slate-400 mt-2 font-medium">
+                {dict.proprietaire?.activeProperties || "Biens Actifs"} : {properties.length}
+              </span>
             </div>
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
-              <span className="text-sm font-bold text-slate-500">{dict.proprietaire.nightsBooked}</span>
-              <span className="text-3xl font-extrabold text-slate-950 mt-1">23</span>
-              <span className="text-xs text-slate-500 mt-3 font-medium">{dict.proprietaire.outOf.replace('{days}', '31')}</span>
+              <span className="text-sm font-bold text-slate-500">{dict.proprietaire?.nightsBooked || "Nuits Réservées"}</span>
+              <span className="text-3xl font-extrabold text-slate-950 mt-1">{totalNightsBooked}</span>
+              <span className="text-xs text-slate-500 mt-3 font-medium">
+                {dict.proprietaire?.outOf ? dict.proprietaire.outOf.replace('{days}', '31') : "Sur 31 jours disponibles"}
+              </span>
             </div>
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
               <div>
-                <span className="text-sm font-bold text-slate-500">{dict.proprietaire.nextArrival}</span>
-                <span className="text-xl font-extrabold mt-1 block">02 Oct (3 {dict.proprietaire.nights})</span>
+                <span className="text-sm font-bold text-slate-500">{dict.proprietaire?.nextArrival || "Prochaine Arrivée"}</span>
+                <span className="text-base sm:text-lg font-extrabold mt-1 block text-slate-900">
+                  {nextBooking ? `${new Date(nextBooking.start_date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })}` : (dict.proprietaire?.noArrival || "Aucune arrivée prévue")}
+                </span>
               </div>
             </div>
           </div>
@@ -287,9 +369,9 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
           <section className="lg:col-span-2 print:hidden">
             <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
               <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-                <h2 className="text-lg font-bold">{dict.proprietaire.calendarTitle}</h2>
+                <h2 className="text-lg font-bold">{dict.proprietaire?.calendarTitle || "Calendrier de Réservations"}</h2>
                 <button onClick={() => setShowBlockModal(true)} className="bg-slate-950 text-white px-4 py-2 rounded-lg text-sm font-bold">
-                  {dict.proprietaire.btnBlock}
+                  {dict.proprietaire?.btnBlock || "Bloquer dates"}
                 </button>
               </div>
               <div className="p-6">
@@ -321,29 +403,41 @@ export default function Dashboard({ params }: { params: { lang: string } }) {
           <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
             <div className="p-6 border-b border-slate-100 flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-extrabold">{dict.proprietaire.financeTitle} - Oct 2026</h2>
-                <p className="text-sm text-slate-500">{(properties.find(p => p.id === selectedPropertyId)?.title || "Aucune propriété")} • {dict.proprietaire.owner} M. Bennani</p>
+                <h2 className="text-xl font-extrabold">{dict.proprietaire?.financeTitle || "Relevé Financier"}</h2>
+                <p className="text-sm text-slate-500">{(properties.find(p => p.id === selectedPropertyId)?.title || dict.proprietaire?.noProperties || "Aucun bien actif")} • {dict.proprietaire?.owner || "Propriétaire :"} {user?.user_metadata?.fullName || user?.user_metadata?.username || user?.fullName || "Propriétaire"}</p>
               </div>
               <button onClick={() => window.print()} className="bg-white border text-slate-700 px-4 py-2 rounded-lg font-bold print:hidden">
-                {dict.proprietaire.btnPrint}
+                {dict.proprietaire?.btnPrint || "Imprimer (PDF)"}
               </button>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-slate-50 text-xs font-bold uppercase text-slate-500">
-                    <th className="p-4">{dict.proprietaire.period}</th>
-                    <th className="p-4">{dict.proprietaire.source}</th>
-                    <th className="p-4">{dict.proprietaire.nights}</th>
-                    <th className="p-4">{dict.proprietaire.grossRent}</th>
-                    <th className="p-4">{dict.proprietaire.cleaningFee}</th>
-                    <th className="p-4 text-rose-600">{dict.proprietaire.commission}</th>
-                    <th className="p-4 text-emerald-600">{dict.proprietaire.netRevenueTable}</th>
+                    <th className="p-4">{dict.proprietaire?.period || "Période"}</th>
+                    <th className="p-4">{dict.proprietaire?.source || "Source"}</th>
+                    <th className="p-4">{dict.proprietaire?.nights || "Nuits"}</th>
+                    <th className="p-4">{dict.proprietaire?.grossRent || "Loyer Brut"}</th>
+                    <th className="p-4">{dict.proprietaire?.cleaningFee || "Frais Ménage"}</th>
+                    <th className="p-4 text-rose-600">{dict.proprietaire?.commission || "Commission BABFEZ"}</th>
+                    <th className="p-4 text-emerald-600">{dict.proprietaire?.netRevenueTable || "Revenu Net (MAD)"}</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm">
                   {reservations.length === 0 ? (
-                    <tr><td colSpan={7} className="p-4 text-center text-slate-500">Aucune donnée disponible.</td></tr>
+                    <tr>
+                      <td colSpan={7} className="p-8 text-center bg-[#FBF9F5]">
+                        <div className="max-w-md mx-auto py-4">
+                          <div className="text-2xl mb-2">📊</div>
+                          <p className="font-bold text-[#0B2545] text-sm mb-1 font-serif">
+                            {dict.proprietaire?.emptyBookingsTitle || "Aucune réservation enregistrée"}
+                          </p>
+                          <p className="text-xs text-stone-500 leading-relaxed">
+                            {dict.proprietaire?.emptyBookingsDesc || "Vos revenus, commissions et relevés mensuels s'afficheront automatiquement ici dès la première réservation réelle."}
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
                   ) : reservations.map((res: any) => (
                     <tr key={res.id} className="border-b border-slate-100">
                       <td className="p-4 font-medium">{`${res.start_date} au ${res.end_date}`}</td>
